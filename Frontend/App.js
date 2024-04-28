@@ -7,6 +7,7 @@ import SignIn from './Screen/signIn';
 import Register from './Screen/register';
 import ForgotPassword from './Screen/forgotPassword';
 import ResetPassword from './Screen/resetPassword';
+import ViewComplainThread from './Screen/UserScreens/viewComplainThread';
 
 import UserProfile from './Screen/userProfile';
 
@@ -23,6 +24,7 @@ export default function App() {
       <Stack.Screen name="ForgotPasswordPage" component={ForgotPassword} />
       <Stack.Screen name="ResetPasswordPage" component={ResetPassword} />
       <Stack.Screen name="UserProfile" component={UserProfile} /> 
+      <Stack.Screen name="ViewComplainthread" component={ViewComplainThread} />
       </Stack.Navigator>
     </NavigationContainer>
   );
