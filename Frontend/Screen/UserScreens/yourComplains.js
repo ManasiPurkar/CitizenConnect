@@ -67,33 +67,33 @@ export default function YourComplains(){
 
     return(
         <ScrollView contentContainerStyle={styles.scrollView}>
-            {complaints.map(complaint => (
-                <View key={complaint.id} style={styles.cardContainer}>
-                    {/* First Part: Complaint Details */}
-                    <View style={styles.complaintDetails}>
-                        <Text style={styles.description}>{complaint.description}</Text>
-                        <View style={styles.dateTimeContainer}>
-                            <Text style={styles.dateTimeText}>DATE : {complaint.date}</Text>
-                            <Text style={styles.dateTimeText}>TIME : {complaint.time}</Text>
-                        </View>
-                        <Text style={styles.department}>DEPARTMENT : {complaint.department}</Text>
+            {complaints.map((complaint, index) => (
+            <View key={index} style={styles.cardContainer}>
+                {/* First Part: Complaint Details */}
+                <View style={styles.complaintDetails}>
+                    <Text style={styles.description}>{complaint.description}</Text>
+                    <View style={styles.dateTimeContainer}>
+                        <Text style={styles.dateTimeText}>DATE : {complaint.date}</Text>
+                        <Text style={styles.dateTimeText}>TIME : {complaint.time}</Text>
                     </View>
+                    <Text style={styles.department}>DEPARTMENT : {complaint.department}</Text>
+                </View>
 
-                    {/* Second Part: Voting */}
-                    <View style={styles.voting}>
-                        <View style={styles.iconAndVote}>
+                {/* Second Part: Voting */}
+                <View style={styles.voting}>
+                    <View style={styles.iconAndVote}>
                         <TouchableOpacity style={styles.voteButton}>
                             <MaterialIcons name="thumb-up" size={24} color="blue" />
                         </TouchableOpacity>
                         <Text style={styles.voteCount}>{complaint.votes}</Text>
-                        </View>
-                        {/* Navigate to complain thread upon clicking */}
-                        <TouchableOpacity onPress={handleViewComplainThread}>
-                            <Text style={styles.viewComplain}>View Complain Thread</Text>
-                        </TouchableOpacity>
                     </View>
+                    {/* Navigate to complain thread upon clicking */}
+                    <TouchableOpacity onPress={handleViewComplainThread}>
+                        <Text style={styles.viewComplain}>View Complain Thread</Text>
+                    </TouchableOpacity>
                 </View>
-            ))}
+            </View>
+        ))}
         </ScrollView>
     );
 }
