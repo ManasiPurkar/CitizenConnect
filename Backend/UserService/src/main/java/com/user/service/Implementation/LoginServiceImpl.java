@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -34,16 +35,21 @@ public class LoginServiceImpl implements LoginService {
         Boolean status=false;
         Optional<Users> gotuser = userRepository.findById(user.getEmail());
         if (gotuser.isPresent()) {
-            if (passwordEncoder.matches(gotuser.get().getPassword(), user.getPassword())) {
+            if (passwordEncoder.matches(user.getPassword(),gotuser.get().getPassword())) {
                 status=true;
                 int userid;
-                if(gotuser.get().getRole()=="ROLE_CITIZEN")
+                System.out.println("role "+gotuser.get().getRole());
+                if(Objects.equals(gotuser.get().getRole(), "ROLE_CITIZEN"))
                 {
                     userid=citizenRepository.findCitizenByEmail(gotuser.get().getEmail());
                 }
-                else if(gotuser.get().getRole()=="ROLE_NAGARSEVAK")
+                else if(Objects.equals(gotuser.get().getRole(), "ROLE_NAGARSEVAK"))
                 {
                     userid=nagarsevakRepository.findNagarsevakByEmail(gotuser.get().getEmail());
+                }
+                else if(Objects.equals(gotuser.get().getRole(), "ROLE_ADMIN"))
+                {
+                    userid=0;
                 }
                 else {
                     throw new APIRequestException("Wrong Role!");

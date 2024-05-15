@@ -87,4 +87,33 @@ public class ComplaintController {
                 throw new APIRequestException("Error while registering complaint.", ex.getMessage());
         }
     }
+
+    @GetMapping("complaint/{citizenId}")
+    public ResponseEntity<List<ComplaintDTO>> getCitizenComplaints(@PathVariable int citizenId) {
+        try {
+
+            List<Complaints> gotcomplaints=complaintService.getCitizenComplaints(citizenId);
+            List<ComplaintDTO> complaintDTOList=new ArrayList<>();
+            for(Complaints regcomplaint:gotcomplaints) {
+                ComplaintDTO complaintDTO = ComplaintDTO.builder()
+                        .complaint_id(regcomplaint.getComplaint_id())
+                        .address(regcomplaint.getAddress())
+                        .status(regcomplaint.getStatus())
+                        .title(regcomplaint.getTitle())
+                        .department(regcomplaint.getDepartment())
+                        .date(regcomplaint.getDate())
+                        .No_Of_Votes(regcomplaint.getNo_Of_Votes())
+                        .citizenId(regcomplaint.getCitizenId())
+                        .build();
+                complaintDTOList.add(complaintDTO);
+            }
+            return ResponseEntity.ok(complaintDTOList);
+
+        }  catch (Exception ex) {
+            if (ex instanceof APIRequestException) {
+                throw new APIRequestException(ex.getMessage());
+            } else
+                throw new APIRequestException("Error while getting registered complaints.", ex.getMessage());
+        }
+    }
 }

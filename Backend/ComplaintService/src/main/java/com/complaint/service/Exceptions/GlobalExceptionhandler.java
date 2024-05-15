@@ -1,6 +1,6 @@
 package com.complaint.service.Exceptions;
 
-import com.user.service.DTOs.ApiException;
+import com.complaint.service.DTOs.ApiException;
 import jakarta.validation.ConstraintViolationException;
 import org.hibernate.TransientPropertyValueException;
 import org.springframework.http.HttpStatus;
