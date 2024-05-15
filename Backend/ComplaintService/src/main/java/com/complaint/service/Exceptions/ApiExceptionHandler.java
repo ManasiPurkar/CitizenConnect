@@ -1,6 +1,6 @@
 package com.complaint.service.Exceptions;
 
-import com.user.service.DTOs.ApiException;
+import com.complaint.service.DTOs.ApiException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

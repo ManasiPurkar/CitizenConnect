@@ -35,4 +35,6 @@ public class ComplaintDTO {
 
     private Departments department;
 
+    private Integer citizenId;
+
 }

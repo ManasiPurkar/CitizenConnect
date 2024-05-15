@@ -55,6 +55,7 @@ public class AdminServiceImpl implements AdminService {
                     .lastname(gotnagarsevak.getLastname())
                     .area(area.get())
                     .user(newuser)
+                    .active(true)
                     .build();
            Nagarsevak savedNagarsevak = nagarsevakRepository.save(nagarsevak);
 

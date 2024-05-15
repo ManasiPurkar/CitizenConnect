@@ -51,6 +51,9 @@ public class Complaints {
     @JoinColumn(name="department_id",nullable=false)
     private Departments department;
 
+    @Column(name = "citizenId", nullable=false)
+    private Integer citizenId;
+
     //area
     //citizen id
     //image
