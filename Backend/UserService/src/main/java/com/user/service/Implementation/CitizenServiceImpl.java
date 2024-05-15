@@ -1,5 +1,6 @@
 package com.user.service.Implementation;
 
+import com.user.service.DTOs.CitizenDTO;
 import com.user.service.DTOs.UserRequest;
 import com.user.service.Entities.Area;
 import com.user.service.Entities.Citizen;
@@ -76,4 +77,9 @@ public class CitizenServiceImpl implements CitizenService{
 
     }
 
+    @Override
+    public CitizenDTO getCitizen(int userid)
+    {
+        return CitizenDTO.builder().build();
+    }
 }
