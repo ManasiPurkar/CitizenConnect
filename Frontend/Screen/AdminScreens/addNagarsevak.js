@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TextInput, Text, View, TouchableOpacity, ScrollView } from 'react-native'; // Import Picker from 'react-native'
+import { StyleSheet, TextInput, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
-import Header from './header';
+import { Alert } from 'react-native';
 import axios from 'axios';
 
 export default function AddNagarsevak() {
@@ -10,9 +10,9 @@ export default function AddNagarsevak() {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [areaCode, setAreaCode] = useState('');
-    const [selectedArea, setSelectedArea] = useState(''); 
+    const [selectedArea, setSelectedArea] = useState('');
     const [mobileNumber, setMobileNumber] = useState('');
-    const [errors, setErrors] = useState({}); 
+    const [errors, setErrors] = useState({});
     const [isFormValid, setIsFormValid] = useState(false);
     const [areas] = useState([
         { area_name: 'Central Bengaluru', area_code: '560001' },
@@ -29,31 +29,31 @@ export default function AddNagarsevak() {
 
     const navigation = useNavigation();
 
-    useEffect(() => { 
-        validateForm(); 
+    useEffect(() => {
+        validateForm();
     }, [firstName, lastName, email, selectedArea, mobileNumber]);
 
-    const validateForm = () => { 
-        let errors = {}; 
-        if (!firstName) { 
-            errors.firstname = 'First Name is required.'; 
+    const validateForm = () => {
+        let errors = {};
+        if (!firstName) {
+            errors.firstname = 'First Name is required.';
         }
-        if (!lastName) { 
-            errors.lastname = 'Last Name is required.'; 
+        if (!lastName) {
+            errors.lastname = 'Last Name is required.';
         }
-        if (!email) { 
-            errors.email = 'Email is required.'; 
-        } else if (!/\S+@\S+\.\S+/.test(email)) { 
-            errors.email = 'Email is invalid. Enter a valid email-id'; 
-        } 
-        if (!selectedArea) { 
-            errors.selectedArea = 'Please select an area.'; 
+        if (!email) {
+            errors.email = 'Email is required.';
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            errors.email = 'Email is invalid. Enter a valid email-id';
         }
-        if (!mobileNumber) { 
-            errors.mobileNumber = 'Mobile Number is required.'; 
+        if (!selectedArea) {
+            errors.selectedArea = 'Please select an area.';
         }
-        setErrors(errors); 
-        setIsFormValid(Object.keys(errors).length === 0); 
+        if (!mobileNumber) {
+            errors.mobileNumber = 'Mobile Number is required.';
+        }
+        setErrors(errors);
+        setIsFormValid(Object.keys(errors).length === 0);
     };
 
     const handleSubmit = () => {
@@ -70,13 +70,20 @@ export default function AddNagarsevak() {
                     area_code: selectedAreaObject.area_code,
                     email: email
                 })
-                .then(response => {
-                    console.log('Registration successful:', response.data);
-                    navigation.navigate('SignInPage');
-                })
-                .catch(error => {
-                    console.error('Registration failed:', error);
-                });
+                    .then(response => {
+                        console.log('Registration successful:', response.data);
+                        Alert.alert(
+                            'Success',
+                            'Nagarsevak added successfully!!',
+                            [
+                                { text: 'OK', onPress: () => console.log('OK Pressed') }
+                            ],
+                            { cancelable: false }
+                        );
+                    })
+                    .catch(error => {
+                        console.error('Registration failed:', error);
+                    });
             } else {
                 console.error('Selected area not found.');
             }
@@ -84,14 +91,10 @@ export default function AddNagarsevak() {
             console.log('Form has errors. Please correct them.');
         }
     };
-    
+
     return (
         <View style={styles.mainContainer}>
-            <Header text="CitizenConnect"/>
             <ScrollView contentContainerStyle={styles.container} >
-                <View>
-                    <Text style={styles.headerText}>Add Nagarsevak</Text>
-                </View>
 
                 <Text style={styles.label}>First Name</Text>
                 <TextInput
@@ -139,18 +142,18 @@ export default function AddNagarsevak() {
                     value={mobileNumber}
                     keyboardType='phone-pad'
                 />
-                
-                <TouchableOpacity 
-                    style={[styles.button]} 
-                    disabled={!isFormValid} 
-                    onPress={handleSubmit} 
-                > 
-                    <Text style={styles.buttonText}>Submit</Text> 
-                </TouchableOpacity> 
-                {Object.values(errors).map((error, index) => ( 
-                    <Text key={index} style={styles.error}> 
-                        {error} 
-                    </Text> 
+
+                <TouchableOpacity
+                    style={[styles.button]}
+                    disabled={!isFormValid}
+                    onPress={handleSubmit}
+                >
+                    <Text style={styles.buttonText}>Register</Text>
+                </TouchableOpacity>
+                {Object.values(errors).map((error, index) => (
+                    <Text key={index} style={styles.error}>
+                        {error}
+                    </Text>
                 ))}
             </ScrollView>
         </View>
@@ -160,7 +163,7 @@ export default function AddNagarsevak() {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: '#fff',  
+        backgroundColor: '#fff',
     },
     container: {
         padding: 20,
@@ -168,14 +171,7 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         paddingHorizontal: 20,
     },
-    
-    headerText: {
-        alignItems: 'center',
-        marginBottom: 20,
-        textAlign: 'center',
-        fontSize: 15,
-        fontWeight: 'bold'
-    },
+
     input: {
         borderWidth: 1,
         borderColor: '#40E0D0',
@@ -189,22 +185,22 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         alignSelf: 'flex-start',
     },
-    button: { 
+    button: {
         backgroundColor: '#40E0D0',
-        borderRadius: 8, 
-        paddingVertical: 10, 
-        alignItems: 'center', 
-        marginTop: 16, 
-        marginBottom: 12, 
+        borderRadius: 8,
+        paddingVertical: 10,
+        alignItems: 'center',
+        marginTop: 16,
+        marginBottom: 12,
     },
-    buttonText: { 
-        color: '#fff', 
-        fontWeight: 'bold', 
-        fontSize: 16, 
-    }, 
-    error: { 
-        color: 'red', 
-        fontSize: 20, 
-        marginBottom: 12, 
+    buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    error: {
+        color: 'red',
+        fontSize: 20,
+        marginBottom: 12,
     },
 });

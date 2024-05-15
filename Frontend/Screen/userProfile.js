@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MaterialIcons } from '@expo/vector-icons';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Importing Citizen Screens
 import RegisterComplain from './UserScreens/registerComplain';
@@ -21,6 +21,7 @@ import CustomDrawerContent_NS from './NagarsevakScreens/customDrawerContent';
 // Importing Admin Screens
 import AddNagarsevak from './AdminScreens/addNagarsevak';
 import SignOutScreen_Admin from './AdminScreens/signOut';
+import CustomDrawerContent_Admin from './AdminScreens/customDrawerContent';
 
 const Drawer = createDrawerNavigator();
 

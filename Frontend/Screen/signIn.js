@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Button, TextInput, Text, View, TouchableOpacity } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from './header';
+import UserProfile from './userProfile';
 
 export default function SignIn() {
     const [username, setUsername] = useState('');
@@ -48,16 +50,19 @@ export default function SignIn() {
                     })
                 });
                 const data = await response.json();
+                console.log(data);
                 if (response.ok) {
                     // Login successful
                     // Save user ID and role in AsyncStorage
-                    await AsyncStorage.setItem('userId', data.id);
-                    await AsyncStorage.setItem('userRole', data.role);
+                    await AsyncStorage.setItem('userEmail', data['Logged in Successfully']['email']);
+                    await AsyncStorage.setItem('userId', data['Logged in Successfully']['user_id'].toString());
+                    await AsyncStorage.setItem('userRole', data['Logged in Successfully']['role']);
                     // Redirect to the appropriate screen based on role
-                    navigateToHome(data.role);
+                    //navigateToHome(data['Logged in Successfully']['role']);
+                    navigation.navigate(UserProfile);
                 } else {
                     // Login failed
-                    console.log('Login failed:', data.error);
+                    console.log('Unable to store data into async storage', data.error);
                 }
             } catch (error) {
                 console.error('Error logging in:', error);
@@ -69,15 +74,16 @@ export default function SignIn() {
 
     const navigateToHome = (role) => {
         if (role === 'ROLE_ADMIN') {
-            navigation.navigate('AdminHome');
+          navigation.navigate('Admin'); // Navigate to Admin Drawer Navigator
         } else if (role === 'ROLE_CITIZEN') {
-            navigation.navigate('CitizenHome');
+          navigation.navigate('Citizen'); // Navigate to Citizen Drawer Navigator
         } else if (role === 'ROLE_NAGARSEVAK') {
-            navigation.navigate('NagarsevakHome');
+          navigation.navigate('Nagarsevak'); // Navigate to Nagarsevak Drawer Navigator
         } else {
-            console.log('Unknown role:', role);
+          console.log('Unknown role:', role);
         }
-    };
+      };
+      
 
     const handleSignUpPress = () => {
         // Navigate to the Registration page
@@ -202,8 +208,8 @@ const styles = StyleSheet.create({
         borderRadius: 8, 
         paddingVertical: 10, 
         alignItems: 'center', 
-        marginTop: 16, 
-        marginBottom: 12, 
+        marginTop: 10, 
+        marginBottom: 10, 
     },
     buttonText: { 
         color: '#fff', 
