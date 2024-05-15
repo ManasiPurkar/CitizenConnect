@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 const customDrawerContent = (props) => {
   
-  const userName = "CITIZEN"; // to be fetched from backend
+  const userName = "NagarSevak"; // to be fetched from backend
   //const profilePicUrl = "./displayPicture.png"; 
   const profilePicUrl = require("../../assets/displayPicture.png"); //require("") is used to import the image from the current directory
   return (

@@ -10,7 +10,7 @@ export default function SignIn() {
     const [isFormValid, setIsFormValid] = useState(false); 
 
     const navigation = useNavigation();
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    //const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
     useEffect(() => { 
         // Trigger form validation when email, or password changes 
@@ -28,25 +28,57 @@ export default function SignIn() {
         // Validate password field 
         if (!password) { 
             errors.password = 'Password is required.'; 
-        } else if (!passwordRegex.test(password)) {
-            errors.password = 'Password must contain at least one uppercase letter, one lowercase letter, one special character and one number.';
-        }
+        } 
         // Set the errors and update form validity 
         setErrors(errors); 
         setIsFormValid(Object.keys(errors).length === 0); 
     };
 
-    const handleSubmit = () => {
-        // Handle form submission
+    const handleSubmit = async () => {
         if (isFormValid) { 
-            // Form is valid, perform the submission logic 
-            console.log('Form submitted successfully!'); 
+            try {
+                const response = await fetch('http://172.16.145.13:9091/login/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: username,
+                        password: password
+                    })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    // Login successful
+                    // Save user ID and role in AsyncStorage
+                    await AsyncStorage.setItem('userId', data.id);
+                    await AsyncStorage.setItem('userRole', data.role);
+                    // Redirect to the appropriate screen based on role
+                    navigateToHome(data.role);
+                } else {
+                    // Login failed
+                    console.log('Login failed:', data.error);
+                }
+            } catch (error) {
+                console.error('Error logging in:', error);
+            }
         } else { 
-              
-            // Form is invalid, display error messages 
             console.log('Form has errors. Please correct them.'); 
         } 
     };
+
+    const navigateToHome = (role) => {
+        if (role === 'ROLE_ADMIN') {
+            navigation.navigate('AdminHome');
+        } else if (role === 'ROLE_CITIZEN') {
+            navigation.navigate('CitizenHome');
+        } else if (role === 'ROLE_NAGARSEVAK') {
+            navigation.navigate('NagarsevakHome');
+        } else {
+            console.log('Unknown role:', role);
+        }
+    };
+
     const handleSignUpPress = () => {
         // Navigate to the Registration page
         navigation.navigate('RegisterPage');

@@ -33,8 +33,11 @@ public class LoginServiceImpl implements LoginService {
     {
         Boolean status=false;
         Optional<Users> gotuser = userRepository.findById(user.getEmail());
+
         if (gotuser.isPresent()) {
+            System.out.println("pass"+user.getPassword());
             if (passwordEncoder.matches(gotuser.get().getPassword(), user.getPassword())) {
+                System.out.println("if success");
                 status=true;
                 int userid;
                 if(gotuser.get().getRole()=="ROLE_CITIZEN")
@@ -44,6 +47,10 @@ public class LoginServiceImpl implements LoginService {
                 else if(gotuser.get().getRole()=="ROLE_NAGARSEVAK")
                 {
                     userid=nagarsevakRepository.findNagarsevakByEmail(gotuser.get().getEmail());
+                }
+                else if(gotuser.get().getRole()=="ROLE_ADMIN")
+                {
+                    userid=0;
                 }
                 else {
                     throw new APIRequestException("Wrong Role!");

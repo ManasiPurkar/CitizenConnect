@@ -50,5 +50,6 @@ public class Citizen {
     @Column(columnDefinition = "boolean default true")
     private Boolean active=true;
 
+    @Transient
     private List<Complaints> complaints;
 }

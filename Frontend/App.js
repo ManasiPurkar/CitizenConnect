@@ -16,7 +16,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="UserProfile" screenOptions={{
+      <Stack.Navigator initialRouteName="SignInPage" screenOptions={{
         headerShown: false, // Hide the header for all screens in this navigator
       }}>
       <Stack.Screen name="SignInPage" component={SignIn} />

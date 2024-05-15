@@ -5,7 +5,7 @@ import { Picker } from '@react-native-picker/picker';
 import Header from './header';
 import axios from 'axios';
 
-export default function Register() {
+export default function AddNagarsevak() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -63,7 +63,7 @@ export default function Register() {
             if (selectedAreaObject) {
                 // If area is found, set its area_code and make the POST request
                 setAreaCode(selectedAreaObject.area_code);
-                axios.post('http://172.16.145.13:9091/register/Citizen', {
+                axios.post('http://172.16.145.13:9091/register/Nagarsevak', {
                     firstname: firstName,
                     lastname: lastName,
                     mobile_no: mobileNumber,
@@ -90,7 +90,7 @@ export default function Register() {
             <Header text="CitizenConnect"/>
             <ScrollView contentContainerStyle={styles.container} >
                 <View>
-                    <Text style={styles.headerText}>REGISTRATION</Text>
+                    <Text style={styles.headerText}>Add Nagarsevak</Text>
                 </View>
 
                 <Text style={styles.label}>First Name</Text>

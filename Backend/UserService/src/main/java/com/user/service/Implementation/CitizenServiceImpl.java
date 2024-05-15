@@ -14,6 +14,7 @@ import com.user.service.Repositories.UserRepository;
 import com.user.service.Services.CitizenService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,11 +44,13 @@ public class CitizenServiceImpl implements CitizenService{
             String password = PasswordGeneratorService.generatePassword();
             user.setEmail(gotcitizen.getEmail());
             user.setPassword(passwordEncoder.encode(password));
+
             user.setRole("ROLE_CITIZEN");
             Users newuser = userRepository.save(user);
 
-            System.out.println("email"+user.getEmail());
-            System.out.println("pass"+user.getPassword());
+            System.out.println("email "+user.getEmail());
+            System.out.println("encpass "+user.getPassword());
+            System.out.println("pass "+password);
             Citizen citizen= Citizen.builder()
                     .mobile_no(gotcitizen.getMobile_no())
                     .firstname(gotcitizen.getFirstname())
