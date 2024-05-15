@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -19,13 +20,17 @@ public class Complaints {
 
     private int complaint_id;
     private int citizenId;
+    private String areaCode;
+    private Area area;
     private String title;
     private String description;
     private String address;
     @JsonFormat(pattern = "dd-MMMM-yyyy", timezone = "Asia/Kolkata")
     private Date date;
     private String status;
-    private Integer No_Of_Votes=0;
+//    private Integer No_Of_Votes=0;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    private LocalTime eventTime;  // Separate column for time
 
     private Departments department;
 }

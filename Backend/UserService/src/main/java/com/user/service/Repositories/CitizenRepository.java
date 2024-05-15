@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface CitizenRepository extends JpaRepository<Citizen,Integer> {
 
-    @Query("select c.citizen_id from Citizen c where c.user.email=:email and c.active=true ")
-    int findCitizenByEmail(@Param("email") String email);
+    @Query("select c from Citizen c where c.user.email=:email and c.active=true ")
+    Citizen findCitizenByEmail(@Param("email") String email);
 }

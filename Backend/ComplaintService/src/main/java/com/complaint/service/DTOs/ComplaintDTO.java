@@ -18,7 +18,7 @@ import java.sql.Date;
 @Builder
 public class ComplaintDTO {
 
-    private int complaint_id;
+//    private int complaint_id;
 
     private String title;
 
@@ -26,15 +26,17 @@ public class ComplaintDTO {
 
     private String address;
 
-    @JsonFormat(pattern = "dd-MMMM-yyyy", timezone = "Asia/Kolkata")
-    private Date date;
+//    @JsonFormat(pattern = "dd-MMMM-yyyy", timezone = "Asia/Kolkata")
+//    private Date date;
 
-    private String status;
+//    private String status;
 
-    private Integer No_Of_Votes=0;
+//    private Integer No_Of_Votes=0;
 
-    private Departments department;
+    private Integer department_code;
 
     private Integer citizenId;
+
+    private String areaCode;
 
 }

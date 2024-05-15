@@ -23,20 +23,21 @@ public class ComplaintController {
     private ComplaintService complaintService;
     @Validated
     @PostMapping("complaint")
-    public ResponseEntity<ComplaintDTO> registerComplaint(@Valid @RequestBody Complaints complaint) {
+    public ResponseEntity<Complaints> registerComplaint(@Valid @RequestBody ComplaintDTO complaint) {
         try {
 
+            System.out.println("insider register complaint controller in complaint service");
             Complaints regcomplaint=complaintService.createComplaint(complaint);
-            ComplaintDTO complaintDTO=ComplaintDTO.builder()
-                    .complaint_id(regcomplaint.getComplaint_id())
-                    .address(regcomplaint.getAddress())
-                    .status(regcomplaint.getStatus())
-                    .title(regcomplaint.getTitle())
-                    .department(regcomplaint.getDepartment())
-                    .date(regcomplaint.getDate())
-                    .No_Of_Votes(regcomplaint.getNo_Of_Votes())
-                    .build();
-            return ResponseEntity.ok(complaintDTO);
+//            ComplaintDTO complaintDTO=ComplaintDTO.builder()
+//                    .complaint_id(regcomplaint.getComplaint_id())
+//                    .address(regcomplaint.getAddress())
+//                    .status(regcomplaint.getStatus())
+//                    .title(regcomplaint.getTitle())
+//                    .department(regcomplaint.getDepartment())
+//                    .date(regcomplaint.getDate())
+//                    .No_Of_Votes(regcomplaint.getNo_Of_Votes())
+//                    .build();
+            return ResponseEntity.ok(regcomplaint);
 
         } catch (DataIntegrityViolationException ex) {
             String errorMessage = ex.getCause().getMessage();
@@ -61,24 +62,24 @@ public class ComplaintController {
         }
     }
     @GetMapping("complaint")
-    public ResponseEntity<List<ComplaintDTO>> getallComplaints() {
+    public ResponseEntity<List<Complaints>> getallComplaints() {
         try {
 
             List<Complaints> gotcomplaints=complaintService.getallcomplaints();
-            List<ComplaintDTO> complaintDTOList=new ArrayList<>();
-            for(Complaints regcomplaint:gotcomplaints) {
-                ComplaintDTO complaintDTO = ComplaintDTO.builder()
-                        .complaint_id(regcomplaint.getComplaint_id())
-                        .address(regcomplaint.getAddress())
-                        .status(regcomplaint.getStatus())
-                        .title(regcomplaint.getTitle())
-                        .department(regcomplaint.getDepartment())
-                        .date(regcomplaint.getDate())
-                        .No_Of_Votes(regcomplaint.getNo_Of_Votes())
-                        .build();
-                complaintDTOList.add(complaintDTO);
-            }
-            return ResponseEntity.ok(complaintDTOList);
+//            List<ComplaintDTO> complaintDTOList=new ArrayList<>();
+//            for(Complaints regcomplaint:gotcomplaints) {
+//                ComplaintDTO complaintDTO = ComplaintDTO.builder()
+//                        .complaint_id(regcomplaint.getComplaint_id())
+//                        .address(regcomplaint.getAddress())
+//                        .status(regcomplaint.getStatus())
+//                        .title(regcomplaint.getTitle())
+//                        .department(regcomplaint.getDepartment())
+//                        .date(regcomplaint.getDate())
+//                        .No_Of_Votes(regcomplaint.getNo_Of_Votes())
+//                        .build();
+//                complaintDTOList.add(complaintDTO);
+//            }
+            return ResponseEntity.ok(gotcomplaints);
 
         }  catch (Exception ex) {
             if (ex instanceof APIRequestException) {
@@ -89,25 +90,25 @@ public class ComplaintController {
     }
 
     @GetMapping("complaint/{citizenId}")
-    public ResponseEntity<List<ComplaintDTO>> getCitizenComplaints(@PathVariable int citizenId) {
+    public ResponseEntity<List<Complaints>> getCitizenComplaints(@PathVariable int citizenId) {
         try {
 
             List<Complaints> gotcomplaints=complaintService.getCitizenComplaints(citizenId);
-            List<ComplaintDTO> complaintDTOList=new ArrayList<>();
-            for(Complaints regcomplaint:gotcomplaints) {
-                ComplaintDTO complaintDTO = ComplaintDTO.builder()
-                        .complaint_id(regcomplaint.getComplaint_id())
-                        .address(regcomplaint.getAddress())
-                        .status(regcomplaint.getStatus())
-                        .title(regcomplaint.getTitle())
-                        .department(regcomplaint.getDepartment())
-                        .date(regcomplaint.getDate())
-                        .No_Of_Votes(regcomplaint.getNo_Of_Votes())
-                        .citizenId(regcomplaint.getCitizenId())
-                        .build();
-                complaintDTOList.add(complaintDTO);
-            }
-            return ResponseEntity.ok(complaintDTOList);
+//            List<ComplaintDTO> complaintDTOList=new ArrayList<>();
+//            for(Complaints regcomplaint:gotcomplaints) {
+//                ComplaintDTO complaintDTO = ComplaintDTO.builder()
+//                        .complaint_id(regcomplaint.getComplaint_id())
+//                        .address(regcomplaint.getAddress())
+//                        .status(regcomplaint.getStatus())
+//                        .title(regcomplaint.getTitle())
+//                        .department(regcomplaint.getDepartment())
+//                        .date(regcomplaint.getDate())
+//                        .No_Of_Votes(regcomplaint.getNo_Of_Votes())
+//                        .citizenId(regcomplaint.getCitizenId())
+//                        .build();
+//                complaintDTOList.add(complaintDTO);
+//            }
+            return ResponseEntity.ok(gotcomplaints);
 
         }  catch (Exception ex) {
             if (ex instanceof APIRequestException) {
