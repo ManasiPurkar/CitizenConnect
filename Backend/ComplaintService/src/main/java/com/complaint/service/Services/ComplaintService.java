@@ -1,5 +1,6 @@
 package com.complaint.service.Services;
 
+import com.complaint.service.DTOs.ComplaintDTO;
 import com.complaint.service.Entities.Complaints;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,7 @@ import java.util.List;
 @Service
 public interface ComplaintService {
     //create
-    Complaints createComplaint(Complaints complaint);
+    Complaints createComplaint(ComplaintDTO complaint);
     //get all
     List<Complaints> getallcomplaints();
     //get single
