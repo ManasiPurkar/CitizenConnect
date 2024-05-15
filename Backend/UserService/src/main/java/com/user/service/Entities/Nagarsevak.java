@@ -44,4 +44,7 @@ public class Nagarsevak {
     @OneToOne
     @JoinColumn(name="email",nullable=false)
     private Users user;
+
+    @Column(columnDefinition = "boolean default true")
+    private Boolean active=true;
 }

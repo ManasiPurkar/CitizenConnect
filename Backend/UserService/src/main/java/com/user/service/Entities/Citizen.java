@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Builder
 @Getter
@@ -44,4 +46,9 @@ public class Citizen {
     @OneToOne
     @JoinColumn(name="email",nullable=false)
     private Users user;
+
+    @Column(columnDefinition = "boolean default true")
+    private Boolean active=true;
+
+    private List<Complaints> complaints;
 }
