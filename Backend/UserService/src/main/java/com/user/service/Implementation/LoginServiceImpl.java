@@ -3,6 +3,8 @@ package com.user.service.Implementation;
 import com.user.service.DTOs.ApiException;
 import com.user.service.DTOs.LoginDTO;
 import com.user.service.DTOs.LoginResponseDTO;
+import com.user.service.Entities.Citizen;
+import com.user.service.Entities.Nagarsevak;
 import com.user.service.Entities.Users;
 import com.user.service.Exceptions.APIRequestException;
 import com.user.service.Repositories.CitizenRepository;
@@ -40,19 +42,25 @@ public class LoginServiceImpl implements LoginService {
             if (passwordEncoder.matches(user.getPassword(),gotuser.get().getPassword())) {
                 status=true;
                 int userid;
+                String name;
                 System.out.println("role "+gotuser.get().getRole());
                 if(Objects.equals(gotuser.get().getRole(), "ROLE_CITIZEN"))
                 {
-                    userid=citizenRepository.findCitizenByEmail(gotuser.get().getEmail());
+                    Citizen  citizen=citizenRepository.findCitizenByEmail(gotuser.get().getEmail());
+                    userid=citizen.getCitizen_id();
+                    name=citizen.getFirstname()+ " "+citizen.getLastname();
                 }
                 else if(Objects.equals(gotuser.get().getRole(), "ROLE_NAGARSEVAK"))
                 {
-                    userid=nagarsevakRepository.findNagarsevakByEmail(gotuser.get().getEmail());
+                    Nagarsevak nagarsevak=nagarsevakRepository.findNagarsevakByEmail(gotuser.get().getEmail());
+                    userid=nagarsevak.getNagarsevak_id();
+                    name=nagarsevak.getFirstname()+ " "+nagarsevak.getLastname();
                 }
 
                 else if(Objects.equals(gotuser.get().getRole(), "ROLE_ADMIN"))
                 {
                     userid=0;
+                    name="Admin";
                 }
                 else {
                     throw new APIRequestException("Wrong Role!");
@@ -60,6 +68,7 @@ public class LoginServiceImpl implements LoginService {
                 LoginResponseDTO loginRespDTO=LoginResponseDTO.builder()
                         .email(gotuser.get().getEmail())
                         .user_id(userid)
+                        .name(name)
                         .role(gotuser.get().getRole())
                         .build();
                 return Pair.of(status,loginRespDTO); // Login successful

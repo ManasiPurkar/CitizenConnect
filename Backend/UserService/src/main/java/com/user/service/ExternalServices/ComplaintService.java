@@ -1,5 +1,6 @@
 package com.user.service.ExternalServices;
 
+import com.user.service.DTOs.ComplaintDTO;
 import com.user.service.Entities.Complaints;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,8 @@ import java.util.List;
 public interface ComplaintService {
 
     @GetMapping("/complaint/{citizenId}")
-    public List<Complaints> getCitizenComplaints(@PathVariable("citizenId") Integer citizenId);
+    public ResponseEntity<List<Complaints>> getCitizenComplaints(@PathVariable("citizenId") Integer citizenId);
 
     @PostMapping("/complaint")
-    public ResponseEntity<Complaints> registerComplaint(Complaints values);
+    public ResponseEntity<Complaints> registerComplaint(ComplaintDTO values);
 }

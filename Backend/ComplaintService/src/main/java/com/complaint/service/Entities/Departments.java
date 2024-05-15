@@ -18,7 +18,7 @@ public class Departments {
     private int department_id;
 
     @NotBlank(message = "Department name cannot be blank")
-    @Pattern(regexp="[a-zA-Z]+", message="Only characters are allowed")
+    @Pattern(regexp="[a-zA-Z\\s]+", message="Only characters and spaces are allowed")
     @Column(name = "name",nullable=false)
     private String department_name;
 
