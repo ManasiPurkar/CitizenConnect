@@ -47,7 +47,7 @@ public class Citizen {
     @JoinColumn(name="email",nullable=false)
     private Users user;
 
-    @Column(columnDefinition = "boolean default true")
+    @Column(name="active",columnDefinition = "BOOLEAN DEFAULT TRUE")
     private Boolean active=true;
 
     @Transient

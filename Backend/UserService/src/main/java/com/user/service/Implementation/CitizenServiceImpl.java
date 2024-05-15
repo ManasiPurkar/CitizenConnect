@@ -57,6 +57,7 @@ public class CitizenServiceImpl implements CitizenService{
                     .lastname(gotcitizen.getLastname())
                     .area(area.get())
                     .user(newuser)
+                    .active(true)
                     .build();
             Citizen savedCitizen = citizenRepository.save(citizen);
 
@@ -81,8 +82,21 @@ public class CitizenServiceImpl implements CitizenService{
     }
 
     @Override
-    public CitizenDTO getCitizen(int userid)
+    public CitizenDTO getCitizen(int citizenId)
     {
-        return CitizenDTO.builder().build();
+        Optional<Citizen> citizen=citizenRepository.findById(citizenId);
+        if(citizen.isPresent()) {
+            return CitizenDTO.builder()
+                    .name(citizen.get().getFirstname() + " " + citizen.get().getLastname())
+                    .mobile_no(citizen.get().getMobile_no())
+                    .email(citizen.get().getUser().getEmail())
+                    .area_code(citizen.get().getArea().getArea_code())
+                    .area_name(citizen.get().getArea().getName())
+                    .build();
+        }
+        else
+        {
+            throw new APIRequestException("citizen with given id not found");
+        }
     }
 }

@@ -39,4 +39,5 @@ public class AddAdmin {
                 throw new APIRequestException("Error while login", ex.getMessage());
         }
     }
+
 }

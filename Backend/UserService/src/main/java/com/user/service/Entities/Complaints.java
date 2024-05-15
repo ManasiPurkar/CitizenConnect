@@ -18,7 +18,7 @@ import java.sql.Date;
 public class Complaints {
 
     private int complaint_id;
-    private int user_id;
+    private int citizenId;
     private String title;
     private String description;
     private String address;
@@ -27,6 +27,6 @@ public class Complaints {
     private String status;
     private Integer No_Of_Votes=0;
 
-//    private Departments department;
+    private Departments department;
 }
 

@@ -34,4 +34,12 @@ public class ComplaintServiceImpl implements ComplaintService {
         Optional<Complaints> complaint= complaintsRepository.findById(complid);
         return complaint.get();
     }
+
+    @Override
+    public List<Complaints> getCitizenComplaints(int citizenId)
+    {
+       return complaintsRepository.findByCitizenId(citizenId);
+
+    }
+
 }

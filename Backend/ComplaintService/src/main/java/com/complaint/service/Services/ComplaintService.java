@@ -13,4 +13,5 @@ public interface ComplaintService {
     List<Complaints> getallcomplaints();
     //get single
     Complaints getComplaint(int complid);
+    List<Complaints> getCitizenComplaints(int citizenId);
 }
