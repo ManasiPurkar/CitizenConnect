@@ -1,5 +1,6 @@
 package com.complaint.service.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -22,7 +23,7 @@ public class Comments {
     private int comment_id;
 
     @NotBlank(message = "Comment cannot be blank")
-    @Pattern(regexp="[a-zA-Z0-9]+", message="Only numbers and characters are allowed")
+    @Pattern(regexp="[a-zA-Z0-9\\s]+", message="Only numbers and characters are allowed")
     @Column(name = "comment",nullable=false)
     private String comment;
 
@@ -37,7 +38,18 @@ public class Comments {
 
     @ManyToOne
     @JoinColumn(name = "complaint_id",nullable=false)
+    @JsonBackReference
     private Complaints complaint;
+
+    @NotBlank(message = "Username cannot be blank")
+    @Pattern(regexp="[a-zA-Z\\s]+", message="Only numbers and characters are allowed")
+    @Column(name = "userName",nullable=false)
+    private String userName;
+
+    @NotBlank(message = "UserRole cannot be blank")
+    @Pattern(regexp="(ROLE_ADMIN|ROLE_CITIZEN|ROLE_NAGARSEVAK)", message="Invalid ROLE. Allowed values are: ROLE_ADMIN,ROLE_CITIZEN,ROLE_NAGARSEVAK")
+    @Column(name = "userRole",nullable=false)
+    private String userRole;
 
     //user id
 }

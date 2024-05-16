@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import java.sql.Date;
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,4 +34,5 @@ public class Complaints {
     private LocalTime eventTime;  // Separate column for time
 
     private Departments department;
+    private List<Comments> comments;
 }

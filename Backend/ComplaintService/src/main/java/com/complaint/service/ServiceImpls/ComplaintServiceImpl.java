@@ -29,7 +29,7 @@ public class ComplaintServiceImpl implements ComplaintService {
     @Override
     public Complaints createComplaint(ComplaintDTO complaint)
     {
-        System.out.println("inside service");
+
         System.out.println("department code"+complaint.getDepartment_code());
         Optional<Departments> department=departmentRepository.findById(complaint.getDepartment_code());
         System.out.println("department"+department);
