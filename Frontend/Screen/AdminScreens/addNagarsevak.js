@@ -63,7 +63,7 @@ export default function AddNagarsevak() {
             if (selectedAreaObject) {
                 // If area is found, set its area_code and make the POST request
                 setAreaCode(selectedAreaObject.area_code);
-                axios.post('http://172.16.145.13:9091/register/Nagarsevak', {
+                axios.post('http://172.16.145.13:9093/register/Nagarsevak', {
                     firstname: firstName,
                     lastname: lastName,
                     mobile_no: mobileNumber,

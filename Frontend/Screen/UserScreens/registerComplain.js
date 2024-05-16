@@ -1,70 +1,83 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Platform } from 'react-native';
-//import ImagePicker from 'react-native-image-picker'; // Import the image picker
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker'; 
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RegisterComplain() {
   const [area, setArea] = useState('');
-  const [areas, setAreas] = useState([]);
   const [address, setAddress] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  //const [photo, setPhoto] = useState(null); // Assuming photo will be stored as a file or URL
+  const [department, setDepartment] = useState('');
+  const [userId, setUserId] = useState(null);
+  const [areas] = useState([
+    { area_name: 'Central Bengaluru', area_code: '560001' },
+    { area_name: 'Shivajinagar', area_code: '560002' },
+    { area_name: 'Vasanth Nagar', area_code: '560003' },
+    { area_name: 'Malleswaram', area_code: '560004' },
+    { area_name: 'Rajajinagar', area_code: '560005' },
+    { area_name: 'Sadashivanagar', area_code: '560006' },
+    { area_name: 'Shantinagar', area_code: '560007' },
+    { area_name: 'Basavanagudi', area_code: '560008' },
+    { area_name: 'Jayanagar', area_code: '560009' },
+    { area_name: 'Yeshwanthpur', area_code: '560010' }
+  ]);
+  const [departments] = useState([
+    { department_id: 1, name: 'Electricity Department' },
+    { department_id: 2, name: 'Cleaning Department' },
+    { department_id: 3, name: 'Roads Department' },
+    { department_id: 4, name: 'Water Department' }
+  ]);
 
-  /*useEffect(() => {
-    // Fetch areas from backend when component mounts
-    fetchAreas();
+  useEffect(() => {
+    fetchCitizenId();
   }, []);
 
-  const fetchAreas = async () => {
+  const fetchCitizenId = async () => {
     try {
-      const response = await axios.get('your_backend_api_url/areas');
-      setAreas(response.data); // Assuming response.data is an array of area objects
+      const citizenId = await AsyncStorage.getItem('userId');
+      if (citizenId !== null) {
+        setUserId(citizenId);
+      }
     } catch (error) {
-      console.error('Error fetching areas:', error);
+      console.error('Error fetching citizenID from AsyncStorage:', error);
     }
   };
-*/
-  /*const handleChoosePhoto = () => {
-    const options = {
-      title: 'Select Image',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-
-    ImagePicker.showImagePicker(options, response => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        const source = { uri: response.uri };
-        setPhoto(source);
-      }
-    });
-  };*/
-
 
   const handleSubmit = () => {
-    // Save form data to backend
     const formData = {
-      area: area,
+      citizenId: userId,
       address: address,
-      title: title,
+      department_code: department,
       description: description,
-      photo: photo
+      title: title,
+      areaCode: area
     };
-    // Send formData to backend using axios or fetch API
-    console.log(formData);
-    // Reset form fields after submission
-    setArea('');
-    setAddress('');
-    setTitle('');
-    setDescription('');
-    setPhoto(null);
+
+    axios.post('http://172.16.145.13:9093/citizen/register-complaint', formData)
+      .then(response => {
+        console.log('Complaint registered successfully:', response.data);
+        setAddress('');
+        setTitle('');
+        setDescription('');
+        setArea('');
+        setDepartment('');
+        showAlert(); // Call showAlert after successful registration
+      })
+      .catch(error => {
+        console.error('Error registering complaint:', error);
+      });
+  };
+
+  // Function to show alert message
+  const showAlert = () => {
+    Alert.alert(
+      'Success',
+      'Complaint registered successfully',
+      [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+      { cancelable: false }
+    );
   };
 
   return (
@@ -76,9 +89,21 @@ export default function RegisterComplain() {
       >
         <Picker.Item label="Select Area" value="" />
         {areas.map(area => (
-          <Picker.Item key={area.id} label={area.name} value={area.id} />
+          <Picker.Item key={area.area_code} label={area.area_name} value={area.area_code} />
         ))}
       </Picker>
+
+      <Picker
+        selectedValue={department}
+        style={styles.dropdown}
+        onValueChange={(itemValue, itemIndex) => setDepartment(itemValue)}
+      >
+        <Picker.Item label="Select Department" value="" />
+        {departments.map(dep => (
+          <Picker.Item key={dep.department_id} label={dep.name} value={dep.department_id} />
+        ))}
+      </Picker>
+
       <TextInput
         style={styles.input}
         placeholder="Address (200 words)"
@@ -99,8 +124,6 @@ export default function RegisterComplain() {
         value={description}
         onChangeText={text => setDescription(text)}
       />
-      {/*{photo && <Image source={photo} style={{ width: 200, height: 200 }} />}
-      <Button title="Choose Photo" onPress={handleChoosePhoto} />*/}
       
       <TouchableOpacity 
         style={[styles.button]}             
@@ -121,31 +144,31 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     width: '100%',
-    marginBottom: 20, // Increase marginBottom to match the provided styling
+    marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#40E0D0', // Change borderColor to the provided color
-    borderRadius: 6, // Apply borderRadius as provided
+    borderColor: '#40E0D0',
+    borderRadius: 6,
   },
   input: {
     width: '100%',
     padding: 10,
-    marginBottom: 20, // Increase marginBottom to match the provided styling
+    marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#40E0D0', // Change borderColor to the provided color
-    borderRadius: 6, // Apply borderRadius as provided
-    fontSize: 18, // Apply fontSize as provided
+    borderColor: '#40E0D0',
+    borderRadius: 6,
+    fontSize: 18,
   },
   button: { 
-      backgroundColor: '#40E0D0',
-      borderRadius: 8, 
-      padding: 10, 
-      alignItems: 'center', 
-      marginTop: 16, 
-      marginBottom: 12, 
+    backgroundColor: '#40E0D0',
+    borderRadius: 8, 
+    padding: 10, 
+    alignItems: 'center', 
+    marginTop: 16, 
+    marginBottom: 12, 
   },
   buttonText: { 
-      color: '#fff', 
-      fontWeight: 'bold', 
-      fontSize: 16, 
+    color: '#fff', 
+    fontWeight: 'bold', 
+    fontSize: 16, 
   }, 
 });
