@@ -37,7 +37,7 @@ public class CitizenServiceImpl implements CitizenService{
     public Citizen registerCitizen(UserRequest gotcitizen)
     {
         System.out.println("area"+gotcitizen.getAreaCode());
-        Optional<Area> area=areaRepository.findById(gotcitizen.getAreaCode());
+        Optional<Area> area=areaRepository.findById(gotcitizen.getArea_code());
 
         if(area.isPresent()) {
             System.out.println("area present");

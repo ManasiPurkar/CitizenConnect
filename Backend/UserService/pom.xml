@@ -95,11 +95,7 @@
 			<version>2.5.0</version>
 		</dependency>
 
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 86a613c3bb18ea1079d35d4d81309b5269140ed3
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
