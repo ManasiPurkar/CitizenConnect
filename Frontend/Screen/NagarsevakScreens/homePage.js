@@ -35,7 +35,7 @@ export default function NagarsevakHomePage() {
                 .catch(error => {
                     console.error('Error fetching complaints:', error);
                 });
-            console.log(complaints);
+            //console.log(complaints);
         }
     }, [isFocused, userId]); // Adding userId as a dependency
 

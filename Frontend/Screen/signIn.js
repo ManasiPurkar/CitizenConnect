@@ -83,7 +83,6 @@ export default function SignIn() {
           console.log('Unknown role:', role);
         }
       };
-      
 
     const handleSignUpPress = () => {
         // Navigate to the Registration page
@@ -191,7 +190,6 @@ const styles = StyleSheet.create({
     singleLine:{
         flexDirection: 'row', // Align children horizontally
         alignItems: 'center', // Center items vertically
-
     },
     forgotPassword: {
         marginLeft: 'auto', // Move the component to the right end
