@@ -28,7 +28,7 @@ export default function YourArea() {
     useEffect(() => {
         // Fetch complaints only if the screen is focused and userId is available
         if (isFocused && userId) {
-            axios.get(`http://172.16.145.13:9093/complaint/citizen/${userId}`)
+            axios.get(`http://172.16.145.13:9093/citizen/area-complaints/${userId}`)
                 .then(response => {
                     setComplaints(response.data);
                 })

@@ -39,7 +39,7 @@ export default function SignIn() {
     const handleSubmit = async () => {
         if (isFormValid) { 
             try {
-                const response = await fetch('http://172.16.145.13:9093/login/', {
+                const response = await fetch('http://172.16.145.13:9093/user/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

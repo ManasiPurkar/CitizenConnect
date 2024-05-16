@@ -166,8 +166,8 @@ export default function UserProfile() {
             name="NagarsevakHomePage"
             component={NagarsevakHomePage_NS}
             options={{
-              title: 'Nagarsevak Home',
-              headerTitle: 'Nagarsevak Home Page',
+              title: 'Dashboard',
+              headerTitle: 'Dashboard',
               drawerIcon: ({ size }) => (
                 <MaterialIcons name="home" size={size} color="black" />
               ),

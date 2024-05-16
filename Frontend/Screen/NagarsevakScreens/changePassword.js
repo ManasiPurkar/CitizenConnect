@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TextInput, View, Button, Alert, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
@@ -7,15 +8,24 @@ export default function ChangePassword() {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [email, setEmail] = useState('');
+
+    useEffect(() => {
+        getEmailFromStorage();
+    }, []);
+
+    const getEmailFromStorage = async () => {
+        try {
+            const storedEmail = await AsyncStorage.getItem('userEmail');
+            if (storedEmail !== null) {
+                setEmail(storedEmail);
+            }
+        } catch (error) {
+            console.error('Error fetching email from AsyncStorage:', error);
+        }
+    };
 
     const handleChangePassword = async () => {
-        const loggedInPassword = 'currentPassword123'; // Replace with actual logged in password
-        
-        if (currentPassword !== loggedInPassword) {
-            Alert.alert('Invalid Password', 'Please enter the correct current password.');
-            return;
-        }
-
         if (!passwordRegex.test(newPassword)) {
             Alert.alert(
                 'Invalid Password',
@@ -30,13 +40,21 @@ export default function ChangePassword() {
         }
 
         try {
-            const response = await fetch('http://your-backend-api.com/change-password', {
+            console.log(email);
+            console.log(currentPassword);
+            console.log(newPassword);
+            console.log(confirmPassword);
+            const response = await fetch('http://172.16.145.13:9093/user/change-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // Add any necessary authentication headers here
                 },
-                body: JSON.stringify({ newPassword }),
+                body: JSON.stringify({
+                    email: email,
+                    oldPassword: currentPassword,
+                    newPassword: newPassword,
+                    confirmPassword: confirmPassword,
+                }),
             });
 
             if (!response.ok) {
