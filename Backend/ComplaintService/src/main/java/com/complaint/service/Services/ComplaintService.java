@@ -21,4 +21,7 @@ public interface ComplaintService {
 
     //get area complaints
     List<Complaints> getAreaComplaints(String areaCode);
+
+    //to change status of complaint
+    Complaints changeComplStatus(int complaintId,String status);
 }

@@ -63,7 +63,11 @@ public class Complaints {
     @Column(name = "areaCode", nullable=false)
     private String areaCode;
 
-    //area
+    @Column(name = "areaName", nullable=false)
+    private String areaName;
+
+
+
     //image
 
 }
