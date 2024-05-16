@@ -12,42 +12,9 @@ const CommentCard = ({ userName, userDate, comment }) => {
   );
 };
 
-export default function ViewComplainThread() {
-  const [complaint, setComplaint] = useState(null);
-  
-  // Dummy complaint data for testing
-  const dummyComplaint = {
-    title: 'Water Leakage Issue',
-    status: 'Open',
-    date: '2024-05-13',
-    vote: 10,
-    department: 'Public Works Department',
-    address: '123 Main Street, Cityville',
-    description: 'There is a water leakage near the intersection of Main Street and Elm Street.',
-    comments: [
-      {
-        userName: 'John Doe',
-        userDate: '2024-05-12',
-        comment: 'Thank you for reporting this issue. Our team will investigate.',
-      },
-      {
-        userName: 'Jane Smith',
-        userDate: '2024-05-11',
-        comment: 'This is a serious problem. It needs to be fixed as soon as possible.',
-      },
-      // Add more dummy comments if needed
-    ],
-  };
-  
-  useEffect(() => {
-    // Fetch complaint data when component mounts
-    fetchData();
-  }, []);
-
-  const fetchData = () => {
-    // Set the complaint data to the dummy complaint for testing
-    setComplaint(dummyComplaint);
-  };
+export default function ViewComplainThread({ route }) {
+  const { complaint } = route.params;
+  console.log(route.params);
 
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
@@ -56,11 +23,11 @@ export default function ViewComplainThread() {
           <Text style={styles.title}>{complaint.title}</Text>
           <Text style={styles.subtitle}>Status: {complaint.status}</Text>
           <Text style={styles.text}>Date: {complaint.date}</Text>
-          <Text style={styles.text}>Vote: {complaint.vote}</Text>
-          <Text style={styles.text}>Department: {complaint.department}</Text>
+          <Text style={styles.text}>Time: {complaint.eventTime}</Text>
+          <Text style={styles.text}>Department: {complaint.department.department_name}</Text>
           <Text style={styles.text}>Address: {complaint.address}</Text>
           <Text style={styles.text}>Description: {complaint.description}</Text>
-          <View style={styles.commentsContainer}>
+          {/*<View style={styles.commentsContainer}>
             {complaint.comments.map((comment, index) => (
               <CommentCard
                 key={index}
@@ -69,7 +36,7 @@ export default function ViewComplainThread() {
                 comment={comment.comment}
               />
             ))}
-          </View>
+          </View>*/}
         </View>
       )}
     </ScrollView>

@@ -67,7 +67,7 @@ export default function AddNagarsevak() {
                     firstname: firstName,
                     lastname: lastName,
                     mobile_no: mobileNumber,
-                    area_code: selectedAreaObject.area_code,
+                    areaCode: selectedAreaObject.area_code,
                     email: email
                 })
                     .then(response => {

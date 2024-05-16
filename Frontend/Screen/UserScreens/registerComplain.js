@@ -114,13 +114,13 @@ export default function RegisterComplain() {
       />
       <TextInput
         style={styles.input}
-        placeholder="Title"
+        placeholder="Title (1 line only)"
         value={title}
         onChangeText={text => setTitle(text)}
       />
       <TextInput
         style={styles.input}
-        placeholder="Description (1 line only)"
+        placeholder="Description"
         value={description}
         onChangeText={text => setDescription(text)}
       />

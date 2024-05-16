@@ -63,11 +63,16 @@ export default function Register() {
             if (selectedAreaObject) {
                 // If area is found, set its area_code and make the POST request
                 setAreaCode(selectedAreaObject.area_code);
+                console.log(firstName);
+                console.log(lastName);
+                console.log(mobileNumber);
+                console.log(selectedAreaObject.area_code);
+                console.log(email);
                 axios.post('http://172.16.145.13:9093/register/Citizen', {
                     firstname: firstName,
                     lastname: lastName,
                     mobile_no: mobileNumber,
-                    area_code: selectedAreaObject.area_code,
+                    areaCode: selectedAreaObject.area_code,
                     email: email
                 })
                 .then(response => {

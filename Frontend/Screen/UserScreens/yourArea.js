@@ -1,106 +1,77 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/native';
-//import axios from 'axios';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-export default function YourArea(){
+export default function YourArea() {
     const navigation = useNavigation();
-
-    //Testing purpose
-    const complaints = [
-        {
-            id: 1,
-            description: "This is a complaint description",
-            date: "April 30, 2024",
-            time: "10:30 AM",
-            department: "Department Name",
-            votes: 10,
-            areaCode: 1
-        },
-        {
-            id: 2,
-            description: "This is a complaint description",
-            date: "April 30, 2024",
-            time: "10:30 AM",
-            department: "Department Name",
-            votes: 10,
-            areaCode: 1
-        },
-        {
-            id: 3,
-            description: "This is a complaint description",
-            date: "April 30, 2024",
-            time: "10:30 AM",
-            department: "Department Name",
-            votes: 10,
-            areaCode: 1
-        },
-        {
-            id: 4,
-            description: "This is a complaint description",
-            date: "April 30, 2024",
-            time: "10:30 AM",
-            department: "Department Name",
-            votes: 10,
-            areaCode: 2
-        },
-        {
-            id: 5,
-            description: "This is a complaint description",
-            date: "April 30, 2024",
-            time: "10:30 AM",
-            department: "Department Name",
-            votes: 10,
-            areaCode: 2
-        }
-
-    ];
-     
-
-    /*const [complaints, setComplaints] = useState([]);
+    const isFocused = useIsFocused();
+    const [complaints, setComplaints] = useState([]);
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
-        // Fetch complaints from the backend API
-        axios.get('your_backend_api_url')
-            .then(response => {
-                // Filter complaints based on the current user's area code
-                const filteredComplaints = response.data.filter(complaint => complaint.areaCode === currentUserAreaCode);
-                setComplaints(filteredComplaints);
-            })
-            .catch(error => {
-                console.error('Error fetching complaints:', error);
-            });
-    }, []);*/
+        // Fetch userId from AsyncStorage
+        const fetchUserId = async () => {
+            try {
+                const storedUserId = await AsyncStorage.getItem('userId');
+                if (storedUserId !== null) {
+                    setUserId(storedUserId);
+                }
+            } catch (error) {
+                console.error('Error fetching userId from AsyncStorage:', error);
+            }
+        };
+        fetchUserId();
+    }, []);
 
-    const handleViewComplainThread = () => {
-        navigation.navigate('ViewComplainThread');
-    }
+    useEffect(() => {
+        // Fetch complaints only if the screen is focused and userId is available
+        if (isFocused && userId) {
+            axios.get(`http://172.16.145.13:9093/complaint/citizen/${userId}`)
+                .then(response => {
+                    setComplaints(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching complaints:', error);
+                });
+        }
+    }, [isFocused, userId]); // Adding userId as a dependency
 
-    return(
+    const handleViewComplainThread = (complaint) => {
+        // Pass the complaint details as a parameter to the navigation function
+        navigation.navigate('ViewComplainThread', { complaint });
+    };
+
+    return (
         <ScrollView contentContainerStyle={styles.scrollView}>
             {complaints.map(complaint => (
-                <View key={complaint.id} style={styles.cardContainer}>
-                    {/* First Part: Complaint Details */}
-                    <View style={styles.complaintDetails}>
-                        <Text style={styles.description}>{complaint.description}</Text>
-                        <View style={styles.dateTimeContainer}>
-                            <Text style={styles.dateTimeText}>DATE : {complaint.date}</Text>
-                            <Text style={styles.dateTimeText}>TIME : {complaint.time}</Text>
-                        </View>
-                        <Text style={styles.department}>DEPARTMENT : {complaint.department}</Text>
+                <View key={complaint.complaint_id} style={styles.cardContainer}>
+                    {/* Title */}
+                    <Text style={styles.title}>{complaint.title}</Text>
+
+                    {/* Date and Time */}
+                    <View style={styles.dateTimeContainer}>
+                        <Text style={styles.dateTimeDate}>Date: {complaint.date}</Text>
+                        <Text style={styles.dateTimeTime}>Time: {complaint.eventTime}</Text>
                     </View>
+
+                    {/* Description 
+                    <Text style={styles.description}>Description: {complaint.description}</Text>*/}
+
+                    {/* Address */}
+                    <Text style={styles.info}>Address: {complaint.address}</Text>
+
+                    {/* Status */}
+                    <Text style={styles.info}>Status: {complaint.status}</Text>
+
+                    {/* Department */}
+                    <Text style={styles.info}>Department: {complaint.department.department_name}</Text>
 
                     {/* Second Part: Voting */}
                     <View style={styles.voting}>
-                        <View style={styles.iconAndVote}>
-                        <TouchableOpacity style={styles.voteButton}>
-                            <MaterialIcons name="thumb-up" size={24} color="blue" />
-                        </TouchableOpacity>
-                        <Text style={styles.voteCount}>{complaint.votes}</Text>
-                        </View>
                         {/* Navigate to complain thread upon clicking */}
-                        <TouchableOpacity onPress={handleViewComplainThread}>
+                        <TouchableOpacity onPress={() => handleViewComplainThread(complaint)}>
                             <Text style={styles.viewComplain}>View Complain Thread</Text>
                         </TouchableOpacity>
                     </View>
@@ -115,52 +86,43 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
     },
     cardContainer: {
         width: '90%',
-        //marginVertical: 10,
         marginTop: 20,
         backgroundColor: '#e3f1f7',
         padding: 20,
         borderRadius: 10,
         elevation: 3, // for Android
     },
-    complaintDetails: {
-        marginBottom: 10,
-    },
-    description: {
-        fontSize: 16,
+    title: {
+        fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 10,
+        textAlign: 'center',
     },
     dateTimeContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 5,
+        flexDirection: 'row', // Arrange date and time horizontally
+        marginBottom: 10,
     },
-    dateTimeText: {
+    dateTimeDate: {
+        fontSize: 14,
+        marginRight: 80, // Add some spacing between date and time
+    },
+    dateTimeTime: {
         fontSize: 14,
     },
-    department: {
+    description: {
         fontSize: 14,
+        marginBottom: 10,
     },
-    voting: {
-        flexDirection: 'row',
-        //alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    voteButton: {
-        marginRight: 10,
-    },
-    voteCount: {
-        fontSize: 16,
-    },
-    iconAndVote: {
-        flexDirection: 'row',
+    info: {
+        fontSize: 14,
+        marginBottom: 10,
     },
     viewComplain: {
         color: 'blue', // Make the text blue
         textDecorationLine: 'underline', // Add underline effect
+        textAlign: 'right'
     },
 });
