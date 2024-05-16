@@ -35,9 +35,11 @@ public class CitizenServiceImpl implements CitizenService{
     @Transactional
     public Citizen registerCitizen(UserRequest gotcitizen)
     {
+        System.out.println("area"+gotcitizen.getAreaCode());
+        Optional<Area> area=areaRepository.findById(gotcitizen.getAreaCode());
 
-        Optional<Area> area=areaRepository.findById(gotcitizen.getArea_code());
         if(area.isPresent()) {
+            System.out.println("area present");
             //Add user to user database
             Users user = new Users();
             String password = PasswordGeneratorService.generatePassword();
@@ -56,6 +58,7 @@ public class CitizenServiceImpl implements CitizenService{
                     .user(newuser)
                     .active(true)
                     .build();
+            System.out.println(citizen.getArea().getAreaCode()+citizen.getArea().getName());
             Citizen savedCitizen = citizenRepository.save(citizen);
 
             //for sending email
@@ -87,7 +90,7 @@ public class CitizenServiceImpl implements CitizenService{
                     .name(citizen.get().getFirstname() + " " + citizen.get().getLastname())
                     .mobile_no(citizen.get().getMobile_no())
                     .email(citizen.get().getUser().getEmail())
-                    .area_code(citizen.get().getArea().getArea_code())
+                    .areaCode(citizen.get().getArea().getAreaCode())
                     .area_name(citizen.get().getArea().getName())
                     .build();
         }

@@ -38,7 +38,7 @@ public class Nagarsevak {
 //    private String email;
 
     @ManyToOne
-    @JoinColumn(name = "area_code",nullable=false)
+    @JoinColumn(name = "areaCode",nullable=false)
     private Area area;
 
     @OneToOne

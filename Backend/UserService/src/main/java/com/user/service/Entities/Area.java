@@ -13,8 +13,8 @@ import lombok.Setter;
 public class Area {
     @Id
     @NotBlank(message="area code cannot be null")
-    @Column(name = "area_code",nullable=false)
-    private String area_code;
+    @Column(name = "areaCode",nullable=false)
+    private String areaCode;
 
 
     @NotBlank(message = "area name cannot be blank")

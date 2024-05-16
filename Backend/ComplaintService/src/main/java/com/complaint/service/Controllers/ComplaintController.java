@@ -61,24 +61,12 @@ public class ComplaintController {
                 throw new APIRequestException("Error while registering complaint.", ex.getMessage());
         }
     }
+    /*
     @GetMapping("complaint")
     public ResponseEntity<List<Complaints>> getallComplaints() {
         try {
 
             List<Complaints> gotcomplaints=complaintService.getallcomplaints();
-//            List<ComplaintDTO> complaintDTOList=new ArrayList<>();
-//            for(Complaints regcomplaint:gotcomplaints) {
-//                ComplaintDTO complaintDTO = ComplaintDTO.builder()
-//                        .complaint_id(regcomplaint.getComplaint_id())
-//                        .address(regcomplaint.getAddress())
-//                        .status(regcomplaint.getStatus())
-//                        .title(regcomplaint.getTitle())
-//                        .department(regcomplaint.getDepartment())
-//                        .date(regcomplaint.getDate())
-//                        .No_Of_Votes(regcomplaint.getNo_Of_Votes())
-//                        .build();
-//                complaintDTOList.add(complaintDTO);
-//            }
             return ResponseEntity.ok(gotcomplaints);
 
         }  catch (Exception ex) {
@@ -88,8 +76,8 @@ public class ComplaintController {
                 throw new APIRequestException("Error while registering complaint.", ex.getMessage());
         }
     }
-
-    @GetMapping("complaint/{citizenId}")
+*/
+    @GetMapping("complaint/citizen/{citizenId}")
     public ResponseEntity<List<Complaints>> getCitizenComplaints(@PathVariable int citizenId) {
         try {
 
@@ -115,6 +103,35 @@ public class ComplaintController {
                 throw new APIRequestException(ex.getMessage());
             } else
                 throw new APIRequestException("Error while getting registered complaints.", ex.getMessage());
+        }
+    }
+    @GetMapping("complaint/{complaintId}")
+    public ResponseEntity<Complaints> getComplaint(@PathVariable int complaintId) {
+        try {
+
+            Complaints gotcomplaint=complaintService.getComplaint(complaintId);
+            return ResponseEntity.ok(gotcomplaint);
+
+        }  catch (Exception ex) {
+            if (ex instanceof APIRequestException) {
+                throw new APIRequestException(ex.getMessage());
+            } else
+                throw new APIRequestException("Error while getting required complaint.", ex.getMessage());
+        }
+    }
+
+    @GetMapping("complaint/area/{areaCode}")
+    public ResponseEntity<List<Complaints>> getAreaComplaints(@PathVariable String areaCode) {
+        try {
+
+            List<Complaints> gotcomplaint=complaintService.getAreaComplaints(areaCode);
+            return ResponseEntity.ok(gotcomplaint);
+
+        }  catch (Exception ex) {
+            if (ex instanceof APIRequestException) {
+                throw new APIRequestException(ex.getMessage());
+            } else
+                throw new APIRequestException("Error while getting required area complaints.", ex.getMessage());
         }
     }
 }

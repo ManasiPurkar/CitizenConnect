@@ -50,12 +50,13 @@ public class ComplaintServiceImpl implements ComplaintService {
         return complaintsRepository.save(regcomplaint);
     }
 
+    /*
     @Override
     public List<Complaints> getallcomplaints()
     {
         return complaintsRepository.findAll();
     }
-
+    */
     @Override
     public Complaints getComplaint(int complid)
     {
@@ -70,4 +71,10 @@ public class ComplaintServiceImpl implements ComplaintService {
 
     }
 
+    @Override
+    public  List<Complaints> getAreaComplaints(String areaCode)
+    {
+
+        return complaintsRepository.findByAreaCode(areaCode);
+    }
 }
