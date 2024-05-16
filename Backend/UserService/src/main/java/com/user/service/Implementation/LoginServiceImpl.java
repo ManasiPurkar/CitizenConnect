@@ -1,6 +1,7 @@
 package com.user.service.Implementation;
 
 import com.user.service.DTOs.ApiException;
+import com.user.service.DTOs.ChangePasswordDTO;
 import com.user.service.DTOs.LoginDTO;
 import com.user.service.DTOs.LoginResponseDTO;
 import com.user.service.Entities.Citizen;
@@ -76,5 +77,27 @@ public class LoginServiceImpl implements LoginService {
         else {
             throw new APIRequestException("User not found");
         }
+    }
+
+    @Override
+    public Boolean changePassword(ChangePasswordDTO changePasswordDTO) {
+        Boolean status=false;
+        Optional<Users> user=userRepository.findById(changePasswordDTO.getEmail());
+        if(user.isEmpty())
+            throw new APIRequestException("User with given email not found");
+        if(Objects.equals(changePasswordDTO.getNewPassword(), changePasswordDTO.getConfirmPassword()))
+        {
+            if(passwordEncoder.matches(changePasswordDTO.getOldPassword(),user.get().getPassword()))
+            {
+                user.get().setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+                userRepository.save(user.get());
+                status=true;
+            }
+            else
+               throw new APIRequestException("Wrong old password");
+        }
+        else
+            throw new APIRequestException("New password and confirm password not matching ");
+        return status;
     }
 }

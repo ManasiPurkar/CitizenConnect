@@ -16,6 +16,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -45,6 +46,7 @@ public class ComplaintServiceImpl implements ComplaintService {
                 .citizenId(complaint.getCitizenId())
                 .eventTime(LocalTime.now())
                 .areaCode(complaint.getAreaCode())
+                .areaName(complaint.getAreaName())
                 .build();
         System.out.println("regcomp"+regcomplaint);
         return complaintsRepository.save(regcomplaint);
@@ -76,5 +78,20 @@ public class ComplaintServiceImpl implements ComplaintService {
     {
 
         return complaintsRepository.findByAreaCode(areaCode);
+    }
+
+    @Override
+    public Complaints changeComplStatus(int complaintId,String status)
+    {
+        if(Objects.equals(status, "pending")|| Objects.equals(status, "ongoing")|| Objects.equals(status, "solved")) {
+            Optional<Complaints> complaint = complaintsRepository.findById(complaintId);
+            if (complaint.isEmpty())
+                throw new APIRequestException("Complaint with given id not found");
+            complaint.get().setStatus(status);
+            complaintsRepository.save(complaint.get());
+            return complaint.get();
+        }
+        else
+            throw new APIRequestException("status is wrong");
     }
 }

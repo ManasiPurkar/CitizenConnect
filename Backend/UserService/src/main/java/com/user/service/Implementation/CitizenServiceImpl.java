@@ -81,6 +81,7 @@ public class CitizenServiceImpl implements CitizenService{
 
     }
 
+    /*
     @Override
     public CitizenDTO getCitizen(int citizenId)
     {
@@ -99,4 +100,6 @@ public class CitizenServiceImpl implements CitizenService{
             throw new APIRequestException("citizen with given id not found");
         }
     }
+    */
+
 }

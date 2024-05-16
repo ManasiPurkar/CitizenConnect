@@ -1,6 +1,7 @@
 package com.user.service.Controllers;
 
 
+import com.user.service.DTOs.ChangePasswordDTO;
 import com.user.service.DTOs.LoginDTO;
 import com.user.service.DTOs.LoginResponseDTO;
 import com.user.service.Entities.Users;
@@ -14,14 +15,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.apache.commons.lang3.tuple.Pair;
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/user")
 @CrossOrigin(origins = "*")
 public class LoginController {
     @Autowired
     private LoginService loginService;
 
     @Validated
-    @PostMapping("/")
+    @PostMapping("/login")
     public ResponseEntity<Pair<String, LoginResponseDTO>> login(@Valid @RequestBody LoginDTO loginDTO) {
         try {
             Pair<Boolean, LoginResponseDTO> result = loginService.login(loginDTO);
@@ -37,6 +38,22 @@ public class LoginController {
                 throw new APIRequestException(ex.getMessage());
             } else
                 throw new APIRequestException("Error while login", ex.getMessage());
+        }
+    }
+    @Validated
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO) {
+        try {
+            Boolean result = loginService.changePassword(changePasswordDTO);
+            if (result) {
+                return ResponseEntity.ok("Password changed Successfully");
+            }
+            return ResponseEntity.ok("Error in changing password");
+        } catch (Exception ex) {
+            if (ex instanceof APIRequestException) {
+                throw new APIRequestException(ex.getMessage());
+            } else
+                throw new APIRequestException("Error while changing password", ex.getMessage());
         }
     }
 

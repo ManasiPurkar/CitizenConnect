@@ -16,13 +16,13 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("/")
+@RequestMapping("/complaint")
 @CrossOrigin(origins = "*")
 public class ComplaintController {
     @Autowired
     private ComplaintService complaintService;
     @Validated
-    @PostMapping("complaint")
+    @PostMapping("/")
     public ResponseEntity<Complaints> registerComplaint(@Valid @RequestBody ComplaintDTO complaint) {
         try {
 
@@ -77,7 +77,7 @@ public class ComplaintController {
         }
     }
 */
-    @GetMapping("complaint/citizen/{citizenId}")
+    @GetMapping("/citizen/{citizenId}")
     public ResponseEntity<List<Complaints>> getCitizenComplaints(@PathVariable int citizenId) {
         try {
 
@@ -105,7 +105,7 @@ public class ComplaintController {
                 throw new APIRequestException("Error while getting registered complaints.", ex.getMessage());
         }
     }
-    @GetMapping("complaint/{complaintId}")
+    @GetMapping("/{complaintId}")
     public ResponseEntity<Complaints> getComplaint(@PathVariable int complaintId) {
         try {
 
@@ -120,7 +120,7 @@ public class ComplaintController {
         }
     }
 
-    @GetMapping("complaint/area/{areaCode}")
+    @GetMapping("/area/{areaCode}")
     public ResponseEntity<List<Complaints>> getAreaComplaints(@PathVariable String areaCode) {
         try {
 
@@ -134,4 +134,19 @@ public class ComplaintController {
                 throw new APIRequestException("Error while getting required area complaints.", ex.getMessage());
         }
     }
+
+    @PutMapping("/change-status/{complaintId}/{status}")
+    public ResponseEntity<Complaints> changeComplStatus(@PathVariable Integer complaintId,@PathVariable String status) {
+        try {
+            return ResponseEntity.ok(complaintService.changeComplStatus(complaintId,status));
+        }  catch (Exception ex) {
+            if (ex instanceof APIRequestException) {
+                throw new APIRequestException(ex.getMessage());
+            } else
+                throw new APIRequestException("Error while changing complaint status", ex.getMessage());
+        }
+    }
+
+
+
 }

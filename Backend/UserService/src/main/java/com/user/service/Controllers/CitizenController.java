@@ -5,10 +5,13 @@ import com.user.service.DTOs.ComplaintDTO;
 import com.user.service.DTOs.LoginDTO;
 import com.user.service.DTOs.LoginResponseDTO;
 import com.user.service.Entities.Area;
+import com.user.service.Entities.Citizen;
 import com.user.service.Entities.Complaints;
+import com.user.service.Entities.Nagarsevak;
 import com.user.service.Exceptions.APIRequestException;
 import com.user.service.ExternalServices.ComplaintService;
 import com.user.service.Repositories.AreaRepository;
+import com.user.service.Repositories.CitizenRepository;
 import com.user.service.Services.CitizenService;
 import jakarta.validation.Valid;
 import org.apache.commons.lang3.tuple.Pair;
@@ -31,6 +34,8 @@ public class CitizenController {
     private ComplaintService complaintService;
     @Autowired
     private AreaRepository areaRepository;
+    @Autowired
+    private CitizenRepository citizenRepository;
 
     /*
     @GetMapping("/{citizenId}")
@@ -55,10 +60,26 @@ public class CitizenController {
         Optional<Area> area=areaRepository.findById(complaint.getAreaCode());
         if(area.isEmpty())
             throw new APIRequestException("Wrong area");
+        complaint.setAreaName(area.get().getName());
         ResponseEntity<Complaints> result= complaintService.registerComplaint(complaint);
 
-        result.getBody().setArea(area.get());
         return result;
     }
 
+    @GetMapping("/area-complaints/{citizenId}")
+    public ResponseEntity<List<Complaints>> getCitizenAreaCompl(@PathVariable int citizenId) {
+        try {
+            Optional<Citizen> citizen=citizenRepository.findById(citizenId);
+            if(citizen.isEmpty())
+                throw new APIRequestException("Citizen with given Id not found");
+            String areaCode=citizen.get().getArea().getAreaCode();
+            return complaintService.getAreaComplaints(areaCode);
+
+        } catch (Exception ex) {
+            if (ex instanceof APIRequestException) {
+                throw new APIRequestException(ex.getMessage());
+            } else
+                throw new APIRequestException("Error while getting citizen's area complaints", ex.getMessage());
+        }
+    }
 }
