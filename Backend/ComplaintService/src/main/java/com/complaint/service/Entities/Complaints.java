@@ -27,12 +27,12 @@ public class Complaints {
     private String title;
 
     @NotBlank(message = "description cannot be blank")
-    @Pattern(regexp="[a-zA-Z\\s]+", message="Only characters and spaces are allowed")
+    @Pattern(regexp="[a-zA-Z0-9\\s]+", message="Only alphanumeric characters and spaces are allowed")
     @Column(name = "description",nullable=false)
     private String description;
 
     @NotBlank(message = "address cannot be blank")
-    @Pattern(regexp="[a-zA-Z\\s]+", message="Only characters and spaces are allowed")
+    @Pattern(regexp="[a-zA-Z0-9\\s]+", message="Only alphanumeric characters and spaces are allowed")
     @Column(name = "address",nullable=false)
     private String address;
 

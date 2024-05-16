@@ -31,6 +31,8 @@ public class CitizenController {
     private ComplaintService complaintService;
     @Autowired
     private AreaRepository areaRepository;
+
+    /*
     @GetMapping("/{citizenId}")
     public ResponseEntity<CitizenDTO> getCitizen(@PathVariable int citizenId) {
         try {
@@ -45,7 +47,7 @@ public class CitizenController {
                 throw new APIRequestException("Error while getting citizen", ex.getMessage());
         }
     }
-
+*/
     @Validated
     @PostMapping("/register-complaint")
     public ResponseEntity<Complaints> registerComplaint(@Valid @RequestBody ComplaintDTO complaint)

@@ -37,7 +37,7 @@ public class AdminServiceImpl implements AdminService {
     public Nagarsevak registerNagarsevak(UserRequest gotnagarsevak)
     {
 
-        Optional<Area> area=areaRepository.findById(gotnagarsevak.getArea_code());
+        Optional<Area> area=areaRepository.findById(gotnagarsevak.getAreaCode());
         if(area.isPresent()) {
             //Add user to user database
             Users user = new Users();
