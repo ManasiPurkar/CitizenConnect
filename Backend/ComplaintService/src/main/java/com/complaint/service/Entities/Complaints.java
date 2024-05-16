@@ -1,6 +1,7 @@
 package com.complaint.service.Entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -8,6 +9,7 @@ import lombok.*;
 
 import java.sql.Date;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Builder
@@ -66,6 +68,10 @@ public class Complaints {
     @Column(name = "areaName", nullable=false)
     private String areaName;
 
+
+    @OneToMany(mappedBy = "complaint", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Comments> comments;
 
 
     //image

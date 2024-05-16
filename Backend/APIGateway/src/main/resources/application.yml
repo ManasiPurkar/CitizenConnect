@@ -10,7 +10,8 @@ spring:
           - id: UserService
             uri: lb://UserService
             predicates:
-              - Path=/register/**,/add/**,/citizen/**,/nagarsevak/**,/user/**
+              - Path=/register/**,/add/**,/citizen/**,/nagarsevak/**,/user/**,/initialize/**
+
 
           - id: ComplaintService
             uri: lb://ComplaintService
