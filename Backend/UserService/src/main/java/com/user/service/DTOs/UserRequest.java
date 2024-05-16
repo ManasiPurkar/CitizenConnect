@@ -15,6 +15,6 @@ public class UserRequest {
 
     private String email;
 
-    private String area_code;
+    private String areaCode;
 
 }

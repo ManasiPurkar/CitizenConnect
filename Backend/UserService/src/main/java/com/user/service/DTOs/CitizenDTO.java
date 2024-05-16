@@ -22,7 +22,7 @@ public class CitizenDTO {
 
     private String email;
 
-    private String area_code;
+    private String areaCode;
 
     private String area_name;
 

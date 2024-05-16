@@ -23,7 +23,7 @@ public class UserResponse {
 
     private String area_name;
 
-    private String area_code;
+    private String areaCode;
 
 
 }
