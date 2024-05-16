@@ -8,5 +8,5 @@ import com.user.service.Entities.Nagarsevak;
 public interface CitizenService {
     Citizen registerCitizen(UserRequest gotcitizen);
 
-    CitizenDTO getCitizen(int userid);
+//    CitizenDTO getCitizen(int userid);
 }

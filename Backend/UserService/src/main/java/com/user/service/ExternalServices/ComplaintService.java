@@ -16,6 +16,10 @@ public interface ComplaintService {
     @GetMapping("/complaint/{citizenId}")
     public ResponseEntity<List<Complaints>> getCitizenComplaints(@PathVariable("citizenId") Integer citizenId);
 
-    @PostMapping("/complaint")
+    @PostMapping("/complaint/")
     public ResponseEntity<Complaints> registerComplaint(ComplaintDTO values);
+
+    @GetMapping("/complaint/area/{areaCode}")
+    public ResponseEntity<List<Complaints>> getAreaComplaints(@PathVariable String areaCode);
+
 }

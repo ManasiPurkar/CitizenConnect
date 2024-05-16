@@ -21,7 +21,7 @@ public class Complaints {
     private int complaint_id;
     private int citizenId;
     private String areaCode;
-    private Area area;
+    private String areaName;
     private String title;
     private String description;
     private String address;

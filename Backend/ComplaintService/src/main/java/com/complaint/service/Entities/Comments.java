@@ -1,5 +1,6 @@
 package com.complaint.service.Entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -30,6 +31,7 @@ public class Comments {
     private Date eventDate;  // Separate column for date
 
     @Column(name = "event_time",nullable=false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     @Temporal(TemporalType.TIME)
     private LocalTime eventTime;  // Separate column for time
 

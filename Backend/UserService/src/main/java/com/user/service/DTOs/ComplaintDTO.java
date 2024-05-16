@@ -1,5 +1,6 @@
 package com.user.service.DTOs;
 
+import com.user.service.Entities.Area;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,4 +18,6 @@ public class ComplaintDTO {
     private Integer citizenId;
 
     private String areaCode;
+
+    private String areaName;
 }

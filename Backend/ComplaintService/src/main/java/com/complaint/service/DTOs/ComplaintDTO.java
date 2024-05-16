@@ -1,16 +1,10 @@
 package com.complaint.service.DTOs;
 
-import com.complaint.service.Entities.Departments;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import com.complaint.service.Entities.Area;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.sql.Date;
 
 @Getter
 @Setter
@@ -38,5 +32,6 @@ public class ComplaintDTO {
     private Integer citizenId;
 
     private String areaCode;
+    private String areaName;
 
 }
