@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, StyleSheet, map } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, map, Modal, TouchableOpacity, TextInput, Button, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import Header from '../header';
+import { BASE_URL } from '../../constants';
 
 const CommentCard = ({ userName, userRole, comment, userDate, userTime }) => {
-  console.log(userDate);
-  console.log(userTime);
   return (
     <View style={styles.commentCard}>
       <View style={styles.userInfoContainer}>
@@ -22,14 +22,35 @@ const CommentCard = ({ userName, userRole, comment, userDate, userTime }) => {
   );
 };
 
+
 export default function ViewComplainThread({ route }) {
   const { complaint } = route.params;
   const [status, setStatus] = useState(complaint.status);
-  console.log(route.params.complaint.comments);
+  const [userInput, setUserInput] = useState('');
+  const [userId, setUserId] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [userRole, setUserRole] = useState('');
+
+  useEffect(() => {
+    // Fetch userId from AsyncStorage
+    const fetchUserId = async () => {
+      try {
+        const storedUserId = await AsyncStorage.getItem('userId');
+        const storedUserRole = await AsyncStorage.getItem('userRole');
+        if (storedUserId !== null) {
+          setUserId(storedUserId);
+          setUserRole(storedUserRole);
+        }
+      } catch (error) {
+        console.error('Error fetching userId from AsyncStorage:', error);
+      }
+    };
+    fetchUserId();
+  }, []);
 
   // Function to handle status change
   const handleChangeStatus = async (changedStatus) => {
-      axios.put(`http://172.16.145.13:9093/complaint/change-status/${complaint.complaint_id}/${changedStatus}`)
+      axios.put(`${BASE_URL}/complaint/change-status/${complaint.complaint_id}/${changedStatus}`)
         .then(response => {
           console.log('Status updated successfully:', response.data);
           const updatedStatus = response.data.status;
@@ -39,50 +60,116 @@ export default function ViewComplainThread({ route }) {
           console.error('Error updating status:', error);
         });
   };
+  const handleAddComment = async (userId, userInput, userRole) => {
+    try {
+      // Check if userId is available
+      if (!userId) {
+        throw new Error('User ID not found');
+      }
+      console.log(userId);
+      // Check if user input is empty
+      if (!userInput.trim()) {
+        throw new Error('Please enter a comment');
+      }
   
+      // Prepare the request body
+      const requestBody = {
+        userRole: userRole,
+        complaintId: complaint.complaint_id,
+        comment: userInput.trim()
+      };
+      console.log(requestBody);
+      // Send a POST request to the API endpoint
+      await axios.post(`${BASE_URL}/add/comment/${userId}`, requestBody);
+  
+      // Display success message
+      Alert.alert('Comment added successfully');
+  
+      // Clear the user input
+      setUserInput('');
+    } catch (error) {
+      console.error('Error adding comment:', error.message);
+      console.log(error.response.data.message);
+      // Display error message
+      Alert.alert('Error', error.message);
+    }
+  };
+    
   return (
-    <ScrollView contentContainerStyle={styles.scrollView}>
-      {complaint && (
-        <View style={styles.complaintContainer}>
-          <Text style={styles.title}>{complaint.title}</Text>
-          <Text style={styles.subtitle}>Status: {complaint.status}</Text>
-          <Text style={styles.text}>Date: {complaint.date}</Text>
-          <Text style={styles.text}>Time: {complaint.eventTime}</Text>
-          <Text style={styles.text}>Department: {complaint.department.department_name}</Text>
-          <Text style={styles.text}>Address: {complaint.address}</Text>
-          <Text style={styles.text}>Description: {complaint.description}</Text>
-          <Text style={styles.text}>Change Ticket Status: </Text>
-          <Picker
-            selectedValue={status}
-            style={{ height: 50, width: 150 }}
-            onValueChange={(itemValue, itemIndex) => handleChangeStatus(itemValue)}
-          >  
-            <Picker.Item label="Pending" value="pending" />
-            <Picker.Item label="Ongoing" value="ongoing" />
-            <Picker.Item label="Solved" value="solved" />
-          </Picker>
-          <View style={styles.commentsContainer}>
-            {complaint.comments?.map((comment, index) => (   //To display comment only if it exists
-              <CommentCard
-                key={index}
-                userName={comment.userName}
-                userDate={comment.eventDate} 
-                userTime={comment.eventTime}
-                comment={comment.comment}
-                userRole={comment.userRole}
-              />
-            ))}
+    <View style={styles.container}>
+      {/*<Header text="Complain Thread"/>*/}
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        {complaint && (
+          <View style={styles.complaintContainer}>
+            <Text style={styles.title}>{complaint.title}</Text>
+            <Text style={styles.subtitle}>Status: {complaint.status}</Text>
+            <Text style={styles.text}>Date: {complaint.date}</Text>
+            <Text style={styles.text}>Time: {complaint.eventTime}</Text>
+            <Text style={styles.text}>Department: {complaint.department.department_name}</Text>
+            <Text style={styles.text}>Address: {complaint.address}</Text>
+            <Text style={styles.text}>Description: {complaint.description}</Text>
+            <Text style={styles.text}>Change Ticket Status: </Text>
+            <Picker
+              selectedValue={status}
+              style={{ height: 50, width: 150 }}
+              onValueChange={(itemValue, itemIndex) => handleChangeStatus(itemValue)}
+            >  
+              <Picker.Item label="Pending" value="pending" />
+              <Picker.Item label="Ongoing" value="ongoing" />
+              <Picker.Item label="Solved" value="solved" />
+            </Picker>
+            <View style={styles.commentsContainer}>
+              {complaint.comments?.map((comment, index) => (   //To display comment only if it exists
+                <CommentCard
+                  key={index}
+                  userName={comment.userName}
+                  userDate={comment.eventDate} 
+                  userTime={comment.eventTime}
+                  comment={comment.comment}
+                  userRole={comment.userRole}
+                />
+              ))}
+            </View>
+            <TouchableOpacity style={[styles.button]} onPress={() => setModalVisible(true)}>
+              <Text style={styles.buttonText}>Add Comment</Text>
+            </TouchableOpacity>
           </View>
-        </View>
-      )}
-    </ScrollView>
+        )}
+        {/* Modal for adding comment */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+            <Text style={styles.heading}>Enter the comment</Text>
+              <TextInput
+                style={styles.tagInput}
+                value={userInput}
+                onChangeText={text => setUserInput(text)}
+              />
+              <Button title="OK" onPress={() => {
+                setModalVisible(false);
+                handleAddComment(userId, userInput, userRole);
+              }} />
+            </View>
+          </View>
+        </Modal>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+  },
   scrollView: {
     flexGrow: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
   },
   complaintContainer: {
@@ -133,10 +220,53 @@ const styles = StyleSheet.create({
   },
   userDate: {
     fontSize: 12,
-    
   },
-  commentText: {
-    fontSize: 18,
-    marginVertical: 10
+  button: { 
+    backgroundColor: '#40E0D0',
+    borderRadius: 8, 
+    padding: 10, 
+    alignItems: 'center', 
+    marginTop: 16, 
+    marginBottom: 12, 
+  },
+  buttonText: { 
+      color: '#fff', 
+      fontWeight: 'bold', 
+      fontSize: 16, 
+  }, 
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    width: '100%',
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  tagInput: {
+    width: '80%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20,
+    paddingLeft: 10
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: 'center'
   },
 });

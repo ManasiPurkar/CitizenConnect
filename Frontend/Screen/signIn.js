@@ -4,6 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from './header';
 import UserProfile from './userProfile';
+import { BASE_URL } from '../constants';
 
 export default function SignIn() {
     const [username, setUsername] = useState('');
@@ -38,8 +39,10 @@ export default function SignIn() {
 
     const handleSubmit = async () => {
         if (isFormValid) { 
+            console.log(username);
+                    console.log(password);
             try {
-                const response = await fetch('http://172.16.145.13:9093/user/login', {
+                const response = await fetch(`${BASE_URL}/user/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -57,6 +60,7 @@ export default function SignIn() {
                     await AsyncStorage.setItem('userEmail', data['Logged in Successfully']['email']);
                     await AsyncStorage.setItem('userId', data['Logged in Successfully']['user_id'].toString());
                     await AsyncStorage.setItem('userRole', data['Logged in Successfully']['role']);
+                    await AsyncStorage.setItem('userName', data['Logged in Successfully']['name']);
                     // Redirect to the appropriate screen based on role
                     //navigateToHome(data['Logged in Successfully']['role']);
                     navigation.navigate(UserProfile);

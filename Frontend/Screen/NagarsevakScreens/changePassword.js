@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TextInput, View, Button, Alert, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_URL } from '../../constants';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
@@ -44,7 +45,7 @@ export default function ChangePassword() {
             console.log(currentPassword);
             console.log(newPassword);
             console.log(confirmPassword);
-            const response = await fetch('http://172.16.145.13:9093/user/change-password', {
+            const response = await fetch(`${BASE_URL}/user/change-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

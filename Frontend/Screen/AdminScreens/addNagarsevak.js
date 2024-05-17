@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { Alert } from 'react-native';
 import axios from 'axios';
+import { BASE_URL } from '../../constants';
 
 export default function AddNagarsevak() {
     const [firstName, setFirstName] = useState('');
@@ -63,7 +64,7 @@ export default function AddNagarsevak() {
             if (selectedAreaObject) {
                 // If area is found, set its area_code and make the POST request
                 setAreaCode(selectedAreaObject.area_code);
-                axios.post('http://172.16.145.13:9093/register/Nagarsevak', {
+                axios.post(`${BASE_URL}/register/Nagarsevak`, {
                     firstname: firstName,
                     lastname: lastName,
                     mobile_no: mobileNumber,

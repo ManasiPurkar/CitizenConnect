@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import Header from './header';
 import axios from 'axios';
+import { BASE_URL } from '../constants';
 
 export default function Register() {
     const [firstName, setFirstName] = useState('');
@@ -68,7 +69,7 @@ export default function Register() {
                 console.log(mobileNumber);
                 console.log(selectedAreaObject.area_code);
                 console.log(email);
-                axios.post('http://172.16.145.13:9093/register/Citizen', {
+                axios.post(`${BASE_URL}/register/Citizen`, {
                     firstname: firstName,
                     lastname: lastName,
                     mobile_no: mobileNumber,
