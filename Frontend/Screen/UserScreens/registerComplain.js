@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'reac
 import { Picker } from '@react-native-picker/picker'; 
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_URL } from '../../constants';
 
 export default function RegisterComplain() {
   const [area, setArea] = useState('');
@@ -55,7 +56,7 @@ export default function RegisterComplain() {
       areaCode: area
     };
 
-    axios.post('http://172.16.145.13:9093/citizen/register-complaint', formData)
+    axios.post(`${BASE_URL}/citizen/register-complaint`, formData)
       .then(response => {
         console.log('Complaint registered successfully:', response.data);
         setAddress('');

@@ -36,6 +36,7 @@ public class LoginServiceImpl implements LoginService {
     public Pair<Boolean,LoginResponseDTO> login(LoginDTO user)
     {
         Boolean status=false;
+        System.out.println("email got "+user.getEmail());
         Optional<Users> gotuser = userRepository.findById(user.getEmail());
 
         if (gotuser.isPresent()) {

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-nati
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { BASE_URL } from '../../constants';
 
 export default function NagarsevakHomePage() {
     const navigation = useNavigation();
@@ -28,7 +29,7 @@ export default function NagarsevakHomePage() {
     useEffect(() => {
         // Fetch complaints only if the screen is focused and userId is available
         if (isFocused && userId) {
-            axios.get(`http://172.16.145.13:9093/nagarsevak/complaints/${userId}`)
+            axios.get(`${BASE_URL}/nagarsevak/complaints/${userId}`)
                 .then(response => {
                     setComplaints(response.data);
                 })
