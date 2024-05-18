@@ -1,0 +1,110 @@
+version: '3'
+
+services:
+  serviceregistry:
+    image: manasip44/citizenconnect:serviceregistry
+    container_name: serviceregistry
+    ports:
+      - "8761:8761"
+    networks:
+      - citizenconnect
+
+  apigateway:
+    image: manasip44/citizenconnect:apigateway
+    container_name: apigateway
+    ports:
+      - "9093:9093"
+    networks:
+      - citizenconnect
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://serviceregistry:8761/eureka/
+      - DOCKER_NAMESPACE=${DOCKER_NAMESPACE}
+    depends_on:
+      - serviceregistry
+
+  userservice:
+    image: manasip44/citizenconnect:userservice
+    container_name: userservice
+    ports:
+      - "9091:9091"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://serviceregistry:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://userservice_db/userservice?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - DOCKER_NAMESPACE=${DOCKER_NAMESPACE}
+    networks:
+      - citizenconnect
+    depends_on:
+      - serviceregistry
+      - apigateway
+      - userservice_db
+    volumes:
+      - /home:/logs
+
+  complaintservice:
+    image: manasip44/citizenconnect:complaintservice
+    container_name: complaintservice
+    ports:
+      - "9092:9092"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://serviceregistry:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://complaintservice_db/complaintservice?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - DOCKER_NAMESPACE=${DOCKER_NAMESPACE}
+    networks:
+      - citizenconnect
+    depends_on:
+      - serviceregistry
+      - apigateway
+      - complaintservice_db
+    volumes:
+      - /home:/logs
+
+  userservice_db:
+    image: mysql:8
+    container_name: userservice_db
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=userservice
+    volumes:
+      - userservice_database:/var/lib/mysql
+      #- ./init-userservice-db.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --bind-address=0.0.0.0
+    networks:
+      - citizenconnect
+
+  complaintservice_db:
+    image: mysql:8
+    container_name: complaintservice_db
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=complaintservice
+    volumes:
+      - complaintservice_database:/var/lib/mysql
+      #- ./init-complaintservice-db.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --bind-address=0.0.0.0
+    networks:
+      - citizenconnect
+
+  citizenconnectfrontend:
+    image: manasip44/citizenconnect:frontend
+    container_name: citizenconnectfrontend
+    ports:
+      - "8081:8081"
+    networks:
+      - citizenconnect
+
+networks:
+  citizenconnect:
+      driver: bridge
+
+volumes:
+  complaintservice_database:
+  userservice_database:
+  
