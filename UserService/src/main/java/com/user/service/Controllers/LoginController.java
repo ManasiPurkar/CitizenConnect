@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.apache.commons.lang3.tuple.Pair;
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class LoginController {
     @Autowired
     private LoginService loginService;

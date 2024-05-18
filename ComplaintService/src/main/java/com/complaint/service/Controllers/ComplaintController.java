@@ -17,7 +17,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/complaint")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class ComplaintController {
     @Autowired
     private ComplaintService complaintService;

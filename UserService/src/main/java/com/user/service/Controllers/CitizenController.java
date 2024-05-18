@@ -25,7 +25,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/citizen")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class CitizenController {
 
     @Autowired

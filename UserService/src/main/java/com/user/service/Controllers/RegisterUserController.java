@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/register")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class RegisterUserController {
     @Autowired
     private AdminService adminService;
