@@ -1,8 +1,0 @@
-eureka:
-  instance:
-    hostname: localhost
-  client:                  #    this will stop this project from being client
-    register-with-eureka: false
-    fetch-registry: false
-server:
-  port: 8761

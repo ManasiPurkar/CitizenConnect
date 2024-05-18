@@ -1,0 +1,6 @@
+FROM openjdk:21
+WORKDIR /app
+COPY ./ComplaintService /app
+COPY ./ComplaintService/target/ComplaintService-0.0.1-SNAPSHOT.jar ./
+EXPOSE 9092
+CMD ["java","-jar","ComplaintService-0.0.1-SNAPSHOT.jar"]

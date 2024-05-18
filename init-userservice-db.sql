@@ -1,0 +1,4 @@
+CREATE DATABASE IF NOT EXISTS userservice;
+GRANT ALL PRIVILEGES ON userservice.* TO 'root'@'%' IDENTIFIED BY 'root';
+FLUSH PRIVILEGES;
+

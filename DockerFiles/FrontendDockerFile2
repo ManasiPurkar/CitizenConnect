@@ -1,0 +1,26 @@
+
+# Stage 1: Build the React application
+FROM node:20 AS build
+
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+#COPY ../Frontend/package.json ../Frontend/package-lock.json  ../Frontend/babel.config.js ./
+
+COPY ./Frontend/package.json ./Frontend/package-lock.json  ./Frontend/babel.config.js ./
+
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY ./Frontend ./
+
+RUN npm install -g expo-cli
+
+EXPOSE 19000
+EXPOSE 19001
+EXPOSE 19002
+
+CMD npm i -f && npm start
