@@ -7,7 +7,12 @@ services:
     ports:
       - "8761:8761"
     networks:
-      - citizenconnect
+      - citizenconnect_network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8761/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   apigateway:
     image: manasip44/citizenconnect:apigateway
@@ -15,7 +20,7 @@ services:
     ports:
       - "9093:9093"
     networks:
-      - citizenconnect
+      - citizenconnect_network
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://serviceregistry:8761/eureka/
       - DOCKER_NAMESPACE=${DOCKER_NAMESPACE}
@@ -34,13 +39,18 @@ services:
       - SPRING_DATASOURCE_PASSWORD=root
       - DOCKER_NAMESPACE=${DOCKER_NAMESPACE}
     networks:
-      - citizenconnect
+      - citizenconnect_network
     depends_on:
       - serviceregistry
       - apigateway
       - userservice_db
     volumes:
       - /home:/logs
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://serviceregistry:8761/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   complaintservice:
     image: manasip44/citizenconnect:complaintservice
@@ -54,13 +64,18 @@ services:
       - SPRING_DATASOURCE_PASSWORD=root
       - DOCKER_NAMESPACE=${DOCKER_NAMESPACE}
     networks:
-      - citizenconnect
+      - citizenconnect_network
     depends_on:
       - serviceregistry
       - apigateway
       - complaintservice_db
     volumes:
       - /home:/logs
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://serviceregistry:8761/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   userservice_db:
     image: mysql:8
@@ -75,7 +90,7 @@ services:
       #- ./init-userservice-db.sql:/docker-entrypoint-initdb.d/init.sql
     command: --bind-address=0.0.0.0
     networks:
-      - citizenconnect
+      - citizenconnect_network
 
   complaintservice_db:
     image: mysql:8
@@ -90,7 +105,7 @@ services:
       #- ./init-complaintservice-db.sql:/docker-entrypoint-initdb.d/init.sql
     command: --bind-address=0.0.0.0
     networks:
-      - citizenconnect
+      - citizenconnect_network
 
   citizenconnectfrontend:
     image: manasip44/citizenconnect:frontend
@@ -98,13 +113,13 @@ services:
     ports:
       - "8081:8081"
     networks:
-      - citizenconnect
+      - citizenconnect_network
 
 networks:
-  citizenconnect:
-      driver: bridge
+  citizenconnect_network:
+    driver: bridge
 
 volumes:
   complaintservice_database:
   userservice_database:
-  
+

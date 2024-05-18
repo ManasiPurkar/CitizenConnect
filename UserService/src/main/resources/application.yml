@@ -1,11 +1,30 @@
+spring:
+  application:
+    name: UserService
+  datasource:
+    url: jdbc:mysql://localhost:3306/User_Service?createDatabaseIfNotExist=true
+    username: root
+    password: ManasiP@123
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+server:
+  port: 9091
+
 eureka:
-  instance:
-    prefer-ip-address: true
+#  instance:
+#    prefer-ip-address: true
   client:
-    fetch-registry: true
-    register-with-eureka: true
+#    fetch-registry: true
+#    register-with-eureka: true
     service-url:
-      default-zone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}
 
 #
 #spring:
@@ -28,21 +47,3 @@ eureka:
 #server:
 #    port: 9091
 #
-spring:
-    application:
-      name: UserService
-    datasource:
-      url: jdbc:mysql://localhost:3306/User_Service?createDatabaseIfNotExist=true
-      username: root
-      password: ManasiP@123
-
-
-    jpa:
-      hibernate:
-        ddl-auto: update
-      show-sql: true
-      properties:
-             hibernate:
-                dialect: org.hibernate.dialect.MySQL8Dialect
-server:
-    port: 9091

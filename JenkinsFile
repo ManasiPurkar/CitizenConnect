@@ -76,11 +76,13 @@ pipeline {
                 sh 'docker rmi $DOCKERHUB_USER/citizenconnect:frontend';
             }
         }
-        stage('Run ansible playbook'){
+        stage('Run Docker compose'){
             steps{
-                echo 'Running the ansible playbook yml file'
-                sh 'export LC_ALL=en_IN.UTF-8;export LANG=en_US.UTF-8;ansible-playbook -i inventory_shashi playbook.yml'
+                echo 'Run docker compose'
+                sh 'docker-compose up';
+               
             }
         }
+        
     }
 }
