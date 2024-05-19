@@ -1,3 +1,2 @@
 [host1]
-client1 ansible_host=172.16.145.112 ansible_connection=ssh ansible_user=manasi ansible_ssh_pass=Family@2001 ansible_sudo_pass=Family@2001
-ansible_ssh_common_args = '-o StrictHostKeyChecking=no'
+client1 ansible_host=172.16.145.112 ansible_connection=ssh ansible_user=manasi ansible_ssh_pass=Family@2001 ansible_sudo_pass=Family@2001 ansible_ssh_common_args = '-o StrictHostKeyChecking=no'
