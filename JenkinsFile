@@ -42,11 +42,11 @@ pipeline {
         stage('Build Image for Microservices'){
             steps{
                 echo 'Building docker Image'
-                sh "docker build -t $DOCKERHUB_USER/citizenconnect:serviceregistry -f DockerFiles/RegistryDockerfile .";
-                sh "docker build -t $DOCKERHUB_USER/citizenconnect:apigateway -f DockerFiles/APIGatewayDockerfile .";
-                sh "docker build -t $DOCKERHUB_USER/citizenconnect:userservice -f DockerFiles/UserServiceDockerfile .";
-                sh "docker build -t $DOCKERHUB_USER/citizenconnect:complaintservice -f DockerFiles/ExpenseServiceDockerfile .";
-                sh "cd Frontend; docker build -t ${DOCKERHUB_USER}/citizenconnect:frontend -f Dockerfile .";   
+                sh "docker build -t $DOCKERHUB_USER/citizenconnect:serviceregistry -f DockerFiles/ServiceRegistryDockerFile .";
+                sh "docker build -t $DOCKERHUB_USER/citizenconnect:apigateway -f DockerFiles/APIGatewayDockerFile .";
+                sh "docker build -t $DOCKERHUB_USER/citizenconnect:userservice -f DockerFiles/UserServiceDockerFile .";
+                sh "docker build -t $DOCKERHUB_USER/citizenconnect:complaintservice -f DockerFiles/ComplaintServiceDockerFile .";
+                sh "cd Frontend; docker build -t ${DOCKERHUB_USER}/citizenconnect:frontend -f Dockerfile ."; 
             }
         }
     
