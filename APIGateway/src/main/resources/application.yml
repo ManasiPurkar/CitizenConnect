@@ -29,9 +29,9 @@
 #       defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}
 
 
-
 server:
   port: 9093
+
 spring:
   application:
     name: API-GATEWAY
@@ -53,6 +53,11 @@ spring:
             uri: lb://ComplaintService
             predicates:
               - Path=/complaint/**
+
+logging:
+  level:
+    root: debug
+
 eureka:
   instance:
     prefer-ip-address: true
