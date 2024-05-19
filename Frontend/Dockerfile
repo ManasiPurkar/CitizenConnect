@@ -45,5 +45,9 @@ EXPOSE 8081
 #EXPOSE 19001
 #EXPOSE 19002
 
+# set environment variables
+#ARG REACT_APP_SERVER_URL
+#ENV REACT_APP_SERVER_URL $REACT_APP_SERVER_URL
+
 # Command to run the app
 CMD ["npm", "start"]
