@@ -40,7 +40,7 @@ spring:
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "http://localhost:8081"
+            allowedOrigins: "*"
             allowedHeaders: "*"
             allowedMethods: "*"
       mvc:
