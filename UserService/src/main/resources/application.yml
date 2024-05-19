@@ -53,7 +53,6 @@
 
 
 
-
 spring:
   application:
     name: UserService
@@ -68,19 +67,25 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+
 server:
   port: 9091
-  spring:
-    cloud:
-      gateway:
-        globalcors:
-          corsConfigurations:
-            '[/**]':
-              allowedOrigins: "*"
-              allowedHeaders: "*"
-              allowedMethods: "*"
+
+logging:
+  level:
+    root: debug
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+
 eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}
-
