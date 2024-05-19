@@ -51,7 +51,22 @@ pipeline {
             }
         }
     
-      
+        stage('Login into docker hub'){
+            steps{
+                echo 'Login into docker hub'
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
+            }
+        }
+        stage('Push Image to DockerHub'){
+            steps{
+                echo 'Pushing Images into DockerHub'
+                sh 'docker push $DOCKERHUB_USER/citizenconnect:serviceregistry';
+                sh 'docker push $DOCKERHUB_USER/citizenconnect:apigateway';
+                sh 'docker push $DOCKERHUB_USER/citizenconnect:userservice';
+    	        sh 'docker push $DOCKERHUB_USER/citizenconnect:complaintservice';
+    	        sh 'docker push $DOCKERHUB_USER/citizenconnect:frontend';
+            }
+        }
         stage('Delete Image from localsystem'){
             steps{
                 echo 'Deleting Docker Image in docker'
@@ -63,14 +78,13 @@ pipeline {
             }
         }
         
-        stage('Run containers from images'){
+        stage('Run Ansible Playbook'){
             steps{
                 script {
-                    sh 'docker run -d --name apigateway manasip44/citizenconnect:apigateway'
-                    sh 'docker run -d --name serviceregistry manasip44/citizenconnect:serviceregistry'
-                    sh 'docker run -d --name userservice manasip44/citizenconnect:userservice'     
-                    sh 'docker run -d --name complaintservice manasip44/citizenconnect:complaintservice'
-                    sh 'docker run -d --name frontend manasip44/citizenconnect:frontend'
+                    ansiblePlaybook(
+                        playbook: 'playbook.yml',
+                        inventory: 'inventory'
+                     )
                 }
             }
         }
