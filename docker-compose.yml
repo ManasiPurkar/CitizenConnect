@@ -83,7 +83,7 @@ services:
     ports:
       - "3308:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=userservice
     volumes:
       - userservice_database:/var/lib/mysql
@@ -98,7 +98,7 @@ services:
     ports:
       - "3307:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=complaintservice
     volumes:
       - complaintservice_database:/var/lib/mysql
@@ -114,6 +114,7 @@ services:
       - "8081:8081"
     networks:
       - citizenconnect_network
+    
 
 networks:
   citizenconnect_network:
