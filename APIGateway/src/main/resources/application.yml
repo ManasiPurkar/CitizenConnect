@@ -1,3 +1,35 @@
+# server:
+#   port: 9093
+# spring:
+#   application:
+#     name: API-GATEWAY
+#   cloud:
+#     gateway:
+#       mvc:
+#         routes:
+#           - id: UserService
+#             uri: lb://UserService
+#             predicates:
+#               - Path=/register/**,/add/**,/citizen/**,/nagarsevak/**,/user/**,/initialize/**
+
+
+#           - id: ComplaintService
+#             uri: lb://ComplaintService
+#             predicates:
+#               - Path=/complaint/**
+
+
+# eureka:
+#   instance:
+#     prefer-ip-address: true
+#   client:
+#     fetch-registry: true
+#     register-with-eureka: true
+#     service-url:
+#       defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}
+
+
+
 server:
   port: 9093
 spring:
@@ -5,20 +37,22 @@ spring:
     name: API-GATEWAY
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:8081"
+            allowedHeaders: "*"
+            allowedMethods: "*"
       mvc:
         routes:
           - id: UserService
             uri: lb://UserService
             predicates:
               - Path=/register/**,/add/**,/citizen/**,/nagarsevak/**,/user/**,/initialize/**
-
-
           - id: ComplaintService
             uri: lb://ComplaintService
             predicates:
               - Path=/complaint/**
-
-
 eureka:
   instance:
     prefer-ip-address: true
