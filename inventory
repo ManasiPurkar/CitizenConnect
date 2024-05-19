@@ -1,2 +1,2 @@
-172.16.145.112 ansible_user=manasi ansible_ssh_pass=manasi
+172.16.145.112 ansible_user=manasi ansible_ssh_pass=Family@2001
 ansible_ssh_common_args = '-o StrictHostKeyChecking=no'
