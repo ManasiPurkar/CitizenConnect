@@ -25,6 +25,7 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<Pair<String, LoginResponseDTO>> login(@Valid @RequestBody LoginDTO loginDTO) {
         try {
+
             System.out.println("login" + loginDTO.getEmail()  + loginDTO.getPassword());
             Pair<Boolean, LoginResponseDTO> result = loginService.login(loginDTO);
             if (result.getKey()) {
