@@ -38,6 +38,7 @@ public class CommentServiceImplTest {
         MockitoAnnotations.openMocks(this);
     }
 
+
     @Test
     public void testCreateComment_Success() {
         // Arrange
@@ -74,16 +75,18 @@ public class CommentServiceImplTest {
 
         verify(complaintsRepository, times(1)).findById(1);
         verify(commentsRepository, times(1)).save(any(Comments.class));
+        System.out.println("successful comment tested");
     }
 
     @Test
     public void testCreateComment_ThrowsAPIRequestException() {
         // Arrange
-        CommentDTO commentDTO = new CommentDTO();
-        commentDTO.setComplaintId(1);
-        commentDTO.setComment("Test comment");
-        commentDTO.setUserName("John Doe");
-        commentDTO.setUserRole("User");
+        CommentDTO commentDTO = CommentDTO.builder()
+                .comment("Test comment")
+                .userName("John Doe")
+                .userRole("ROLE_CITIZEN")
+                .complaintId(1)
+                .build();
 
         when(complaintsRepository.findById(1)).thenReturn(Optional.empty());
 
@@ -96,5 +99,6 @@ public class CommentServiceImplTest {
 
         verify(complaintsRepository, times(1)).findById(1);
         verify(commentsRepository, never()).save(any(Comments.class));
+        System.out.println("wrong comment tested");
     }
 }
