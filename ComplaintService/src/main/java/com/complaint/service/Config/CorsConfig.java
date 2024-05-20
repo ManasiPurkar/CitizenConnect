@@ -1,3 +1,4 @@
+/*
 package com.complaint.service.Config;
 
 import org.springframework.context.annotation.Bean;
@@ -21,3 +22,4 @@ public class CorsConfig {
         };
     }
 }
+*/
