@@ -20,10 +20,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 @AllArgsConstructor
 public class CitizenServiceImpl implements CitizenService{
+
+    private static final Logger logger = LoggerFactory.getLogger(CitizenServiceImpl.class);
 
     private CitizenRepository citizenRepository;
     @Autowired
@@ -36,11 +40,14 @@ public class CitizenServiceImpl implements CitizenService{
     @Transactional
     public Citizen registerCitizen(UserRequest gotcitizen)
     {
-        System.out.println("area"+gotcitizen.getAreaCode());
+        logger.info("Registering new citizen with email: {}", gotcitizen.getEmail());
+
         Optional<Area> area=areaRepository.findById(gotcitizen.getAreaCode());
+        logger.debug("Area got: {}", gotcitizen.getAreaCode());
 
         if(area.isPresent()) {
-            System.out.println("area present");
+            logger.debug("Area present with code: {}", gotcitizen.getAreaCode());
+
             //Add user to user database
             Users user = new Users();
             String password = PasswordGeneratorService.generatePassword();
@@ -50,9 +57,8 @@ public class CitizenServiceImpl implements CitizenService{
             user.setRole("ROLE_CITIZEN");
             Users newuser = userRepository.save(user);
 
-            System.out.println("email "+user.getEmail());
-            System.out.println("encpass "+user.getPassword());
-            System.out.println("pass "+password);
+            logger.debug("New user created with email: {}", user.getEmail());
+
             Citizen citizen= Citizen.builder()
                     .mobile_no(gotcitizen.getMobile_no())
                     .firstname(gotcitizen.getFirstname())
@@ -61,17 +67,19 @@ public class CitizenServiceImpl implements CitizenService{
                     .user(newuser)
                     .active(true)
                     .build();
-            System.out.println(citizen.getArea().getAreaCode()+citizen.getArea().getName());
             Citizen savedCitizen = citizenRepository.save(citizen);
+            logger.info("Citizen {} {} registered for area: {}", savedCitizen.getFirstname(), savedCitizen.getLastname(), savedCitizen.getArea().getName());
 
             //for sending email
             String subject = "Login Credentials for CitizenConnect";
             String msg = "Hello " + savedCitizen.getFirstname() + " " + savedCitizen.getLastname() + "\nYou are registered as citizen for area " + savedCitizen.getArea().getName() + "\nPlease login in CitizenConnect app with following credentials. " + "\nUsername = " + savedCitizen.getUser().getEmail() + "\nPassword = " + password + "\nPlease change password after login.";
             String to = savedCitizen.getUser().getEmail();
             if (emailService.sendEmail(subject, msg, to)) {
-                System.out.println("mail success");
+                logger.info("Email sent successfully to: {}", to);
+
             } else {
-                System.out.println("mail failed");
+                logger.error("Failed to send email to: {}", to);
+
                 throw new APIRequestException("Sending mail failed");
             }
             return savedCitizen;
@@ -79,6 +87,8 @@ public class CitizenServiceImpl implements CitizenService{
         }
         else
         {
+            logger.error("Area not found for area code: {}", gotcitizen.getAreaCode());
+
             throw new APIRequestException("Area not found");
         }
 
