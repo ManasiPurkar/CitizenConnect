@@ -20,9 +20,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class LoginServiceImpl implements LoginService {
+    private static final Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -35,17 +39,21 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Pair<Boolean,LoginResponseDTO> login(LoginDTO user)
     {
+        logger.info("Attempting to log in user with email: {}", user.getEmail());
+
         Boolean status=false;
         System.out.println("email got "+user.getEmail());
         Optional<Users> gotuser = userRepository.findById(user.getEmail());
 
         if (gotuser.isPresent()) {
+            logger.debug("User found with email: {}", user.getEmail());
 
             if (passwordEncoder.matches(user.getPassword(),gotuser.get().getPassword())) {
                 status=true;
                 int userid;
                 String name;
-                System.out.println("role "+gotuser.get().getRole());
+                logger.debug("User role: {}", gotuser.get().getRole());
+
                 if(Objects.equals(gotuser.get().getRole(), "ROLE_CITIZEN"))
                 {
                     Citizen  citizen=citizenRepository.findCitizenByEmail(gotuser.get().getEmail());
@@ -65,6 +73,8 @@ public class LoginServiceImpl implements LoginService {
                     name="Admin";
                 }
                 else {
+                    logger.error("Wrong role for user with email: {}", user.getEmail());
+
                     throw new APIRequestException("Wrong Role!");
                 }
                 LoginResponseDTO loginRespDTO=LoginResponseDTO.builder()
@@ -73,22 +83,33 @@ public class LoginServiceImpl implements LoginService {
                         .name(name)
                         .role(gotuser.get().getRole())
                         .build();
+                logger.info("Login successful for user with email: {}", user.getEmail());
+
                 return Pair.of(status,loginRespDTO); // Login successful
             } else {
+                logger.error("Incorrect password for user with email: {}", user.getEmail());
+
                 throw new APIRequestException("Incorrect Username or Password");
             }
         }
         else {
+            logger.error("User not found with email: {}", user.getEmail());
+
             throw new APIRequestException("User not found");
         }
     }
 
     @Override
     public Boolean changePassword(ChangePasswordDTO changePasswordDTO) {
+        logger.info("Attempting to change password for user with email: {}", changePasswordDTO.getEmail());
+
         Boolean status=false;
         Optional<Users> user=userRepository.findById(changePasswordDTO.getEmail());
-        if(user.isEmpty())
+        if(user.isEmpty()) {
+            logger.error("User not found with email: {}", changePasswordDTO.getEmail());
+
             throw new APIRequestException("User with given email not found");
+        }
         if(Objects.equals(changePasswordDTO.getNewPassword(), changePasswordDTO.getConfirmPassword()))
         {
             if(passwordEncoder.matches(changePasswordDTO.getOldPassword(),user.get().getPassword()))
@@ -96,12 +117,20 @@ public class LoginServiceImpl implements LoginService {
                 user.get().setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
                 userRepository.save(user.get());
                 status=true;
+                logger.info("Password changed successfully for user with email: {}", changePasswordDTO.getEmail());
+
             }
-            else
-               throw new APIRequestException("Wrong old password");
+            else {
+                logger.error("Wrong old password for user with email: {}", changePasswordDTO.getEmail());
+
+                throw new APIRequestException("Wrong old password");
+            }
         }
-        else
+        else {
+            logger.error("New password and confirm password do not match for user with email: {}", changePasswordDTO.getEmail());
+
             throw new APIRequestException("New password and confirm password not matching ");
+        }
         return status;
     }
 }
