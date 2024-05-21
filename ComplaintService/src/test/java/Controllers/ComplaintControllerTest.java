@@ -31,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ComplaintControllerTest {
 
-
     @Mock
     private ComplaintService complaintService;
 
@@ -78,7 +77,14 @@ public class ComplaintControllerTest {
         mockMvc.perform(post("/complaint/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"title\":\"Test Title\",\"description\":\"Test Description\",\"address\":\"Test Address\",\"department_code\":1,\"citizenId\":1,\"areaCode\":\"123\",\"areaName\":\"Test Area\"}"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.complaint_id").value(1))
+                .andExpect(jsonPath("$.title").value("Test Title"))
+                .andExpect(jsonPath("$.description").value("Test Description"))
+                .andExpect(jsonPath("$.address").value("Test Address"))
+                .andExpect(jsonPath("$.citizenId").value(1))
+                .andExpect(jsonPath("$.areaCode").value("123"))
+                .andExpect(jsonPath("$.areaName").value("Test Area"));
     }
 
     @Test
@@ -111,15 +117,21 @@ public class ComplaintControllerTest {
 
         List<Complaints> complaintsList = Arrays.asList(complaint1, complaint2);
 
-        when(complaintService.getCitizenComplaints(anyInt())).thenReturn(complaintsList);
+        when(complaintService.getCitizenComplaints(1)).thenReturn(complaintsList);
 
         mockMvc.perform(get("/complaint/citizen/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()", is(2)));
+                .andExpect(jsonPath("$.size()", is(2)))
+                .andExpect(jsonPath("$[0].complaint_id", is(1)))
+                .andExpect(jsonPath("$[0].title", is("Test Title 1")))
+                .andExpect(jsonPath("$[0].citizenId", is(1)))
+                .andExpect(jsonPath("$[1].complaint_id", is(2)))
+                .andExpect(jsonPath("$[1].title", is("Test Title 2")))
+                .andExpect(jsonPath("$[1].citizenId", is(1)));
     }
 
     @Test
-    void testGetComplaint_Success() throws Exception {
+    void testGetComplaint() throws Exception {
         Complaints complaint = Complaints.builder()
                 .complaint_id(1)
                 .title("Test Title")
@@ -138,7 +150,9 @@ public class ComplaintControllerTest {
         mockMvc.perform(get("/complaint/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.complaint_id").value(1))
-                .andExpect(jsonPath("$.title").value("Test Title"));
+                .andExpect(jsonPath("$.title").value("Test Title"))
+                .andExpect(jsonPath("$.citizenId").value(1))
+                .andExpect(jsonPath("$.areaCode").value("123"));
     }
 
     @Test
@@ -174,12 +188,33 @@ public class ComplaintControllerTest {
         when(complaintService.getAreaComplaints(anyString())).thenReturn(complaintsList);
 
         mockMvc.perform(get("/complaint/area/123"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", is(2)))
+                .andExpect(jsonPath("$[0].areaCode",is("123")))
+                .andExpect(jsonPath("$[0].complaint_id", is(1)))
+                .andExpect(jsonPath("$[0].title", is("Test Title 1")))
+                .andExpect(jsonPath("$[1].complaint_id", is(2)))
+                .andExpect(jsonPath("$[1].title", is("Test Title 2")));
     }
 
     @Test
     void testChangeComplStatus_Success() throws Exception {
+        // Initial complaint object with status "pending"
         Complaints complaint = Complaints.builder()
+                .complaint_id(1)
+                .title("Test Title")
+                .description("Test Description")
+                .address("Test Address")
+                .date(Date.valueOf(LocalDate.now()))
+                .status("pending")
+                .eventTime(LocalTime.now())
+                .citizenId(1)
+                .areaCode("123")
+                .areaName("Test Area")
+                .build();
+
+        // Updated complaint object with status "ongoing"
+        Complaints updatedComplaint = Complaints.builder()
                 .complaint_id(1)
                 .title("Test Title")
                 .description("Test Description")
@@ -192,10 +227,13 @@ public class ComplaintControllerTest {
                 .areaName("Test Area")
                 .build();
 
-        when(complaintService.changeComplStatus(anyInt(), anyString())).thenReturn(complaint);
+        // Mock the service method to return the updated complaint
+        when(complaintService.changeComplStatus(1, "ongoing")).thenReturn(updatedComplaint);
 
         mockMvc.perform(put("/complaint/change-status/1/ongoing"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.complaint_id").value(1))
+                .andExpect(jsonPath("$.status").value("ongoing"));
     }
 
     @Test
@@ -205,6 +243,7 @@ public class ComplaintControllerTest {
         when(complaintService.changeComplStatus(anyInt(), anyString())).thenThrow(exception);
 
         mockMvc.perform(put("/complaint/change-status/1/invalidStatus"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Status is invalid"));
     }
 }
