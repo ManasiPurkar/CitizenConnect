@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
+    
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
@@ -20,7 +20,12 @@
         </encoder>
 
     </appender>
-
+    <!-- New Logstash TCP appender -->
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>${LOGGING_LOGSTASH_HOST}:${LOGGING_LOGSTASH_PORT}</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+    </appender> 
+    
     <logger name="org.springframework.boot" level="OFF" />
     <logger name="org.springframework.context" level="OFF" />
     <logger name="org.hibernate" level="OFF" />
@@ -31,7 +36,9 @@
     <logger name="com.user.service.UserServiceApplication.java" level="OFF" />
 
     <root level="info">
+        <appender-ref ref="STDOUT"/>
         <appender-ref ref="SAVE-TO-FILE"/>
+        <appender-ref ref="LOGSTASH"/>
     </root>
 
 </configuration>
