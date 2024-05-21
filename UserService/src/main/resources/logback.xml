@@ -22,7 +22,7 @@
     </appender>
     <!-- New Logstash TCP appender -->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>logstash_springboot:5001</destination>
+        <destination>logstash:5001</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender> 
     
