@@ -22,7 +22,7 @@
     </appender>
     <!-- New Logstash TCP appender -->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>logstash:5001</destination>
+        <destination>${LOGGING_LOGSTASH_HOST}:${LOGGING_LOGSTASH_PORT}</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender> 
     
