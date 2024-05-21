@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
+    
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
@@ -20,7 +20,12 @@
         </encoder>
 
     </appender>
-
+    <!-- New Logstash TCP appender -->
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:5044</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+    </appender> 
+    
     <logger name="org.springframework.boot" level="OFF" />
     <logger name="org.springframework.context" level="OFF" />
     <logger name="org.hibernate" level="OFF" />
