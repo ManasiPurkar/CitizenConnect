@@ -24,17 +24,21 @@ import java.util.Optional;
 @EnableTransactionManagement
 public class ComplaintServiceImpl implements ComplaintService {
 
+    private static final Logger logger = LoggerFactory.getLogger(ComplaintServiceImpl.class);
+
     private ComplaintsRepository complaintsRepository;
     private DepartmentRepository departmentRepository;
     @Override
     public Complaints createComplaint(ComplaintDTO complaint)
     {
+	logger.info("Creating complaint for department code {}", complaint.getDepartment_code());
 
-        System.out.println("department code"+complaint.getDepartment_code());
         Optional<Departments> department=departmentRepository.findById(complaint.getDepartment_code());
-        System.out.println("department"+department);
-        if(department.isEmpty())
+        logger.info("Department found: {}", department);
+        if(department.isEmpty()){
+            logger.error("Wrong Department code: {}", complaint.getDepartment_code());
             throw new APIRequestException("Wrong Department !");
+        }
         Complaints regcomplaint=Complaints.builder()
                 .address(complaint.getAddress())
                 .date(Date.valueOf(LocalDate.now()))
@@ -48,7 +52,7 @@ public class ComplaintServiceImpl implements ComplaintService {
                 .areaCode(complaint.getAreaCode())
                 .areaName(complaint.getAreaName())
                 .build();
-        System.out.println("regcomp"+regcomplaint);
+        logger.info("Registered complaint: {}", regcomplaint);
         return complaintsRepository.save(regcomplaint);
     }
 
@@ -63,21 +67,29 @@ public class ComplaintServiceImpl implements ComplaintService {
     public Complaints getComplaint(int complid)
     {
         Optional<Complaints> complaint= complaintsRepository.findById(complid);
-        return complaint.get();
+        if (complaint.isPresent()) {
+            logger.info("Complaint found: {}", complaint.get());
+            return complaint.get();
+        } else {
+            logger.error("Complaint with id {} not found", complid);
+            throw new APIRequestException("Complaint with given id not found");
+        }
     }
 
     @Override
     public List<Complaints> getCitizenComplaints(int citizenId)
     {
-       return complaintsRepository.findByCitizenId(citizenId);
-
+       List<Complaints> complaints = complaintsRepository.findByCitizenId(citizenId);
+        logger.info("Complaints found for citizen id {}: {}", citizenId, complaints);
+        return complaints;
     }
 
     @Override
     public  List<Complaints> getAreaComplaints(String areaCode)
     {
-
-        return complaintsRepository.findByAreaCode(areaCode);
+	List<Complaints> complaints = complaintsRepository.findByAreaCode(areaCode);
+        logger.info("Complaints found for area code {}: {}", areaCode, complaints);
+        return complaints;
     }
 
     @Override
@@ -85,13 +97,18 @@ public class ComplaintServiceImpl implements ComplaintService {
     {
         if(Objects.equals(status, "pending")|| Objects.equals(status, "ongoing")|| Objects.equals(status, "solved")) {
             Optional<Complaints> complaint = complaintsRepository.findById(complaintId);
-            if (complaint.isEmpty())
+            if (complaint.isEmpty()) {
+                logger.error("Complaint with id {} not found", complaintId);
                 throw new APIRequestException("Complaint with given id not found");
+            }
             complaint.get().setStatus(status);
             complaintsRepository.save(complaint.get());
+            logger.info("Changed status of complaint id {} to {}", complaintId, status);
             return complaint.get();
         }
-        else
+        else{
+            logger.error("Invalid status provided: {}", status);
             throw new APIRequestException("status is wrong");
+        }
     }
 }
