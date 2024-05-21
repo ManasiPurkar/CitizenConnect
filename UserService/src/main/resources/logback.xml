@@ -36,7 +36,9 @@
     <logger name="com.user.service.UserServiceApplication.java" level="OFF" />
 
     <root level="info">
+        <appender-ref ref="STDOUT"/>
         <appender-ref ref="SAVE-TO-FILE"/>
+        <appender-ref ref="LOGSTASH"/>
     </root>
 
 </configuration>
