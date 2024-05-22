@@ -10,7 +10,7 @@ spring:
             allowedHeaders: "*"
             allowedMethods: "*"
   datasource:
-    url: jdbc:mysql://localhost:3306/Complaint_Service?createDatabaseIfNotExist=true
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/Complaint_Service?createDatabaseIfNotExist=true}
     username: ${SPRING_DATASOURCE_USERNAME:root}
     password: ${SPRING_DATASOURCE_PASSWORD:ManasiP@123}
 
