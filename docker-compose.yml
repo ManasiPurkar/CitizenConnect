@@ -157,7 +157,7 @@ services:
     ports:
       - "5001:5001/tcp"
       - "5001:5001/udp"
-      - "9600:9600"
+      - "9601:9600"
     networks:
       - citizenconnect_network
     depends_on:
