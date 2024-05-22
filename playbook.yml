@@ -32,5 +32,5 @@
     # Your existing tasks that use docker-compose
     - name: Run Docker Compose
       community.general.docker_compose:
-        project_src: /path/to/your/docker-compose/directory
+        project_src: ./
         state: present
