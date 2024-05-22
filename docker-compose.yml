@@ -154,8 +154,6 @@ services:
     volumes:
       - /home/manasi/Documents/GitHub/CitizenConnect/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - /home/manasi/Documents/GitHub/CitizenConnect/pipeline:/usr/share/logstash/pipeline:ro
-    environment:
-      - LS_JAVA_OPTS="-Xmx512m -Xms512m"
     ports:
       - "5001:5001/tcp"
       - "5001:5001/udp"
