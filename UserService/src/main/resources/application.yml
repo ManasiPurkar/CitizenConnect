@@ -64,9 +64,9 @@ spring:
             allowedHeaders: "*"
             allowedMethods: "*"
   datasource:
-    url: jdbc:mysql://localhost:3306/User_Service?createDatabaseIfNotExist=true
-    username: root
-    password: ManasiP@123
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/User_Service?createDatabaseIfNotExist=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:ManasiP@123}
   jpa:
     hibernate:
       ddl-auto: update
