@@ -1,0 +1,2 @@
+22-05-2024 15:29:18.886 [main] INFO  -c.c.s.ComplaintServiceApplication - No active profile set, falling back to 1 default profile: "default"
+22-05-2024 15:29:23.968 [main] INFO  -c.c.s.ComplaintServiceApplication - Started ComplaintServiceApplication in 6.274 seconds (process running for 7.964)

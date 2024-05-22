@@ -17,18 +17,27 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 @AllArgsConstructor
 @EnableTransactionManagement
 public class CommentServiceImpl implements CommentService {
+    private static final Logger logger = LoggerFactory.getLogger(CommentServiceImpl.class);
+
     private ComplaintsRepository complaintsRepository;
     private CommentsRepository commentsRepository;
     @Override
     public Comments createComment(CommentDTO commentDTO)
     {
+        logger.info("Creating comment...");
         Optional<Complaints>complaint=complaintsRepository.findById(commentDTO.getComplaintId());
-        if(complaint.isEmpty())
+        if (complaint.isEmpty()) {
+            logger.error("Wrong complaint id: {}", commentDTO.getComplaintId());
             throw new APIRequestException("wrong complaint id");
+        }
+        
         Comments comment= Comments.builder()
                 .comment(commentDTO.getComment())
                 .userName(commentDTO.getUserName())
@@ -37,7 +46,9 @@ public class CommentServiceImpl implements CommentService {
                 .eventDate(Date.valueOf(LocalDate.now()))
                 .complaint(complaint.get())
                 .build();
-        return commentsRepository.save(comment);
+        Comments savedComment = commentsRepository.save(comment);
+        logger.info("Comment created successfully with id: {}", savedComment.getComment_id());
+        return savedComment;
 
     }
 }
