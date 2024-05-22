@@ -62,6 +62,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://complaintservice_db/complaintservice?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
+      - LOGGING_LOGSTASH_HOST=logstash
+      - LOGGING_LOGSTASH_PORT=5001
     networks:
       - citizenconnect_network
     depends_on:
