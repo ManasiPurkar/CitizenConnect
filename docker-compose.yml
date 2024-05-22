@@ -152,8 +152,8 @@ services:
     container_name: logstash
     restart: always
     volumes:
-      - ./config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
-      - ./pipeline:/usr/share/logstash/pipeline:ro
+      - ./home/manasi/Documents/GitHub/CitizenConnect/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./home/manasi/Documents/GitHub/CitizenConnect/pipeline:/usr/share/logstash/pipeline:ro
     environment:
       - LS_JAVA_OPTS="-Xmx512m -Xms512m"
     ports:
