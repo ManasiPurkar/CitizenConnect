@@ -23,7 +23,6 @@ services:
       - citizenconnect_network
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://serviceregistry:8761/eureka/
-      - DOCKER_NAMESPACE=${DOCKER_NAMESPACE}
     depends_on:
       - serviceregistry
 
@@ -37,7 +36,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://userservice_db/userservice?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
-      - DOCKER_NAMESPACE=${DOCKER_NAMESPACE}
+      - LOGGING_LOGSTASH_HOST=logstash
+      - LOGGING_LOGSTASH_PORT=5001
     networks:
       - citizenconnect_network
     depends_on:
@@ -47,7 +47,7 @@ services:
     volumes:
       - /home:/logs
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://serviceregistry:8761/ || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9091/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -62,7 +62,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://complaintservice_db/complaintservice?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
-      - DOCKER_NAMESPACE=${DOCKER_NAMESPACE}
     networks:
       - citizenconnect_network
     depends_on:
@@ -72,7 +71,7 @@ services:
     volumes:
       - /home:/logs
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://serviceregistry:8761/ || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9092/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -87,7 +86,6 @@ services:
       - MYSQL_DATABASE=userservice
     volumes:
       - userservice_database:/var/lib/mysql
-      #- ./init-userservice-db.sql:/docker-entrypoint-initdb.d/init.sql
     command: --bind-address=0.0.0.0
     networks:
       - citizenconnect_network
@@ -102,7 +100,6 @@ services:
       - MYSQL_DATABASE=complaintservice
     volumes:
       - complaintservice_database:/var/lib/mysql
-      #- ./init-complaintservice-db.sql:/docker-entrypoint-initdb.d/init.sql
     command: --bind-address=0.0.0.0
     networks:
       - citizenconnect_network
@@ -114,7 +111,58 @@ services:
       - "8081:8081"
     networks:
       - citizenconnect_network
-    
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.3.3
+    container_name: elasticsearch
+    restart: always
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - network.host=0.0.0.0
+      - http.port=9200
+    ports:
+      - "9200:9200"
+    networks:
+      - citizenconnect_network
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+      - ./home/manasi/Documents/GitHub/CitizenConnect/elasticsearch/elasticsearch:/usr/share/elasticsearch/config/elasticsearch
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.3.3
+    container_name: kibana
+    restart: always
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=["http://elasticsearch:9200"]
+    ports:
+      - "5601:5601"
+    networks:
+      - citizenconnect_network
+    depends_on:
+      - elasticsearch
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.3.3
+    container_name: logstash
+    restart: always
+    volumes:
+      - ./config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./pipeline:/usr/share/logstash/pipeline:ro
+    environment:
+      - LS_JAVA_OPTS="-Xmx512m -Xms512m"
+    ports:
+      - "5001:5001/tcp"
+      - "5001:5001/udp"
+      - "9600:9600"
+    networks:
+      - citizenconnect_network
+    depends_on:
+      - elasticsearch
 
 networks:
   citizenconnect_network:
@@ -123,4 +171,5 @@ networks:
 volumes:
   complaintservice_database:
   userservice_database:
-
+  elastic_data:
+    driver: local

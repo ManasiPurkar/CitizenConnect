@@ -133,6 +133,7 @@ public class ComplaintServiceImplTest {
         System.out.println("get complaint success tested");
     }
 
+
     /*
     @Test
     public void testGetComplaint_ThrowsAPIRequestException() {
@@ -148,6 +149,7 @@ public class ComplaintServiceImplTest {
         System.out.println("get complaint failure tested");
     }
     */
+
     @Test
     public void testGetCitizenComplaints() {
         // Arrange

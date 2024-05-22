@@ -1,22 +1,40 @@
-- name: Use docker compose to run all containers
+---
+- name: Deploy application with Docker Compose
   hosts: all
+  become: yes
+
+  pre_tasks:
+    - name: Ensure pip is installed
+      apt:
+        name: python3-pip
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Ensure pip is installed
+      yum:
+        name: python3-pip
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Install Docker Compose using pip
+      pip:
+        name: docker-compose
+        state: present
+
   tasks:
-    - name: Start docker service
-      become: true
-      service:
-        name: docker
-        state: started
+    - name: Verify Docker Compose installation
+      command: docker-compose --version
+      register: docker_compose_version
+
+    - debug:
+        msg: "Docker Compose version: {{ docker_compose_version.stdout }}"
 
     - name: Copy Docker Compose file
       copy:
         src: docker-compose.yml
-        dest: /home/manasi/docker-compose.yml
-
-    - name: Copy Env file
-      copy:
-        src: docker.env
-        dest: /home/manasi/docker.env
-
-    - name: Run docker compose up command
-      become: true
-      command: docker-compose -f /home/manasi/docker-compose.yml --env-file /home/manasi/docker.env up -d
+        dest: ./
+        
+    - name: Run Docker Compose
+      community.general.docker_compose:
+        project_src: ./
+        state: present
