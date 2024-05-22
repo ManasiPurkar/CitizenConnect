@@ -23,7 +23,6 @@ services:
       - citizenconnect_network
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://serviceregistry:8761/eureka/
-      - DOCKER_NAMESPACE=${DOCKER_NAMESPACE}
     depends_on:
       - serviceregistry
 
@@ -37,7 +36,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://userservice_db/userservice?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
-      - DOCKER_NAMESPACE=${DOCKER_NAMESPACE}
       - LOGGING_LOGSTASH_HOST=logstash
       - LOGGING_LOGSTASH_PORT=5001
     networks:
@@ -64,7 +62,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://complaintservice_db/complaintservice?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
-      - DOCKER_NAMESPACE=${DOCKER_NAMESPACE}
     networks:
       - citizenconnect_network
     depends_on:
