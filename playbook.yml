@@ -29,7 +29,11 @@
     - debug:
         msg: "Docker Compose version: {{ docker_compose_version.stdout }}"
 
-    # Your existing tasks that use docker-compose
+    - name: Copy Env file
+      copy:
+        src: docker_namespace.env
+        dest: ./
+        
     - name: Run Docker Compose
       community.general.docker_compose:
         project_src: ./
