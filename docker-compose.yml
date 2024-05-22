@@ -129,8 +129,9 @@ services:
       - citizenconnect_network
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
-      - ./home/manasi/Documents/GitHub/CitizenConnect/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-
+      - ./home/manasi/Documents/GitHub/CitizenConnect/elasticsearch/elasticsearch:/usr/share/elasticsearch/config/elasticsearch
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      
   kibana:
     image: docker.elastic.co/kibana/kibana:8.3.3
     container_name: kibana
