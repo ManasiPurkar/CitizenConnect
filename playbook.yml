@@ -29,9 +29,9 @@
     - debug:
         msg: "Docker Compose version: {{ docker_compose_version.stdout }}"
 
-    - name: Copy Env file
+    - name: Copy Docker Compose file
       copy:
-        src: docker_namespace.env
+        src: docker-compose.yml
         dest: ./
         
     - name: Run Docker Compose
