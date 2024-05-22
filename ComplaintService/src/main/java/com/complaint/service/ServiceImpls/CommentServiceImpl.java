@@ -47,7 +47,7 @@ public class CommentServiceImpl implements CommentService {
                 .complaint(complaint.get())
                 .build();
         Comments savedComment = commentsRepository.save(comment);
-        logger.info("Comment created successfully with id: {}", savedComment.getId());
+        logger.info("Comment created successfully with id: {}", savedComment.getComment_id());
         return savedComment;
 
     }
