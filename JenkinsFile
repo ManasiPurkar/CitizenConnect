@@ -1,8 +1,9 @@
 pipeline {
     environment{
         DOCKERHUB_CREDENTIALS = credentials('DockerHubCred')
-        MYSQL_CREDENTIALS = credentials('MysqlCred')
+        // MYSQL_CREDENTIALS = credentials('MysqlCred')
         DOCKERHUB_USER = 'manasip44'
+        MYSQL_CREDENTIALS = credentials('MySQL_Credentials')
     }
     agent any
     stages {
