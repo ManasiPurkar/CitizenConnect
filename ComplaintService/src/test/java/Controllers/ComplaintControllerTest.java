@@ -240,7 +240,7 @@ public class ComplaintControllerTest {
     void testChangeComplStatus_APIRequestException() throws Exception {
         APIRequestException exception = new APIRequestException("Status is invalid");
 
-        when(complaintService.changeComplStatus(anyInt(), anyString())).thenThrow(exception);
+        when(complaintService.changeComplStatus(1, "invalidStatus")).thenThrow(exception);
 
         mockMvc.perform(put("/complaint/change-status/1/invalidStatus"))
                 .andExpect(status().isBadRequest())
