@@ -12,6 +12,7 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/ManasiPurkar/CitizenConnect.git'
             }
         }
+/*
         stage('Maven Test User Service'){
             steps{
                 echo 'Building Job'
@@ -68,6 +69,7 @@ pipeline {
                
             }
         }
+*/
         stage('Build Image for Microservices'){
             steps{
                 echo 'Building docker Image'
