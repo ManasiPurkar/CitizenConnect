@@ -4,9 +4,14 @@ COPY ./APIGateway /app
 COPY ./APIGateway/target/APIGateway-0.0.1-SNAPSHOT.jar ./
 
 # Install ngrok
-RUN wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.zip \
-    && unzip ngrok-v3-stable-linux-amd64.zip \
-    && mv ngrok /usr/local/bin/ 
+# RUN wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.zip \
+#    && unzip ngrok-v3-stable-linux-amd64.zip \
+#    && mv ngrok /usr/local/bin/ 
+
+RUN curl -o ngrok.zip https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-stable-linux-amd64.zip \
+    && unzip ngrok.zip \
+    && mv ngrok /usr/local/bin/ \
+    && rm ngrok.zip
     
 RUN ngrok authtoken 2bexTFg5VNQNuyBAHXJBrPTwhOR_fJhk6PLTAZFiSXKPTDdq
 
