@@ -1,34 +1,34 @@
-# FROM openjdk:21
 FROM ubuntu:22.04
+
+# Set working directory
 WORKDIR /app
+
+# Copy application files
 COPY ./APIGateway /app
 COPY ./APIGateway/target/APIGateway-0.0.1-SNAPSHOT.jar ./
 
-RUN apt-get update && apt-get install -y wget
-
-RUN apt-get update && apt-get install -y wget unzip
+# Install dependencies
+RUN apt-get update && apt-get install -y wget unzip openjdk-21-jdk
 
 # Install ngrok
 RUN wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.zip \
     && unzip ngrok-v3-stable-linux-amd64.zip \
-    && mv ngrok /usr/local/bin/ 
-# RUN apt-get update && apt-get install -y curl
+    && mv ngrok /usr/local/bin/ \
+    && rm ngrok-v3-stable-linux-amd64.zip
 
-#RUN curl -o ngrok.zip https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-stable-linux-amd64.zip \
-#    && unzip ngrok.zip \
-#    && mv ngrok /usr/local/bin/ \
-#    && rm ngrok.zip
-# Copy the locally available Ngrok binary to /usr/local/bin/
-#COPY ngrok /usr/local/bin/ngrok
-
-# Ensure the Ngrok binary has executable permissions
-#RUN chmod +x /usr/local/bin/ngrok
-
+# Set ngrok authtoken
 RUN ngrok authtoken 2bexTFg5VNQNuyBAHXJBrPTwhOR_fJhk6PLTAZFiSXKPTDdq
 
+# Expose the port
 EXPOSE 9093
 
-# NGROK_AUTHTOKEN=2bexTFg5VNQNuyBAHXJBrPTwhOR_fJhk6PLTAZFiSXKPTDdq ngrok/ngrok:latest http --domain=6194-103-156-19-229.ngrok-free.app 9093
+# Create an entrypoint script
+RUN echo '#!/bin/bash\n\
+ngrok http --bind-tls=true 9093 &\n\
+java -jar APIGateway-0.0.1-SNAPSHOT.jar' > /app/entrypoint.sh
 
-# Run Ngrok in the background with the provided public IP and port 9093
-CMD ./ngrok http --bind-tls=true 6194-103-156-19-229.ngrok-free.app:9093 & java -jar APIGateway-0.0.1-SNAPSHOT.jar
+# Make the entrypoint script executable
+RUN chmod +x /app/entrypoint.sh
+
+# Use the entrypoint script
+CMD ["/app/entrypoint.sh"]
