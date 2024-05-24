@@ -3,6 +3,7 @@ package com.auth.authservice.service;
 import com.auth.authservice.client.UserServiceClient;
 import com.auth.authservice.dto.CitizenRegisterDto;
 import com.auth.authservice.dto.TokenDto;
+import com.auth.authservice.dto.UserDto;
 import com.auth.authservice.exc.WrongCredentialsException;
 import com.auth.authservice.request.CitizenRegisterRequest;
 import com.auth.authservice.request.LoginRequest;
@@ -23,10 +24,17 @@ public class AuthService {
     public TokenDto login(LoginRequest request) {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         if (authenticate.isAuthenticated()) {
-            Integer user_id=userServiceClient.getUserByUsername(request.getUsername()).getBody().getUser_id();
-            String name=userServiceClient.getUserByUsername(request.getUsername()).getBody().getName();
-            String role=userServiceClient.getUserByUsername(request.getUsername()).getBody().getRole();
-            String email=userServiceClient.getUserByUsername(request.getUsername()).getBody().getEmail();
+            UserDto user=userServiceClient.getUserByUsername(request.getUsername()).getBody();
+            if(user!=null) {
+                Integer user_id = user.getUser_id();
+                String name = user.getName();
+                String role = user.getRole();
+                String email = user.getEmail();
+
+//            Integer user_id=userServiceClient.getUserByUsername(request.getUsername()).getBody().getUser_id();
+//            String name=userServiceClient.getUserByUsername(request.getUsername()).getBody().getName();
+//            String role=userServiceClient.getUserByUsername(request.getUsername()).getBody().getRole();
+//            String email=userServiceClient.getUserByUsername(request.getUsername()).getBody().getEmail();
             return TokenDto
                     .builder()
                     .token(jwtService.generateToken(request.getUsername()))
@@ -35,6 +43,10 @@ public class AuthService {
                     .role(role)
                     .email(email)
                     .build();
+            }
+            else
+                throw new RuntimeException("error in getting user");
+
         }
         else throw new WrongCredentialsException("Wrong credentials");
     }

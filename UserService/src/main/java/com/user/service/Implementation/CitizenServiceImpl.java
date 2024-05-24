@@ -68,6 +68,7 @@ public class CitizenServiceImpl implements CitizenService{
                     .active(true)
                     .build();
             Citizen savedCitizen = citizenRepository.save(citizen);
+            System.out.println("saved citizen"+savedCitizen);
             logger.info("Citizen {} {} registered for area: {}", savedCitizen.getFirstname(), savedCitizen.getLastname(), savedCitizen.getArea().getName());
 
             //for sending email
