@@ -1,6 +1,0 @@
-FROM openjdk:21
-WORKDIR /app
-COPY ./APIGateway /app
-COPY ./APIGateway/target/APIGateway-0.0.1-SNAPSHOT.jar ./
-EXPOSE 9093
-CMD ["java","-jar","APIGateway-0.0.1-SNAPSHOT.jar"]
