@@ -7,13 +7,18 @@ COPY ./APIGateway/target/APIGateway-0.0.1-SNAPSHOT.jar ./
 # RUN wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.zip \
 #    && unzip ngrok-v3-stable-linux-amd64.zip \
 #    && mv ngrok /usr/local/bin/ 
-RUN apt-get update && apt-get install -y curl
+# RUN apt-get update && apt-get install -y curl
 
-RUN curl -o ngrok.zip https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-stable-linux-amd64.zip \
-    && unzip ngrok.zip \
-    && mv ngrok /usr/local/bin/ \
-    && rm ngrok.zip
-    
+#RUN curl -o ngrok.zip https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-stable-linux-amd64.zip \
+#    && unzip ngrok.zip \
+#    && mv ngrok /usr/local/bin/ \
+#    && rm ngrok.zip
+# Copy the locally available Ngrok binary to /usr/local/bin/
+COPY ngrok /usr/local/bin/ngrok
+
+# Ensure the Ngrok binary has executable permissions
+RUN chmod +x /usr/local/bin/ngrok
+
 RUN ngrok authtoken 2bexTFg5VNQNuyBAHXJBrPTwhOR_fJhk6PLTAZFiSXKPTDdq
 
 EXPOSE 9093
