@@ -81,8 +81,11 @@ export default function Register() {
                     navigation.navigate('SignInPage');
                 })
                 .catch(error => {
-                    console.log(response.data);
-                    console.error('Registration failed:', error);
+                    if (error.response) {
+                        console.error('Registration failed:', error.response.data);
+                    } else {
+                        console.error('Registration failed:', error.message);
+                    }
                 });
             } else {
                 console.error('Selected area not found.');

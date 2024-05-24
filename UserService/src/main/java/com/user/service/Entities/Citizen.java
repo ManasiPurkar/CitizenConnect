@@ -21,12 +21,12 @@ public class Citizen {
     private int citizen_id;
 
     @NotBlank(message = "first_name cannot be blank")
-    @Pattern(regexp="[a-zA-Z]+", message="Only characters are allowed")
+    @Pattern(regexp="[a-zA-Z\\s]+", message="Only characters are allowed")
     @Column(name = "first_name",nullable=false)
     private String firstname;
 
     @NotBlank(message = "last_name cannot be blank")
-    @Pattern(regexp="[a-zA-Z]+", message="Only characters are allowed")
+    @Pattern(regexp="[a-zA-Z\\s]+", message="Only characters are allowed")
     @Column(name = "last_name",nullable=false)
     private String lastname;
 

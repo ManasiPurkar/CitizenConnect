@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const customDrawerContent = (props) => {
   
-  const [userName, setUserName] = useState('CITIZEN');
+  const [userName, setUserName] = useState('ADMIN');
   const userRole = 'ADMIN'; // Directly set the value of userRole
   
   useEffect(() => {
