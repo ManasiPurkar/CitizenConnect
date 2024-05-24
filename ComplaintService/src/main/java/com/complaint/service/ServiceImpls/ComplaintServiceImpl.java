@@ -29,6 +29,7 @@ public class ComplaintServiceImpl implements ComplaintService {
 
     private static final Logger logger = LoggerFactory.getLogger(ComplaintServiceImpl.class);
 
+    //create complaint
     private ComplaintsRepository complaintsRepository;
     private DepartmentRepository departmentRepository;
     @Override
@@ -66,6 +67,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         return complaintsRepository.findAll();
     }
     */
+   //get complaint with complaint id
     @Override
     public Complaints getComplaint(int complid)
     {
@@ -79,6 +81,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         }
     }
 
+    //get complaints registered by given citizen id
     @Override
     public List<Complaints> getCitizenComplaints(int citizenId)
     {
@@ -87,6 +90,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         return complaints;
     }
 
+   //get complaints in given area code
     @Override
     public  List<Complaints> getAreaComplaints(String areaCode)
     {
@@ -95,6 +99,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         return complaints;
     }
 
+   // change complaint status of given complaint
     @Override
     public Complaints changeComplStatus(int complaintId,String status)
     {
