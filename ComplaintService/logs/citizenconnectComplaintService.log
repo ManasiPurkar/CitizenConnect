@@ -1,0 +1,102 @@
+24-05-2024 09:51:49.090 [main] INFO  -c.c.s.ComplaintServiceApplication - No active profile set, falling back to 1 default profile: "default"
+24-05-2024 09:51:57.681 [main] INFO  -c.c.s.ComplaintServiceApplication - Started ComplaintServiceApplication in 12.431 seconds (process running for 14.308)
+24-05-2024 09:55:57.630 [main] INFO  -c.c.s.ComplaintServiceApplication - No active profile set, falling back to 1 default profile: "default"
+24-05-2024 09:56:06.533 [main] INFO  -c.c.s.ComplaintServiceApplication - Started ComplaintServiceApplication in 12.625 seconds (process running for 14.495)
+24-05-2024 10:00:23.962 [main] INFO  -c.c.s.ComplaintServiceApplication - No active profile set, falling back to 1 default profile: "default"
+24-05-2024 10:00:32.574 [main] INFO  -c.c.s.ComplaintServiceApplication - Started ComplaintServiceApplication in 10.622 seconds (process running for 12.46)
+24-05-2024 10:16:14.012 [http-nio-9092-exec-1] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 2: []
+24-05-2024 10:24:45.713 [http-nio-9092-exec-3] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 560001: []
+24-05-2024 11:42:52.162 [http-nio-9092-exec-5] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 11:42:52.276 [http-nio-9092-exec-5] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@27ca2fb3]
+24-05-2024 11:42:52.279 [http-nio-9092-exec-5] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@2b22315a
+24-05-2024 11:43:23.995 [http-nio-9092-exec-6] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 11:43:24.001 [http-nio-9092-exec-6] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@15033256]
+24-05-2024 11:43:24.001 [http-nio-9092-exec-6] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@6ddbf2c4
+24-05-2024 11:54:08.293 [http-nio-9092-exec-8] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@4c37904b]
+24-05-2024 11:57:13.041 [http-nio-9092-exec-10] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@746df69e]
+24-05-2024 11:57:14.479 [http-nio-9092-exec-1] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 560008: [com.complaint.service.Entities.Complaints@2d04086e, com.complaint.service.Entities.Complaints@7b2b8d3a, com.complaint.service.Entities.Complaints@6fb6f824, com.complaint.service.Entities.Complaints@7da64e27, com.complaint.service.Entities.Complaints@5879fa96, com.complaint.service.Entities.Complaints@15d91fa]
+24-05-2024 11:57:20.187 [http-nio-9092-exec-2] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@7cec5610]
+24-05-2024 11:57:26.343 [http-nio-9092-exec-3] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@72335d1c]
+24-05-2024 11:57:27.602 [http-nio-9092-exec-4] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 560008: [com.complaint.service.Entities.Complaints@25bc2e3c, com.complaint.service.Entities.Complaints@14356a14, com.complaint.service.Entities.Complaints@59a7140f, com.complaint.service.Entities.Complaints@4e812fda, com.complaint.service.Entities.Complaints@1c2b82d9, com.complaint.service.Entities.Complaints@3a553cd2]
+24-05-2024 11:57:32.894 [http-nio-9092-exec-5] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 560008: [com.complaint.service.Entities.Complaints@5513fe3e, com.complaint.service.Entities.Complaints@765963a5, com.complaint.service.Entities.Complaints@125969a2, com.complaint.service.Entities.Complaints@601b5b9b, com.complaint.service.Entities.Complaints@52468136, com.complaint.service.Entities.Complaints@2c2ebe7f]
+24-05-2024 11:57:33.708 [http-nio-9092-exec-6] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@507d83e5]
+24-05-2024 12:06:05.080 [http-nio-9092-exec-9] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@6fe6bffe]
+24-05-2024 12:07:15.120 [http-nio-9092-exec-1] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@2e5e173b]
+24-05-2024 12:07:31.686 [http-nio-9092-exec-2] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@6081d1f1]
+24-05-2024 12:08:14.083 [http-nio-9092-exec-3] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@2af5ecc4]
+24-05-2024 12:09:08.321 [http-nio-9092-exec-4] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@4b93f6ce]
+24-05-2024 12:13:39.211 [http-nio-9092-exec-6] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@6cfbfa3a]
+24-05-2024 12:13:53.190 [http-nio-9092-exec-8] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@5ae98fc6]
+24-05-2024 12:13:53.362 [http-nio-9092-exec-7] INFO  -c.c.s.S.CommentServiceImpl - Creating comment...
+24-05-2024 12:13:53.390 [http-nio-9092-exec-7] INFO  -c.c.s.S.CommentServiceImpl - Comment created successfully with id: 5
+24-05-2024 12:13:56.914 [http-nio-9092-exec-9] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@44542eba]
+24-05-2024 12:13:59.375 [http-nio-9092-exec-10] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@54216b1a]
+24-05-2024 12:14:23.954 [http-nio-9092-exec-1] INFO  -c.c.s.S.CommentServiceImpl - Creating comment...
+24-05-2024 12:14:23.969 [http-nio-9092-exec-1] INFO  -c.c.s.S.CommentServiceImpl - Comment created successfully with id: 6
+24-05-2024 12:14:27.845 [http-nio-9092-exec-2] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@d38b54f]
+24-05-2024 12:14:44.023 [http-nio-9092-exec-3] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@468d946]
+24-05-2024 12:15:08.573 [http-nio-9092-exec-4] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@439789bd]
+24-05-2024 12:15:10.016 [http-nio-9092-exec-5] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 560008: [com.complaint.service.Entities.Complaints@7305bf1f, com.complaint.service.Entities.Complaints@a41863e, com.complaint.service.Entities.Complaints@6062cfff, com.complaint.service.Entities.Complaints@22e7ff05, com.complaint.service.Entities.Complaints@d17ed3c, com.complaint.service.Entities.Complaints@4ccc8250]
+24-05-2024 12:15:13.315 [http-nio-9092-exec-6] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 560008: [com.complaint.service.Entities.Complaints@1c80285d, com.complaint.service.Entities.Complaints@701ad857, com.complaint.service.Entities.Complaints@2387534d, com.complaint.service.Entities.Complaints@2e8fa117, com.complaint.service.Entities.Complaints@16e4259f, com.complaint.service.Entities.Complaints@3ba0dd9c]
+24-05-2024 12:15:15.353 [http-nio-9092-exec-8] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 6: [com.complaint.service.Entities.Complaints@7bebb375]
+24-05-2024 12:19:07.084 [http-nio-9092-exec-10] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:19:07.090 [http-nio-9092-exec-10] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@404d8357]
+24-05-2024 12:19:07.091 [http-nio-9092-exec-10] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@52f64dba
+24-05-2024 12:20:49.386 [http-nio-9092-exec-1] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:20:49.394 [http-nio-9092-exec-1] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@7fc03a0d]
+24-05-2024 12:20:49.394 [http-nio-9092-exec-1] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@f7e8e73
+24-05-2024 12:21:23.579 [http-nio-9092-exec-2] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:21:23.583 [http-nio-9092-exec-2] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@4bad5f8e]
+24-05-2024 12:21:23.584 [http-nio-9092-exec-2] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@3319685
+24-05-2024 12:23:18.078 [http-nio-9092-exec-3] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:23:18.095 [http-nio-9092-exec-3] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@cc9daac]
+24-05-2024 12:23:18.096 [http-nio-9092-exec-3] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@2f132e89
+24-05-2024 12:23:34.448 [http-nio-9092-exec-4] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:23:34.453 [http-nio-9092-exec-4] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@5f5a7b05]
+24-05-2024 12:23:34.454 [http-nio-9092-exec-4] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@755ef1af
+24-05-2024 12:24:31.384 [http-nio-9092-exec-5] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:24:31.389 [http-nio-9092-exec-5] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@7645f81b]
+24-05-2024 12:24:31.390 [http-nio-9092-exec-5] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@236faae7
+24-05-2024 12:24:51.059 [http-nio-9092-exec-6] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:24:51.076 [http-nio-9092-exec-6] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@78861f6b]
+24-05-2024 12:24:51.077 [http-nio-9092-exec-6] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@2a92a313
+24-05-2024 12:25:37.339 [http-nio-9092-exec-8] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:25:37.346 [http-nio-9092-exec-8] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@59e0dd2c]
+24-05-2024 12:25:37.346 [http-nio-9092-exec-8] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@211e9c42
+24-05-2024 12:26:11.523 [http-nio-9092-exec-7] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:26:11.528 [http-nio-9092-exec-7] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@2f6646b8]
+24-05-2024 12:26:11.528 [http-nio-9092-exec-7] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@41f42049
+24-05-2024 12:26:58.741 [http-nio-9092-exec-9] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:26:58.745 [http-nio-9092-exec-9] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@2c3c0be1]
+24-05-2024 12:26:58.746 [http-nio-9092-exec-9] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@3eb6d4fe
+24-05-2024 12:26:58.815 [http-nio-9092-exec-10] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:26:58.819 [http-nio-9092-exec-10] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@747b27a3]
+24-05-2024 12:26:58.820 [http-nio-9092-exec-10] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@6b5f0fd1
+24-05-2024 12:28:12.772 [http-nio-9092-exec-1] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:28:12.777 [http-nio-9092-exec-1] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@556106be]
+24-05-2024 12:28:12.777 [http-nio-9092-exec-1] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@6e12418b
+24-05-2024 12:30:58.660 [http-nio-9092-exec-2] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:30:58.665 [http-nio-9092-exec-2] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@3f1b1015]
+24-05-2024 12:30:58.665 [http-nio-9092-exec-2] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@19ca7e42
+24-05-2024 12:31:13.400 [http-nio-9092-exec-3] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:31:13.405 [http-nio-9092-exec-3] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@7ac31434]
+24-05-2024 12:31:13.405 [http-nio-9092-exec-3] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@4b4c4195
+24-05-2024 12:32:40.350 [http-nio-9092-exec-5] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:32:40.356 [http-nio-9092-exec-5] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@2c508bad]
+24-05-2024 12:32:40.357 [http-nio-9092-exec-5] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@27ab4d03
+24-05-2024 12:35:41.455 [http-nio-9092-exec-6] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:35:41.481 [http-nio-9092-exec-6] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@3ab93642]
+24-05-2024 12:35:41.481 [http-nio-9092-exec-6] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@6a10ae53
+24-05-2024 12:37:46.027 [http-nio-9092-exec-8] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 2
+24-05-2024 12:37:46.040 [http-nio-9092-exec-8] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@3f1abc6c]
+24-05-2024 12:37:46.042 [http-nio-9092-exec-8] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@4a0a30b7
+24-05-2024 14:30:19.240 [http-nio-9092-exec-9] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 560008: [com.complaint.service.Entities.Complaints@3b5cfa3f, com.complaint.service.Entities.Complaints@699050ec, com.complaint.service.Entities.Complaints@74c75ca9, com.complaint.service.Entities.Complaints@510241a4, com.complaint.service.Entities.Complaints@7e611507, com.complaint.service.Entities.Complaints@4c38a230]
+24-05-2024 14:30:59.237 [http-nio-9092-exec-10] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 560008: [com.complaint.service.Entities.Complaints@6802492b, com.complaint.service.Entities.Complaints@2060be93, com.complaint.service.Entities.Complaints@492fcdba, com.complaint.service.Entities.Complaints@35e6145d, com.complaint.service.Entities.Complaints@285996d2, com.complaint.service.Entities.Complaints@1ec704ce]
+24-05-2024 14:31:43.723 [http-nio-9092-exec-1] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 560008: [com.complaint.service.Entities.Complaints@14069bd, com.complaint.service.Entities.Complaints@228301f1, com.complaint.service.Entities.Complaints@8122c13, com.complaint.service.Entities.Complaints@28398e53, com.complaint.service.Entities.Complaints@6f1b363c, com.complaint.service.Entities.Complaints@c5fff75]
+24-05-2024 14:42:51.011 [http-nio-9092-exec-3] INFO  -c.c.s.S.ComplaintServiceImpl - Changed status of complaint id 1 to pending
+24-05-2024 14:43:00.183 [http-nio-9092-exec-4] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 560008: [com.complaint.service.Entities.Complaints@6a03b789, com.complaint.service.Entities.Complaints@6870daf9, com.complaint.service.Entities.Complaints@518a8169, com.complaint.service.Entities.Complaints@75c34147, com.complaint.service.Entities.Complaints@52f69c3f, com.complaint.service.Entities.Complaints@5673f7fd]
+24-05-2024 14:44:50.535 [http-nio-9092-exec-8] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 560008: [com.complaint.service.Entities.Complaints@2882d4d5, com.complaint.service.Entities.Complaints@497f899f, com.complaint.service.Entities.Complaints@76e5762e, com.complaint.service.Entities.Complaints@337d5872, com.complaint.service.Entities.Complaints@249b3ce5, com.complaint.service.Entities.Complaints@2163a9fd]
+24-05-2024 14:44:56.091 [http-nio-9092-exec-7] INFO  -c.c.s.S.ComplaintServiceImpl - Changed status of complaint id 1 to ongoing
+24-05-2024 14:45:14.139 [http-nio-9092-exec-9] INFO  -c.c.s.S.CommentServiceImpl - Creating comment...
+24-05-2024 14:45:14.151 [http-nio-9092-exec-9] INFO  -c.c.s.S.CommentServiceImpl - Comment created successfully with id: 7
+24-05-2024 14:45:16.951 [http-nio-9092-exec-10] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 560008: [com.complaint.service.Entities.Complaints@6fec5df3, com.complaint.service.Entities.Complaints@6c7320d6, com.complaint.service.Entities.Complaints@60783179, com.complaint.service.Entities.Complaints@3f632939, com.complaint.service.Entities.Complaints@eb86bd2, com.complaint.service.Entities.Complaints@7cbbfd23]

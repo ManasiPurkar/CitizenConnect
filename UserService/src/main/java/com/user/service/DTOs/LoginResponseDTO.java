@@ -10,4 +10,5 @@ public class LoginResponseDTO {
     private Integer user_id;
     private String role;
     private String name;
+    private String Password;
 }

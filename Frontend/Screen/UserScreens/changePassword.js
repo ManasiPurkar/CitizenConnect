@@ -10,16 +10,22 @@ export default function ChangePassword() {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [jwtToken, setJwtToken] = useState(null);
 
     useEffect(() => {
         getEmailFromStorage();
     }, []);
 
+    //Fetch email and token from async storage
     const getEmailFromStorage = async () => {
         try {
             const storedEmail = await AsyncStorage.getItem('userEmail');
+            const storedJwtToken = await AsyncStorage.getItem('accessToken');
             if (storedEmail !== null) {
                 setEmail(storedEmail);
+            }
+            if (storedJwtToken !== null) {
+                setJwtToken(storedJwtToken);
             }
         } catch (error) {
             console.error('Error fetching email from AsyncStorage:', error);
@@ -48,7 +54,8 @@ export default function ChangePassword() {
             const response = await fetch(`${BASE_URL}/user/change-password`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',  //format of data being sent to the server
+                    'Authorization': `Bearer ${jwtToken}`
                 },
                 body: JSON.stringify({
                     email: email,

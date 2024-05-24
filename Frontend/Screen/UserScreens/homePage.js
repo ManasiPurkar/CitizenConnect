@@ -1,5 +1,4 @@
-import React, { useState,useEffect } from 'react';
-import { StyleSheet, Button, TextInput, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import YourComplains from './yourComplains';
 import YourArea from './yourArea';

@@ -125,7 +125,7 @@ export default function UserProfile() {
               ),
             }}
           />
-          <Drawer.Screen
+          {/*<Drawer.Screen
             name="ViewComplainThread"
             component={ViewComplainThread_Citizen}
             options={{
@@ -135,7 +135,7 @@ export default function UserProfile() {
                 <MaterialIcons name="chat" size={size} color="black" />
               ),
             }}
-          />
+          />*/}
           <Drawer.Screen
             name="ChangePassword"
             component={ChangePassword_Citizen}
@@ -173,7 +173,7 @@ export default function UserProfile() {
               ),
             }}
           />
-          <Drawer.Screen
+          {/*<Drawer.Screen
             name="ViewComplainThread_NS"
             component={ViewComplainThread_NS}
             options={{
@@ -183,7 +183,7 @@ export default function UserProfile() {
                 <MaterialIcons name="chat" size={size} color="black" />
               ),
             }}
-          />
+          />*/}
           <Drawer.Screen
             name="ChangePassword_NS"
             component={ChangePassword_NS}

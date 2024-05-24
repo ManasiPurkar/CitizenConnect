@@ -30,16 +30,20 @@ export default function ViewComplainThread({ route }) {
   const [userId, setUserId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [userRole, setUserRole] = useState('');
+  const [jwtToken, setJwtToken] = useState('');
 
   useEffect(() => {
-    // Fetch userId from AsyncStorage
+    // Fetch userId and token from AsyncStorage
     const fetchUserId = async () => {
       try {
         const storedUserId = await AsyncStorage.getItem('userId');
         const storedUserRole = await AsyncStorage.getItem('userRole');
+        const token = await AsyncStorage.getItem('accessToken');
+
         if (storedUserId !== null) {
           setUserId(storedUserId);
           setUserRole(storedUserRole);
+          setJwtToken(token);
         }
       } catch (error) {
         console.error('Error fetching userId from AsyncStorage:', error);
@@ -50,11 +54,17 @@ export default function ViewComplainThread({ route }) {
 
   // Function to handle status change
   const handleChangeStatus = async (changedStatus) => {
-      axios.put(`${BASE_URL}/complaint/change-status/${complaint.complaint_id}/${changedStatus}`)
+    axios.put(`${BASE_URL}/complaint/change-status/${complaint.complaint_id}/${changedStatus}`, null, { //Important (2nd argument)
+      headers: {
+        Authorization: `Bearer ${jwtToken}`
+      }
+    })
+    
         .then(response => {
           console.log('Status updated successfully:', response.data);
           const updatedStatus = response.data.status;
           setStatus(updatedStatus);
+          Alert.alert('Success', 'Status changed successfully');
         })
         .catch(error => {
           console.error('Error updating status:', error);
@@ -66,7 +76,7 @@ export default function ViewComplainThread({ route }) {
       if (!userId) {
         throw new Error('User ID not found');
       }
-      console.log(userId);
+      //console.log(userId);
       // Check if user input is empty
       if (!userInput.trim()) {
         throw new Error('Please enter a comment');
@@ -80,7 +90,12 @@ export default function ViewComplainThread({ route }) {
       };
       console.log(requestBody);
       // Send a POST request to the API endpoint
-      await axios.post(`${BASE_URL}/add/comment/${userId}`, requestBody);
+      await axios.post(`${BASE_URL}/add/comment/${userId}`, requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`,
+        },
+      });
   
       // Display success message
       Alert.alert('Comment added successfully');
@@ -97,7 +112,7 @@ export default function ViewComplainThread({ route }) {
     
   return (
     <View style={styles.container}>
-      {/*<Header text="Complain Thread"/>*/}
+      <Header text="Complain Thread"/>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {complaint && (
           <View style={styles.complaintContainer}>
@@ -175,8 +190,10 @@ const styles = StyleSheet.create({
   complaintContainer: {
     width: '90%',
     marginTop: 20,
+    marginHorizontal: 40,
     backgroundColor: '#e3f1f7',
     padding: 20,
+    
     borderRadius: 10,
     elevation: 3, // for Android
   },

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, TextInput, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 import axios from 'axios';
 import { BASE_URL } from '../../constants';
@@ -15,6 +16,7 @@ export default function AddNagarsevak() {
     const [mobileNumber, setMobileNumber] = useState('');
     const [errors, setErrors] = useState({});
     const [isFormValid, setIsFormValid] = useState(false);
+    const [accessToken, setAccessToken] = useState(null);
     const [areas] = useState([
         { area_name: 'Central Bengaluru', area_code: '560001' },
         { area_name: 'Shivajinagar', area_code: '560002' },
@@ -29,6 +31,21 @@ export default function AddNagarsevak() {
     ]); // Predefined list of areas
 
     const navigation = useNavigation();
+
+    useEffect(() => {
+        // Fetch userId and token from AsyncStorage
+        const fetchUserToken = async () => {
+            try {
+                const storedAccessToken = await AsyncStorage.getItem('accessToken');
+                if (storedAccessToken !== null) {
+                    setAccessToken(storedAccessToken);
+                }
+            } catch (error) {
+                console.error('Error fetching userId from AsyncStorage:', error);
+            }
+        };
+        fetchUserToken();
+    }, []);
 
     useEffect(() => {
         validateForm();
@@ -70,6 +87,11 @@ export default function AddNagarsevak() {
                     mobile_no: mobileNumber,
                     areaCode: selectedAreaObject.area_code,
                     email: email
+                }, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
                 })
                     .then(response => {
                         console.log('Registration successful:', response.data);

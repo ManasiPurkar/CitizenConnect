@@ -23,7 +23,7 @@ public class Comments {
     private int comment_id;
 
     @NotBlank(message = "Comment cannot be blank")
-    @Pattern(regexp="[a-zA-Z0-9\\s]+", message="Only numbers and characters are allowed")
+    @Pattern(regexp="[a-zA-Z0-9\\s.]+", message="Only numbers and characters are allowed")
     @Column(name = "comment",nullable=false)
     private String comment;
 

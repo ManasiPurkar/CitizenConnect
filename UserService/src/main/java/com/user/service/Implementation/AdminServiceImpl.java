@@ -41,10 +41,11 @@ public class AdminServiceImpl implements AdminService {
     public Nagarsevak registerNagarsevak(UserRequest gotnagarsevak)
     {
         logger.info("Registering new Nagarsevak with email: {}", gotnagarsevak.getEmail());
-
+        logger.info("Area entered is: {}", gotnagarsevak.getAreaCode());
         Optional<Area> area=areaRepository.findById(gotnagarsevak.getAreaCode());
         if(area.isPresent()) {
             //Add user to user database
+            logger.info("Area present with code: {}", gotnagarsevak.getAreaCode());
             Users user = new Users();
             String password = PasswordGeneratorService.generatePassword();
             user.setEmail(gotnagarsevak.getEmail());

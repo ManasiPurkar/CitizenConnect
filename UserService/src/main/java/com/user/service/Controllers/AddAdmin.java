@@ -26,7 +26,7 @@ public class AddAdmin {
     @Autowired
     private UserRepository userRepository;
     @PostMapping("/admin")
-    public ResponseEntity<String> login(@RequestBody Users gotuser) {
+    public ResponseEntity<String> addAdmin(@RequestBody Users gotuser) {
         logger.info("Attempting to register admin with email: {}", gotuser.getEmail());
 
         try {

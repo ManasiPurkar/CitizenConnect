@@ -69,7 +69,7 @@ export default function Register() {
                 console.log(mobileNumber);
                 console.log(selectedAreaObject.area_code);
                 console.log(email);
-                axios.post(`${BASE_URL}/register/Citizen`, {
+                axios.post(`${BASE_URL}/v1/auth/register/Citizen`, {
                     firstname: firstName,
                     lastname: lastName,
                     mobile_no: mobileNumber,
@@ -81,6 +81,7 @@ export default function Register() {
                     navigation.navigate('SignInPage');
                 })
                 .catch(error => {
+                    console.log(response.data);
                     console.error('Registration failed:', error);
                 });
             } else {

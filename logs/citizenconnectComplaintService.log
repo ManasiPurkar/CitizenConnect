@@ -1,2 +1,41 @@
 22-05-2024 15:29:18.886 [main] INFO  -c.c.s.ComplaintServiceApplication - No active profile set, falling back to 1 default profile: "default"
 22-05-2024 15:29:23.968 [main] INFO  -c.c.s.ComplaintServiceApplication - Started ComplaintServiceApplication in 6.274 seconds (process running for 7.964)
+22-05-2024 16:00:51.127 [main] ERROR -c.c.s.S.ComplaintServiceImpl - Invalid status provided: invalidStatus
+22-05-2024 16:00:51.204 [main] ERROR -c.c.s.S.ComplaintServiceImpl - Complaint with id 1 not found
+22-05-2024 16:00:51.220 [main] ERROR -c.c.s.S.ComplaintServiceImpl - Complaint with id 1 not found
+22-05-2024 16:00:51.241 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 12345: [com.complaint.service.Entities.Complaints@354e7004, com.complaint.service.Entities.Complaints@22ebccb9]
+22-05-2024 16:00:51.251 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 1: [com.complaint.service.Entities.Complaints@58867cd5, com.complaint.service.Entities.Complaints@40e32762]
+22-05-2024 16:00:51.265 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Changed status of complaint id 1 to solved
+22-05-2024 16:00:51.276 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 1
+22-05-2024 16:00:51.277 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional.empty
+22-05-2024 16:00:51.277 [main] ERROR -c.c.s.S.ComplaintServiceImpl - Wrong Department code: 1
+22-05-2024 16:00:51.284 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Complaint found: com.complaint.service.Entities.Complaints@697a34af
+22-05-2024 16:00:51.293 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 1
+22-05-2024 16:00:51.293 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@78b612c6]
+22-05-2024 16:00:51.294 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@257e0827
+22-05-2024 16:00:51.576 [main] INFO  -c.c.s.S.CommentServiceImpl - Creating comment...
+22-05-2024 16:00:51.578 [main] INFO  -c.c.s.S.CommentServiceImpl - Comment created successfully with id: 0
+22-05-2024 16:00:51.587 [main] INFO  -c.c.s.S.CommentServiceImpl - Creating comment...
+22-05-2024 16:00:51.588 [main] ERROR -c.c.s.S.CommentServiceImpl - Wrong complaint id: 1
+22-05-2024 16:01:55.699 [main] INFO  -c.c.s.ComplaintServiceApplicationTests - No active profile set, falling back to 1 default profile: "default"
+22-05-2024 16:02:06.362 [main] INFO  -c.c.s.ComplaintServiceApplicationTests - Started ComplaintServiceApplicationTests in 71.803 seconds (process running for 79.057)
+22-05-2024 16:03:13.971 [main] ERROR -c.c.s.S.ComplaintServiceImpl - Invalid status provided: invalidStatus
+22-05-2024 16:03:14.050 [main] ERROR -c.c.s.S.ComplaintServiceImpl - Complaint with id 1 not found
+22-05-2024 16:03:14.077 [main] ERROR -c.c.s.S.ComplaintServiceImpl - Complaint with id 1 not found
+22-05-2024 16:03:14.109 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for area code 12345: [com.complaint.service.Entities.Complaints@22ebccb9, com.complaint.service.Entities.Complaints@5875de6a]
+22-05-2024 16:03:14.119 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Complaints found for citizen id 1: [com.complaint.service.Entities.Complaints@40e32762, com.complaint.service.Entities.Complaints@5a8ab2]
+22-05-2024 16:03:14.132 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Changed status of complaint id 1 to solved
+22-05-2024 16:03:14.142 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 1
+22-05-2024 16:03:14.143 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional.empty
+22-05-2024 16:03:14.143 [main] ERROR -c.c.s.S.ComplaintServiceImpl - Wrong Department code: 1
+22-05-2024 16:03:14.151 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Complaint found: com.complaint.service.Entities.Complaints@70211df5
+22-05-2024 16:03:14.166 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Creating complaint for department code 1
+22-05-2024 16:03:14.172 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Department found: Optional[com.complaint.service.Entities.Departments@257e0827]
+22-05-2024 16:03:14.173 [main] INFO  -c.c.s.S.ComplaintServiceImpl - Registered complaint: com.complaint.service.Entities.Complaints@22752544
+22-05-2024 16:03:14.433 [main] INFO  -c.c.s.S.CommentServiceImpl - Creating comment...
+22-05-2024 16:03:14.435 [main] INFO  -c.c.s.S.CommentServiceImpl - Comment created successfully with id: 0
+22-05-2024 16:03:14.448 [main] INFO  -c.c.s.S.CommentServiceImpl - Creating comment...
+22-05-2024 16:03:14.449 [main] ERROR -c.c.s.S.CommentServiceImpl - Wrong complaint id: 1
+22-05-2024 16:04:05.694 [main] ERROR -c.c.s.S.ComplaintServiceImpl - Complaint with id 1 not found
+22-05-2024 16:04:17.529 [main] INFO  -c.c.s.ComplaintServiceApplicationTests - No active profile set, falling back to 1 default profile: "default"
+22-05-2024 16:04:23.038 [main] INFO  -c.c.s.ComplaintServiceApplicationTests - Started ComplaintServiceApplicationTests in 66.594 seconds (process running for 73.496)

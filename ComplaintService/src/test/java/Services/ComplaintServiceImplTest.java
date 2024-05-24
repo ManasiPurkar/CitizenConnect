@@ -134,6 +134,22 @@ public class ComplaintServiceImplTest {
     }
 
 
+    /*
+    @Test
+    public void testGetComplaint_ThrowsAPIRequestException() {
+        // Arrange
+        when(complaintsRepository.findById(1)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> {
+            complaintService.getComplaint(1);
+        });
+
+        verify(complaintsRepository, times(1)).findById(1);
+        System.out.println("get complaint failure tested");
+    }
+    */
+
     @Test
     public void testGetCitizenComplaints() {
         // Arrange

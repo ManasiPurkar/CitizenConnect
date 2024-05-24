@@ -7,6 +7,6 @@ import com.user.service.Entities.Users;
 import org.apache.commons.lang3.tuple.Pair;
 
 public interface LoginService {
-    Pair<Boolean, LoginResponseDTO> login(LoginDTO user);
+    LoginResponseDTO getUserByUsername(String username);
     Boolean changePassword(ChangePasswordDTO changePasswordDTO);
 }
