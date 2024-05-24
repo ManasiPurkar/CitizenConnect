@@ -10,14 +10,17 @@ export default function NagarsevakHomePage() {
     const isFocused = useIsFocused();
     const [complaints, setComplaints] = useState([]);
     const [userId, setUserId] = useState(null);
+    const [accessToken, setAccessToken] = useState(null);
 
     useEffect(() => {
-        // Fetch userId from AsyncStorage
+        // Fetch userId and token from AsyncStorage
         const fetchUserId = async () => {
             try {
                 const storedUserId = await AsyncStorage.getItem('userId');
-                if (storedUserId !== null) {
+                const storedAccessToken = await AsyncStorage.getItem('accessToken');
+                if (storedUserId !== null && storedAccessToken !== null) {
                     setUserId(storedUserId);
+                    setAccessToken(storedAccessToken);
                 }
             } catch (error) {
                 console.error('Error fetching userId from AsyncStorage:', error);
@@ -28,17 +31,21 @@ export default function NagarsevakHomePage() {
 
     useEffect(() => {
         // Fetch complaints only if the screen is focused and userId is available
-        if (isFocused && userId) {
-            axios.get(`${BASE_URL}/nagarsevak/complaints/${userId}`)
-                .then(response => {
-                    setComplaints(response.data);
-                })
-                .catch(error => {
-                    console.error('Error fetching complaints:', error);
-                });
+        if (isFocused && userId  && accessToken) {
+            axios.get(`${BASE_URL}/nagarsevak/complaints/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            .then(response => {
+                setComplaints(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching complaints:', error);
+            });
             //console.log(complaints);
         }
-    }, [isFocused, userId]); // Adding userId as a dependency
+    }, [isFocused, userId, accessToken]); // Adding userId as a dependency
 
     const handleViewComplainThread = (complaint) => {
         // Pass the complaint details as a parameter to the navigation function

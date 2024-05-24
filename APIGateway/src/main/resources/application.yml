@@ -35,6 +35,7 @@ server:
 spring:
   application:
     name: API-GATEWAY
+
   cloud:
     gateway:
       globalcors:
@@ -43,16 +44,26 @@ spring:
             allowedOrigins: "*"
             allowedHeaders: "*"
             allowedMethods: "*"
-      mvc:
-        routes:
+
+      routes:
           - id: UserService
             uri: lb://UserService
             predicates:
-              - Path=/register/**,/add/**,/citizen/**,/nagarsevak/**,/user/**,/initialize/**
+              - Path=/register/Nagarsevak,/add/**,/citizen/**,/nagarsevak/**,/user/change-password
+            filters:
+              - AuthenticationFilter
+
           - id: ComplaintService
             uri: lb://ComplaintService
             predicates:
               - Path=/complaint/**
+            filters:
+              - AuthenticationFilter
+
+          - id: AuthService
+            uri: lb://AuthService
+            predicates:
+                - Path=/v1/auth/**
 
 logging:
   level:

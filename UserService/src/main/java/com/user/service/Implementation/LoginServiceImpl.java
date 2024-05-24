@@ -37,19 +37,20 @@ public class LoginServiceImpl implements LoginService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public Pair<Boolean,LoginResponseDTO> login(LoginDTO user)
+    public LoginResponseDTO getUserByUsername(String username)
     {
-        logger.info("Attempting to log in user with email: {}", user.getEmail());
+        //username is email here
+        logger.info("Attempting to log in user with email: {}", username);
 
-        Boolean status=false;
-        System.out.println("email got "+user.getEmail());
-        Optional<Users> gotuser = userRepository.findById(user.getEmail());
+//        Boolean status=false;
+//        System.out.println("email got "+user.getEmail());
+        Optional<Users> gotuser = userRepository.findById(username);
 
         if (gotuser.isPresent()) {
-            logger.debug("User found with email: {}", user.getEmail());
+            logger.debug("User found with email: {}", username);
 
-            if (passwordEncoder.matches(user.getPassword(),gotuser.get().getPassword())) {
-                status=true;
+//            if (passwordEncoder.matches(user.getPassword(),gotuser.get().getPassword())) {
+//                status=true;
                 int userid;
                 String name;
                 logger.debug("User role: {}", gotuser.get().getRole());
@@ -73,7 +74,7 @@ public class LoginServiceImpl implements LoginService {
                     name="Admin";
                 }
                 else {
-                    logger.error("Wrong role for user with email: {}", user.getEmail());
+                    logger.error("Wrong role for user with email: {}", username);
 
                     throw new APIRequestException("Wrong Role!");
                 }
@@ -82,21 +83,22 @@ public class LoginServiceImpl implements LoginService {
                         .user_id(userid)
                         .name(name)
                         .role(gotuser.get().getRole())
+                        .Password(gotuser.get().getPassword())
                         .build();
-                logger.info("Login successful for user with email: {}", user.getEmail());
+                logger.info("Login successful for user with email: {}", username);
 
-                return Pair.of(status,loginRespDTO); // Login successful
+                return loginRespDTO; // Login successful
             } else {
-                logger.error("Incorrect password for user with email: {}", user.getEmail());
+                logger.error("Incorrect password for user with email: {}", username);
 
                 throw new APIRequestException("Incorrect Username or Password");
             }
-        }
-        else {
-            logger.error("User not found with email: {}", user.getEmail());
-
-            throw new APIRequestException("User not found");
-        }
+//        }
+//        else {
+//            logger.error("User not found with email: {}", user.getEmail());
+//
+//            throw new APIRequestException("User not found");
+//        }
     }
 
     @Override

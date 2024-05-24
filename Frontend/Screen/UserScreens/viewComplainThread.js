@@ -25,21 +25,24 @@ const CommentCard = ({ userName, userRole, comment, userDate, userTime }) => {
 
 export default function ViewComplainThread({ route }) {
   const { complaint } = route.params;
-  const [status, setStatus] = useState(complaint.status);
   const [userInput, setUserInput] = useState('');
   const [userId, setUserId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [userRole, setUserRole] = useState('');
+  const [jwtToken, setJwtToken] = useState('');
 
   useEffect(() => {
-    // Fetch userId from AsyncStorage
+    // Fetch userId and token from AsyncStorage
     const fetchUserId = async () => {
       try {
         const storedUserId = await AsyncStorage.getItem('userId');
         const storedUserRole = await AsyncStorage.getItem('userRole');
+        const token = await AsyncStorage.getItem('accessToken');
+
         if (storedUserId !== null) {
           setUserId(storedUserId);
           setUserRole(storedUserRole);
+          setJwtToken(token);
         }
       } catch (error) {
         console.error('Error fetching userId from AsyncStorage:', error);
@@ -48,25 +51,14 @@ export default function ViewComplainThread({ route }) {
     fetchUserId();
   }, []);
 
-  // Function to handle status change
-  const handleChangeStatus = async (changedStatus) => {
-      axios.put(`${BASE_URL}/complaint/change-status/${complaint.complaint_id}/${changedStatus}`)
-        .then(response => {
-          console.log('Status updated successfully:', response.data);
-          const updatedStatus = response.data.status;
-          setStatus(updatedStatus);
-        })
-        .catch(error => {
-          console.error('Error updating status:', error);
-        });
-  };
+  
   const handleAddComment = async (userId, userInput, userRole) => {
     try {
       // Check if userId is available
       if (!userId) {
         throw new Error('User ID not found');
       }
-      console.log(userId);
+      //console.log(userId);
       // Check if user input is empty
       if (!userInput.trim()) {
         throw new Error('Please enter a comment');
@@ -80,7 +72,12 @@ export default function ViewComplainThread({ route }) {
       };
       console.log(requestBody);
       // Send a POST request to the API endpoint
-      await axios.post(`${BASE_URL}/add/comment/${userId}`, requestBody);
+      await axios.post(`${BASE_URL}/add/comment/${userId}`, requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`,
+        },
+      });
   
       // Display success message
       Alert.alert('Comment added successfully');
@@ -97,7 +94,7 @@ export default function ViewComplainThread({ route }) {
     
   return (
     <View style={styles.container}>
-      {/*<Header text="Complain Thread"/>*/}
+      <Header text="Complain Thread"/>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {complaint && (
           <View style={styles.complaintContainer}>
@@ -108,16 +105,7 @@ export default function ViewComplainThread({ route }) {
             <Text style={styles.text}>Department: {complaint.department.department_name}</Text>
             <Text style={styles.text}>Address: {complaint.address}</Text>
             <Text style={styles.text}>Description: {complaint.description}</Text>
-            <Text style={styles.text}>Change Ticket Status: </Text>
-            <Picker
-              selectedValue={status}
-              style={{ height: 50, width: 150 }}
-              onValueChange={(itemValue, itemIndex) => handleChangeStatus(itemValue)}
-            >  
-              <Picker.Item label="Pending" value="pending" />
-              <Picker.Item label="Ongoing" value="ongoing" />
-              <Picker.Item label="Solved" value="solved" />
-            </Picker>
+            
             <View style={styles.commentsContainer}>
               {complaint.comments?.map((comment, index) => (   //To display comment only if it exists
                 <CommentCard

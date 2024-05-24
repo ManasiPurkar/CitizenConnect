@@ -10,17 +10,24 @@ export default function YourArea() {
     const isFocused = useIsFocused();
     const [complaints, setComplaints] = useState([]);
     const [userId, setUserId] = useState(null);
+    const [jwtToken, setJwtToken] = useState(null);
 
     useEffect(() => {
-        // Fetch userId from AsyncStorage
+        // Fetch userId and token from AsyncStorage
         const fetchUserId = async () => {
             try {
                 const storedUserId = await AsyncStorage.getItem('userId');
+                const storedJwtToken = await AsyncStorage.getItem('accessToken');
+                
+                console.log(storedJwtToken);
                 if (storedUserId !== null) {
                     setUserId(storedUserId);
                 }
+                if (storedJwtToken !== null) {
+                    setJwtToken(storedJwtToken);
+                }
             } catch (error) {
-                console.error('Error fetching userId from AsyncStorage:', error);
+                console.error('Error fetching data from AsyncStorage:', error);
             }
         };
         fetchUserId();
@@ -28,16 +35,21 @@ export default function YourArea() {
 
     useEffect(() => {
         // Fetch complaints only if the screen is focused and userId is available
-        if (isFocused && userId) {
-            axios.get(`${BASE_URL}/complaint/citizen/${userId}`)
-                .then(response => {
-                    setComplaints(response.data);
-                })
-                .catch(error => {
-                    console.error('Error fetching complaints:', error);
-                });
+        
+        if (isFocused && userId && jwtToken) {
+            axios.get(`${BASE_URL}/complaint/citizen/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                }
+            })
+            .then(response => {
+                setComplaints(response.data);
+            })
+            .catch(error => {
+                console.error('Your Complains page: Error fetching complaints:', error);
+            });
         }
-    }, [isFocused, userId]); // Adding userId as a dependency
+    }, [isFocused, userId, jwtToken]); // Adding userId as a dependency
 
     const handleViewComplainThread = (complaint) => {
         // Pass the complaint details as a parameter to the navigation function

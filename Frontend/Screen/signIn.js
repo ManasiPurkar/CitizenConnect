@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Button, TextInput, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Alert, TextInput, Text, View, TouchableOpacity } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from './header';
@@ -26,7 +26,7 @@ export default function SignIn() {
         if (!username) { 
             errors.username = 'Username is required.'; 
         } else if (!/\S+@\S+\.\S+/.test(username)) {    //username must a valid email
-            errors.username = ' must be at least 6 characters.'; 
+            errors.username = 'Username must be at least 6 characters.'; 
         } 
         // Validate password field 
         if (!password) { 
@@ -40,53 +40,47 @@ export default function SignIn() {
     const handleSubmit = async () => {
         if (isFormValid) { 
             console.log(username);
-                    console.log(password);
+            console.log(password);
             try {
-                const response = await fetch(`${BASE_URL}/user/login`, {
+                const response = await fetch(`${BASE_URL}/v1/auth/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        email: username,
+                        username: username,
                         password: password
                     })
                 });
+
                 const data = await response.json();
                 console.log(data);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'An error occurred');
+                }
+            
                 if (response.ok) {
                     // Login successful
-                    // Save user ID and role in AsyncStorage
-                    await AsyncStorage.setItem('userEmail', data['Logged in Successfully']['email']);
-                    await AsyncStorage.setItem('userId', data['Logged in Successfully']['user_id'].toString());
-                    await AsyncStorage.setItem('userRole', data['Logged in Successfully']['role']);
-                    await AsyncStorage.setItem('userName', data['Logged in Successfully']['name']);
+                    await AsyncStorage.setItem('accessToken', data.token);
+                    await AsyncStorage.setItem('userEmail', data.email);
+                    await AsyncStorage.setItem('userId', data.user_id.toString());
+                    await AsyncStorage.setItem('userRole', data.role);
+                    await AsyncStorage.setItem('userName', data.name);
+
                     // Redirect to the appropriate screen based on role
-                    //navigateToHome(data['Logged in Successfully']['role']);
                     navigation.navigate(UserProfile);
-                } else {
-                    // Login failed
-                    console.log('Unable to store data into async storage', data.error);
                 }
             } catch (error) {
-                console.error('Error logging in:', error);
+                console.error('Error logging in:', error.message);
+                Alert.alert('Login Failed', error.message);
             }
         } else { 
             console.log('Form has errors. Please correct them.'); 
         } 
     };
 
-    const navigateToHome = (role) => {
-        if (role === 'ROLE_ADMIN') {
-          navigation.navigate('Admin'); // Navigate to Admin Drawer Navigator
-        } else if (role === 'ROLE_CITIZEN') {
-          navigation.navigate('Citizen'); // Navigate to Citizen Drawer Navigator
-        } else if (role === 'ROLE_NAGARSEVAK') {
-          navigation.navigate('Nagarsevak'); // Navigate to Nagarsevak Drawer Navigator
-        } else {
-          console.log('Unknown role:', role);
-        }
-      };
 
     const handleSignUpPress = () => {
         // Navigate to the Registration page
@@ -121,11 +115,12 @@ export default function SignIn() {
                     secureTextEntry={true}
                 />
 
-                <View style={styles.forgotPassword}>
+                {/*<View style={styles.forgotPassword}>
                     <TouchableOpacity onPress={handleForgotPasswordPress}>
                         <Text style={styles.forgotPasswordText}>Forgot Password</Text>
                     </TouchableOpacity>
                 </View>
+    */}
 
                 {/*<Button title='Submit' color='#40E0D0' onPress={handleSubmit} />*/}
                 <TouchableOpacity 

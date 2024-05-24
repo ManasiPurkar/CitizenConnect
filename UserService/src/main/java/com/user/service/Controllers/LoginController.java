@@ -22,25 +22,25 @@ public class LoginController {
     private LoginService loginService;
 
     @Validated
-    @PostMapping("/login")
-    public ResponseEntity<Pair<String, LoginResponseDTO>> login(@Valid @RequestBody LoginDTO loginDTO) {
+    @GetMapping("/{username}")
+    public LoginResponseDTO getUserbyUsername(@PathVariable String username) {
         try {
 
-            System.out.println("login" + loginDTO.getEmail()  + loginDTO.getPassword());
-            Pair<Boolean, LoginResponseDTO> result = loginService.login(loginDTO);
-            if (result.getKey()) {
-                System.out.println("login success");
-                return ResponseEntity.ok(Pair.of("Logged in Successfully", result.getValue()));
-            }
-            else
-            {
-                throw new APIRequestException("Login Fails!");
-            }
+//            System.out.println("login" + loginDTO.getEmail()  + loginDTO.getPassword());
+            return loginService.getUserByUsername(username);
+//            if (result.getKey()) {
+//                System.out.println("login success");
+//                return ResponseEntity.ok(Pair.of("Logged in Successfully", result.getValue()));
+//            }
+//            else
+//            {
+//                throw new APIRequestException("Login Fails!");
+//            }
         } catch (Exception ex) {
             if (ex instanceof APIRequestException) {
                 throw new APIRequestException(ex.getMessage());
             } else
-                throw new APIRequestException("Error while login", ex.getMessage());
+                throw new APIRequestException("Error while getting user", ex.getMessage());
         }
     }
     @Validated

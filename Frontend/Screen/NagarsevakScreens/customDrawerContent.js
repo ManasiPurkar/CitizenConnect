@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { MaterialIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const customDrawerContent = (props) => {
   
-  const userName = "NagarSevak"; // to be fetched from backend
-  //const profilePicUrl = "./displayPicture.png"; 
+  const [userName, setUserName] = useState('NAGARSEVAK');
+  const userRole = 'NAGARSEVAK'; // Directly set the value of userRole
+  
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const storedUserName = await AsyncStorage.getItem('userName');
+        if (storedUserName) {
+          setUserName(storedUserName);
+        }
+      } catch (error) {
+        console.error('Failed to fetch user name from AsyncStorage', error);
+      }
+    };
+
+    fetchUserName();
+  }, []);
+
   const profilePicUrl = require("../../assets/displayPicture.png"); //require("") is used to import the image from the current directory
   return (
     <DrawerContentScrollView {...props}>
@@ -16,6 +32,10 @@ const customDrawerContent = (props) => {
 
         {/* User Name */}
         <Text style={styles.userName}>{userName}</Text>
+
+        {/* User Role */}
+        <Text style={styles.userRole}>{userRole}</Text>
+
       </View>
       {/* Default drawer items */}
       <DrawerItemList {...props} />
@@ -42,6 +62,10 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  userRole: {
+    fontSize: 14,
+    color: '#888', // Light color for userRole
   },
 });
 

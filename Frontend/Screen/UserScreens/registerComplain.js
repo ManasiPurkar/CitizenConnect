@@ -12,6 +12,7 @@ export default function RegisterComplain() {
   const [description, setDescription] = useState('');
   const [department, setDepartment] = useState('');
   const [userId, setUserId] = useState(null);
+  const [accessToken, setAccessToken] = useState('');
   const [areas] = useState([
     { area_name: 'Central Bengaluru', area_code: '560001' },
     { area_name: 'Shivajinagar', area_code: '560002' },
@@ -33,6 +34,7 @@ export default function RegisterComplain() {
 
   useEffect(() => {
     fetchCitizenId();
+    fetchAccessToken();
   }, []);
 
   const fetchCitizenId = async () => {
@@ -46,6 +48,17 @@ export default function RegisterComplain() {
     }
   };
 
+  const fetchAccessToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem('accessToken');
+      if (token !== null) {
+        setAccessToken(token);
+      }
+    } catch (error) {
+      console.error('Error fetching access token from AsyncStorage:', error);
+    }
+  };
+
   const handleSubmit = () => {
     const formData = {
       citizenId: userId,
@@ -55,20 +68,28 @@ export default function RegisterComplain() {
       title: title,
       areaCode: area
     };
+    console.log(formData);
 
-    axios.post(`${BASE_URL}/citizen/register-complaint`, formData)
-      .then(response => {
-        console.log('Complaint registered successfully:', response.data);
-        setAddress('');
-        setTitle('');
-        setDescription('');
-        setArea('');
-        setDepartment('');
-        showAlert(); // Call showAlert after successful registration
-      })
-      .catch(error => {
-        console.error('Error registering complaint:', error);
-      });
+    axios.post(`${BASE_URL}/citizen/register-complaint`, formData, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      }
+  })
+    .then(response => {
+    console.log('Complaint registered successfully:', response.data);
+      setAddress('');
+      setTitle('');
+      setDescription('');
+      setArea('');
+      setDepartment('');
+      showAlert(); // Call showAlert after successful registration
+    })
+    
+    .catch(error => {
+      console.error('Error registering complaint:', error.response ? error.response.data : error.message);
+      Alert.alert('Error', error.response ? error.response.data.message : error.message); 
+    });
   };
 
   // Function to show alert message
