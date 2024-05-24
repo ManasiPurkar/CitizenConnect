@@ -1,0 +1,6 @@
+FROM openjdk:21
+WORKDIR /app
+COPY ./authservice /app
+COPY ./authservice/target/authservice-0.0.1-SNAPSHOT.jar ./
+EXPOSE 9898
+CMD ["java","-jar","authservice-0.0.1-SNAPSHOT.jar"]
