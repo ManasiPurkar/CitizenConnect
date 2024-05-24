@@ -5,6 +5,9 @@ COPY ./APIGateway /app
 COPY ./APIGateway/target/APIGateway-0.0.1-SNAPSHOT.jar ./
 
 RUN apt-get update && apt-get install -y wget
+
+RUN apt-get update && apt-get install -y wget unzip
+
 # Install ngrok
 RUN wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.zip \
     && unzip ngrok-v3-stable-linux-amd64.zip \
