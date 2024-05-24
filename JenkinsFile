@@ -26,6 +26,13 @@ pipeline {
                 
             }
         }
+        stage('Maven Test Auth Service'){
+            steps{
+                echo 'Building Job'
+                sh 'cd authservice; mvn test';
+                
+            }
+        }
         stage('Maven Build CitizenConnectServiceRegistry'){
             steps{
                 echo 'Building Job'
