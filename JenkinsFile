@@ -69,7 +69,7 @@ pipeline {
                
             }
         }
-*/
+
         stage('Build Image for Microservices'){
             steps{
                 echo 'Building docker Image'
@@ -111,7 +111,7 @@ pipeline {
                 sh 'docker rmi $DOCKERHUB_USER/citizenconnect:frontend';
             }
         }
-        
+        */
         stage('Run Ansible Playbook'){
             steps{
                 script {
