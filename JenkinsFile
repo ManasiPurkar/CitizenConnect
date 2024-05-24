@@ -26,6 +26,13 @@ pipeline {
                 
             }
         }
+        stage('Maven Test Auth Service'){
+            steps{
+                echo 'Building Job'
+                sh 'cd authservice; mvn test';
+                
+            }
+        }
         stage('Maven Build CitizenConnectServiceRegistry'){
             steps{
                 echo 'Building Job'
@@ -69,7 +76,8 @@ pipeline {
                 sh "docker build -t $DOCKERHUB_USER/citizenconnect:authservice -f DockerFiles/AuthServiceDockerFile .";
                 sh "docker build -t $DOCKERHUB_USER/citizenconnect:userservice -f DockerFiles/UserServiceDockerFile .";
                 sh "docker build -t $DOCKERHUB_USER/citizenconnect:complaintservice -f DockerFiles/ComplaintServiceDockerFile .";
-                sh "cd Frontend; docker build -t ${DOCKERHUB_USER}/citizenconnect:frontend -f Dockerfile ."; 
+                //sh "cd Frontend; docker build -t ${DOCKERHUB_USER}/citizenconnect:frontend -f Dockerfile ."; 
+                sh "docker build -t $DOCKERHUB_USER/citizenconnect:frontend -f DockerFiles/FrontendDockerFile .";
             }
         }
         
