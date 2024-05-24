@@ -26,6 +26,18 @@ services:
     depends_on:
       - serviceregistry
 
+  authservice:
+    image: manasip44/citizenconnect:authservice
+    container_name: authservice
+    ports:
+      - "9898:9898"
+    networks:
+      - citizenconnect_network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://serviceregistry:8761/eureka/
+    depends_on:
+      - serviceregistry
+
   userservice:
     image: manasip44/citizenconnect:userservice
     container_name: userservice
@@ -62,6 +74,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://complaintservice_db/complaintservice?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
+      - LOGGING_LOGSTASH_HOST=logstash
+      - LOGGING_LOGSTASH_PORT=5001
     networks:
       - citizenconnect_network
     depends_on:
@@ -129,9 +143,8 @@ services:
       - citizenconnect_network
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
-      - ./home/manasi/Documents/GitHub/CitizenConnect/elasticsearch/elasticsearch:/usr/share/elasticsearch/config/elasticsearch
-      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      
+      - /home/manasi/Documents/GitHub/CitizenConnect/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch/elasticsearch.yml
+     # - /home/lenovo/Desktop/Git/CitizenConnect/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch/elasticsearch.yml
   kibana:
     image: docker.elastic.co/kibana/kibana:8.3.3
     container_name: kibana
@@ -151,14 +164,14 @@ services:
     container_name: logstash
     restart: always
     volumes:
-      - ./config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
-      - ./pipeline:/usr/share/logstash/pipeline:ro
-    environment:
-      - LS_JAVA_OPTS="-Xmx512m -Xms512m"
+      - /home/manasi/Documents/GitHub/CitizenConnect/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - /home/manasi/Documents/GitHub/CitizenConnect/pipeline:/usr/share/logstash/pipeline:ro
+     #  - /home/lenovo/Desktop/Git/CitizenConnect/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+     # - /home/lenovo/Desktop/Git/CitizenConnect/pipeline:/usr/share/logstash/pipeline:ro
     ports:
       - "5001:5001/tcp"
       - "5001:5001/udp"
-      - "9600:9600"
+      - "9601:9600"
     networks:
       - citizenconnect_network
     depends_on:

@@ -3,6 +3,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('DockerHubCred')
         MYSQL_CREDENTIALS = credentials('MysqlCred')
         DOCKERHUB_USER = 'manasip44'
+        // MYSQL_CREDENTIALS = credentials('MySQL_Credentials')
     }
     agent any
     stages {
@@ -11,7 +12,20 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/ManasiPurkar/CitizenConnect.git'
             }
         }
-        /*
+        stage('Maven Test User Service'){
+            steps{
+                echo 'Building Job'
+                sh 'cd UserService; mvn test';
+                
+            }
+        }
+        stage('Maven Test Complaint Service'){
+            steps{
+                echo 'Building Job'
+                sh 'cd ComplaintService; mvn test';
+                
+            }
+        }
         stage('Maven Build CitizenConnectServiceRegistry'){
             steps{
                 echo 'Building Job'
@@ -23,6 +37,13 @@ pipeline {
             steps{
                 echo 'Building Job'
                 sh 'cd APIGateway; mvn clean install';
+               
+            }
+        }
+        stage('Maven Build Auth Service'){
+            steps{
+                echo 'Building Job'
+                sh 'cd authservice; mvn clean install';
                
             }
         }
@@ -45,12 +66,13 @@ pipeline {
                 echo 'Building docker Image'
                 sh "docker build -t $DOCKERHUB_USER/citizenconnect:serviceregistry -f DockerFiles/ServiceRegistryDockerFile .";
                 sh "docker build -t $DOCKERHUB_USER/citizenconnect:apigateway -f DockerFiles/APIGatewayDockerFile .";
+                sh "docker build -t $DOCKERHUB_USER/citizenconnect:authservice -f DockerFiles/AuthServiceDockerFile .";
                 sh "docker build -t $DOCKERHUB_USER/citizenconnect:userservice -f DockerFiles/UserServiceDockerFile .";
                 sh "docker build -t $DOCKERHUB_USER/citizenconnect:complaintservice -f DockerFiles/ComplaintServiceDockerFile .";
                 sh "cd Frontend; docker build -t ${DOCKERHUB_USER}/citizenconnect:frontend -f Dockerfile ."; 
             }
         }
-    
+        
         stage('Login into docker hub'){
             steps{
                 echo 'Login into docker hub'
@@ -62,6 +84,7 @@ pipeline {
                 echo 'Pushing Images into DockerHub'
                 sh 'docker push $DOCKERHUB_USER/citizenconnect:serviceregistry';
                 sh 'docker push $DOCKERHUB_USER/citizenconnect:apigateway';
+                sh 'docker push $DOCKERHUB_USER/citizenconnect:authservice';
                 sh 'docker push $DOCKERHUB_USER/citizenconnect:userservice';
     	        sh 'docker push $DOCKERHUB_USER/citizenconnect:complaintservice';
     	        sh 'docker push $DOCKERHUB_USER/citizenconnect:frontend';
@@ -72,12 +95,13 @@ pipeline {
                 echo 'Deleting Docker Image in docker'
                 sh 'docker rmi $DOCKERHUB_USER/citizenconnect:serviceregistry';
                 sh 'docker rmi $DOCKERHUB_USER/citizenconnect:apigateway';
+                sh 'docker rmi $DOCKERHUB_USER/citizenconnect:authservice';
                 sh 'docker rmi $DOCKERHUB_USER/citizenconnect:userservice';
                 sh 'docker rmi $DOCKERHUB_USER/citizenconnect:complaintservice';
                 sh 'docker rmi $DOCKERHUB_USER/citizenconnect:frontend';
             }
         }
-        */
+        
         stage('Run Ansible Playbook'){
             steps{
                 script {
