@@ -1,11 +1,11 @@
 package com.auth.authservice.request;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 public class CitizenRegisterRequest {
     private String firstname;

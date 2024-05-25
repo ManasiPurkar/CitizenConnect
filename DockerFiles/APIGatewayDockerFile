@@ -35,3 +35,4 @@ RUN chmod +x /app/entrypoint.sh
 
 # Use the entrypoint script
 CMD ["/app/entrypoint.sh"]
+

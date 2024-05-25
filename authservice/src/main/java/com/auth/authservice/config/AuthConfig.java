@@ -51,7 +51,7 @@ public class AuthConfig {
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .csrf(csrf-> csrf.disable())
-//                .cors(cors-> cors.disable())
+//                .cors(cors-> cors.disable());
                 .cors(withDefaults());
 
 //        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
