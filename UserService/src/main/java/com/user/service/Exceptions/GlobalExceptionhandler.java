@@ -49,4 +49,6 @@ public class GlobalExceptionhandler {
         ApiException apiException= new  ApiException(errorMessage, null,HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
+
+
 }

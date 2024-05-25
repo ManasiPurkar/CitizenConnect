@@ -116,9 +116,8 @@ class AuthServiceTest {
 
     @Test
     void testRegisterAdmin() {
-        RegisterRequest request = new RegisterRequest();
-        request.setEmail("admin@example.com");
-        request.setPassword("admin");
+        RegisterRequest request = new RegisterRequest("admin","admin@example.com");
+
         when(userServiceClient.addAdmin(request)).thenReturn(ResponseEntity.ok("Admin Successfully registered"));
 
         String result = authService.registerAdmin(request);
