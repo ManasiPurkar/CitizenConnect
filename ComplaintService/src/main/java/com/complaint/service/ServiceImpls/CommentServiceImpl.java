@@ -28,6 +28,7 @@ public class CommentServiceImpl implements CommentService {
 
     private ComplaintsRepository complaintsRepository;
     private CommentsRepository commentsRepository;
+    //creating comment
     @Override
     public Comments createComment(CommentDTO commentDTO)
     {
