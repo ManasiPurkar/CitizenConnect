@@ -12,7 +12,7 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/ManasiPurkar/CitizenConnect.git'
             }
         }
-/*
+
         stage('Maven Test User Service'){
             steps{
                 echo 'Building Job'
@@ -112,7 +112,7 @@ pipeline {
                 sh 'docker rmi $DOCKERHUB_USER/citizenconnect:frontend';
             }
         }
-        */
+        
         stage('Run Ansible Playbook'){
             steps{
                 script {
