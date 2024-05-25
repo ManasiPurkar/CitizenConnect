@@ -69,7 +69,7 @@ pipeline {
                
             }
         }
-*/
+
         stage('Build Image for Microservices'){
             steps{
                 echo 'Building docker Image'
@@ -100,6 +100,7 @@ pipeline {
     	        sh 'docker push $DOCKERHUB_USER/citizenconnect:frontend';
             }
         }
+
         stage('Delete Image from localsystem'){
             steps{
                 echo 'Deleting Docker Image in docker'
@@ -111,7 +112,7 @@ pipeline {
                 sh 'docker rmi $DOCKERHUB_USER/citizenconnect:frontend';
             }
         }
-        
+        */
         stage('Run Ansible Playbook'){
             steps{
                 script {
